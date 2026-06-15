@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milne Bay Province - Division of Education</title>
+
+    <!-- Security: DOMPurify -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+
+    <!-- Icons: Lucide -->
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="slider.css">
+</head>
+
+<body>
+    <div class="glass-bg-elements">
+        <div class="glow-blob green"></div>
+        <div class="glow-blob blue"></div>
+        <div class="glow-blob gold"></div>
+    </div>
+
+    <header class="glass-header">
+        <div class="header-container">
+            <a href="/home" data-link class="logo">
+                <img src="assets/logo/mbp-logo-bg-removed.png" alt="Milne Bay Province Logo" class="header-logo-img">
+                <div class="logo-text">
+                    <h1>Milne Bay Province</h1>
+                    <span>Division of Education</span>
+                </div>
+            </a>
+            <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                <i data-lucide="menu"></i>
+            </button>
+            <nav class="main-nav">
+                <div class="mobile-nav-header">
+                    <div class="mobile-search-wrapper" onclick="document.getElementById('search-overlay').classList.remove('hidden')">
+                        <i data-lucide="search"></i>
+                        <span class="mobile-search-text">Search...</span>
+                    </div>
+                    <button class="mobile-menu-close" aria-label="Close Menu">
+                        <i data-lucide="x"></i>
+                        <span>Menu</span>
+                    </button>
+                </div>
+                <a href="/home" data-link class="nav-link"><span class="nav-text"><i data-lucide="home" class="desktop-icon"></i> Home</span> <i data-lucide="arrow-right" class="mobile-arrow"></i></a>
+                <a href="/about" data-link class="nav-link"><span class="nav-text"><i data-lucide="info" class="desktop-icon"></i> About</span> <i data-lucide="arrow-right" class="mobile-arrow"></i></a>
+                <a href="/basic" data-link class="nav-link"><span class="nav-text"><i data-lucide="users" class="desktop-icon"></i> Basic</span> <i data-lucide="arrow-right" class="mobile-arrow"></i></a>
+                <a href="/post" data-link class="nav-link"><span class="nav-text"><i data-lucide="graduation-cap" class="desktop-icon"></i> Post Primary</span> <i data-lucide="arrow-right" class="mobile-arrow"></i></a>
+                <a href="/vet" data-link class="nav-link"><span class="nav-text"><i data-lucide="wrench" class="desktop-icon"></i> VET</span> <i data-lucide="arrow-right" class="mobile-arrow"></i></a>
+                <a href="/fode" data-link class="nav-link"><span class="nav-text"><i data-lucide="laptop" class="desktop-icon"></i> FODE</span> <i data-lucide="arrow-right" class="mobile-arrow"></i></a>
+                <a href="/contact" data-link class="nav-link"><span class="nav-text"><i data-lucide="mail" class="desktop-icon"></i> Contact</span> <i data-lucide="arrow-right" class="mobile-arrow"></i></a>
+                <a href="#" class="nav-link search-nav-link" aria-label="Search"><span class="nav-text"><i data-lucide="search" class="desktop-icon"></i> Search</span> <i data-lucide="arrow-right" class="mobile-arrow"></i></a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="app-content">
+        <!-- SPA content is injected here -->
+        <div class="loading-state">
+            <i data-lucide="loader-2" class="spin"></i> Loading...
+        </div>
+    </main>
+
+    <!-- Fullscreen Search Overlay -->
+    <div id="search-overlay" class="search-overlay hidden">
+        <button id="close-search" class="close-search-btn" aria-label="Close Search"><i data-lucide="x"></i></button>
+        <div class="search-overlay-content">
+            <h2>What are you looking for?</h2>
+            <div class="search-input-group">
+                <i data-lucide="search"></i>
+                <input type="text" id="site-search-input"
+                    placeholder="Type keywords like 'schools', 'fees', 'term dates'..." autocomplete="off">
+            </div>
+            <div class="search-suggestions">
+                <span>Popular:</span>
+                <a href="/news#latest-news" data-link class="suggestion-tag">Term Dates</a>
+                <a href="/about" data-link class="suggestion-tag">PEB Members</a>
+                <a href="/contact" data-link class="suggestion-tag">Contact Info</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="fat-footer">
+        <div class="footer-container">
+            <div class="footer-col footer-brand">
+                <img src="assets/logo/mbp-logo-bg-removed.png" alt="Milne Bay Province Logo" class="footer-logo-img">
+                <h3 style="color: white; margin-top: 1rem; font-size: 1.2rem;">Milne Bay Province</h3>
+                <p style="color: var(--mbp-gold); font-size: 0.9rem; text-transform: uppercase; font-weight: 600;">
+                    Division of Education</p>
+            </div>
+            <div class="footer-col">
+                <h4><i data-lucide="navigation"></i> Quick Navigation</h4>
+                <a href="/home" data-link>Home</a>
+                <a href="/about" data-link>About MBP Education</a>
+                <a href="/contact" data-link>Contact Us</a>
+                <a href="#">Site Map</a>
+            </div>
+            <div class="footer-col">
+                <h4><i data-lucide="link"></i> Related Links</h4>
+                <a href="https://www.education.gov.pg/" target="_blank">National Dept of Education (NDoE)</a>
+                <a href="https://www.tsc.gov.pg/" target="_blank">Teaching Service Commission</a>
+                <a href="#">Milne Bay Provincial Admin</a>
+            </div>
+            <div class="footer-col">
+                <h4><i data-lucide="phone"></i> Emergency & Support</h4>
+                <p>Provincial Education Board Helpdesk</p>
+                <p><strong>Phone:</strong> (+675) 6410603</p>
+                <p><strong>Email:</strong> support@mbp.education.gov.pg</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Milne Bay Province - Division of Education. All Rights Reserved.</p>
+            <p>Developed & Hosted by the NDoE</p>
+        </div>
+    </footer>
+
+    <!-- Router Logic -->
+    <script src="router.js"></script>
+    <script>
+        // Mobile Menu Toggle Logic
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const mobileMenuClose = document.querySelector('.mobile-menu-close');
+        const mainNav = document.querySelector('.main-nav');
+        
+        function toggleMobileMenu() {
+            mainNav.classList.toggle('open');
+        }
+        
+        if (mobileMenuToggle) mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+        if (mobileMenuClose) mobileMenuClose.addEventListener('click', toggleMobileMenu);
+
+        // Close mobile menu when a nav link is clicked
+        document.querySelectorAll('.main-nav .nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mainNav.classList.remove('open');
+            });
+        });
+
+        // Search Overlay Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchLink = document.querySelector('.search-nav-link');
+            const searchOverlay = document.getElementById('search-overlay');
+            const closeSearch = document.getElementById('close-search');
+            const searchInput = document.getElementById('site-search-input');
+
+            searchLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                searchOverlay.classList.remove('hidden');
+                setTimeout(() => searchInput.focus(), 100);
+            });
+
+            closeSearch.addEventListener('click', () => {
+                searchOverlay.classList.add('hidden');
+            });
+
+            // Close on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !searchOverlay.classList.contains('hidden')) {
+                    searchOverlay.classList.add('hidden');
+                }
+            });
+
+            // Close when clicking outside content and handle link clicks
+            searchOverlay.addEventListener('click', (e) => {
+                if (e.target === searchOverlay) {
+                    searchOverlay.classList.add('hidden');
+                } else if (e.target.closest('.suggestion-tag')) {
+                    searchOverlay.classList.add('hidden'); // Close if clicking a suggestion
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
