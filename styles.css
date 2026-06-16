@@ -333,7 +333,7 @@ h1, h2, h3, h4, h5, h6 {
 .quick-access-section {
     position: relative;
     z-index: 10;
-    margin-top: -60px; /* Overlap the slider slightly */
+    margin-top: -30px; /* Overlap the slider slightly */
     background: #f4eee2; /* Light beige from the design */
     padding: 2rem;
     border-radius: 12px;
@@ -406,6 +406,7 @@ h1, h2, h3, h4, h5, h6 {
 .home-content-wrapper {
     max-width: 1200px;
     margin: 4rem auto;
+    padding: 0 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 5rem;
@@ -715,8 +716,9 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 auto;
     padding: 0 2rem 3rem;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 3rem;
+    grid-template-columns: auto auto auto auto;
+    justify-content: space-between;
+    gap: 2rem;
 }
 
 .footer-logo-img {
@@ -736,6 +738,45 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+}
+
+.footer-col a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.footer-col a:hover {
+    color: var(--mbp-gold);
+    transform: translateX(4px);
+    text-decoration: none;
+}
+
+.footer-col a svg,
+.contact-info svg {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    position: relative;
+    top: 2px; /* optical vertical alignment */
+    flex-shrink: 0; /* prevent icon from shrinking */
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    white-space: nowrap;
 }
 
 /* --- About Page Styles --- */
@@ -790,31 +831,56 @@ h1, h2, h3, h4, h5, h6 {
     text-shadow: 0 2px 5px rgba(0,0,0,0.5);
 }
 
+@media (max-width: 768px) {
+    .about-banner {
+        height: 380px;
+    }
+    .banner-content h1 {
+        font-size: clamp(1.3rem, 6vw, 2.2rem);
+        white-space: nowrap;
+    }
+    .banner-content p {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-banner {
+        height: 320px;
+    }
+    .banner-content {
+        padding: 0 1rem;
+    }
+    .banner-content h1 {
+        font-size: clamp(1.1rem, 6.5vw, 1.6rem);
+        white-space: nowrap;
+    }
+    .banner-content p {
+        font-size: 0.95rem;
+    }
+}
+
 .about-content-wrapper {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 4rem auto;
     padding: 0 2rem;
     display: flex;
     flex-direction: column;
-    gap: 4rem;
+    gap: 5rem;
 }
 
 .about-section {
-    background: white;
-    border-radius: 16px;
-    padding: 3rem;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    border-left: 5px solid var(--mbp-blue);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+    border-left: none;
+    transition: none;
 }
 
 .about-section:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-
-.about-section:nth-child(even) {
-    border-left-color: var(--mbp-red);
+    transform: none;
+    box-shadow: none;
 }
 
 .section-header {
@@ -823,7 +889,32 @@ h1, h2, h3, h4, h5, h6 {
     gap: 1.5rem;
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
-    border-bottom: 1px solid #eee;
+    border-bottom: 2px solid var(--mbp-blue);
+}
+
+.about-section:nth-of-type(even) .section-header {
+    border-bottom-color: var(--mbp-red);
+}
+
+.about-grid-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: start;
+}
+
+.about-map-img {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    border: 4px solid white;
+}
+
+@media (min-width: 769px) {
+    .about-grid-layout {
+        grid-template-columns: 1fr 1.3fr;
+    }
 }
 
 .section-icon {
@@ -901,9 +992,9 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .about-image-gallery {
-        grid-template-columns: 1fr;
+        display: none;
     }
 }
 
@@ -918,19 +1009,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 0.95rem;
 }
 
-.footer-col a {
-    display: block;
-    color: rgba(255,255,255,0.8);
-    text-decoration: none;
-    margin-bottom: 0.8rem;
-    font-size: 0.95rem;
-    transition: color 0.3s ease;
-}
 
-.footer-col a:hover {
-    color: var(--mbp-green);
-    text-decoration: underline;
-}
 
 .footer-bottom {
     background: #280200;
@@ -1817,6 +1896,10 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     /* Staff Hub */
+    .pillars-grid {
+        grid-template-columns: 1fr;
+    }
+    
     .staff-hub-section {
         flex-direction: column;
         text-align: center;
@@ -1841,7 +1924,26 @@ h1, h2, h3, h4, h5, h6 {
 
     /* Stats Section */
     .stats-section {
-        grid-template-columns: 1fr;
+        flex-direction: column;
+        background: transparent;
+        box-shadow: none;
+        padding: 1rem 0;
+        gap: 1.5rem;
+    }
+    
+    .stat-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    
+    .stat-number {
+        font-size: 2.2rem;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
     }
 
     /* News Grid */
@@ -1850,6 +1952,10 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     /* Quick Access */
+    .quick-access-section {
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+    }
     .quick-access-grid {
         grid-template-columns: 1fr;
     }
@@ -1858,10 +1964,10 @@ h1, h2, h3, h4, h5, h6 {
     .footer-container {
         grid-template-columns: 1fr;
         gap: 2rem;
-        text-align: center;
+        text-align: left;
     }
     .social-links {
-        justify-content: center;
+        justify-content: flex-start;
     }
 
     /* Modals & Overlays */
@@ -1890,4 +1996,32 @@ h1, h2, h3, h4, h5, h6 {
     .pdf-watermark {
         font-size: 3rem;
     }
+}
+
+/* Provincial Plans Section */
+.plans-presentation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    padding: 2rem;
+    background: transparent;
+}
+
+.plans-cover-img {
+    max-width: 100%;
+    width: 600px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    border: 4px solid white;
+}
+
+.plans-download-btn {
+    padding: 1rem 3rem;
+    font-size: 1.1rem;
+    justify-content: center;
+    width: auto;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }

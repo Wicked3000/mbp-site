@@ -9,7 +9,13 @@ class Router {
             '/vet': { component: 'VetComponent', file: 'vet.js' },
             '/fode': { component: 'FodeComponent', file: 'fode.js' },
             '/news': { component: 'NewsComponent', file: 'news.js' },
-            '/contact': { component: 'ContactComponent', file: 'contact.js' }
+            '/contact': { component: 'ContactComponent', file: 'contact.js' },
+            '/policy': { component: 'PolicyComponent', file: 'policy.js' },
+            '/calendar': { component: 'CalendarComponent', file: 'calendar.js' },
+            '/jobs': { component: 'JobsComponent', file: 'jobs.js' },
+            '/exams': { component: 'ExamsComponent', file: 'exams.js' },
+            '/parents': { component: 'ParentsComponent', file: 'parents.js' },
+            '/elearning': { component: 'ElearningComponent', file: 'elearning.js' }
         };
 
         this.appContent = document.getElementById('app-content');

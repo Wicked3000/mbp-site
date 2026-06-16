@@ -45,7 +45,8 @@
             </button>
             <nav class="main-nav">
                 <div class="mobile-nav-header">
-                    <div class="mobile-search-wrapper" onclick="document.getElementById('search-overlay').classList.remove('hidden')">
+                    <div class="mobile-search-wrapper"
+                        onclick="document.getElementById('search-overlay').classList.remove('hidden')">
                         <i data-lucide="search"></i>
                         <span class="mobile-search-text">Search...</span>
                     </div>
@@ -54,14 +55,30 @@
                         <span>Menu</span>
                     </button>
                 </div>
-                <a href="/home" data-link class="nav-link"><span class="nav-text"><i data-lucide="home" class="desktop-icon"></i> Home</span> <i data-lucide="arrow-right" class="mobile-arrow"></i></a>
-                <a href="/about" data-link class="nav-link"><span class="nav-text"><i data-lucide="info" class="desktop-icon"></i> About</span> <i data-lucide="arrow-right" class="mobile-arrow"></i></a>
-                <a href="/basic" data-link class="nav-link"><span class="nav-text"><i data-lucide="users" class="desktop-icon"></i> Basic</span> <i data-lucide="arrow-right" class="mobile-arrow"></i></a>
-                <a href="/post" data-link class="nav-link"><span class="nav-text"><i data-lucide="graduation-cap" class="desktop-icon"></i> Post Primary</span> <i data-lucide="arrow-right" class="mobile-arrow"></i></a>
-                <a href="/vet" data-link class="nav-link"><span class="nav-text"><i data-lucide="wrench" class="desktop-icon"></i> VET</span> <i data-lucide="arrow-right" class="mobile-arrow"></i></a>
-                <a href="/fode" data-link class="nav-link"><span class="nav-text"><i data-lucide="laptop" class="desktop-icon"></i> FODE</span> <i data-lucide="arrow-right" class="mobile-arrow"></i></a>
-                <a href="/contact" data-link class="nav-link"><span class="nav-text"><i data-lucide="mail" class="desktop-icon"></i> Contact</span> <i data-lucide="arrow-right" class="mobile-arrow"></i></a>
-                <a href="#" class="nav-link search-nav-link" aria-label="Search"><span class="nav-text"><i data-lucide="search" class="desktop-icon"></i> Search</span> <i data-lucide="arrow-right" class="mobile-arrow"></i></a>
+                <a href="/home" data-link class="nav-link"><span class="nav-text"><i data-lucide="home"
+                            class="desktop-icon"></i> Home</span> <i data-lucide="arrow-right"
+                        class="mobile-arrow"></i></a>
+                <a href="/about" data-link class="nav-link"><span class="nav-text"><i data-lucide="info"
+                            class="desktop-icon"></i> About</span> <i data-lucide="arrow-right"
+                        class="mobile-arrow"></i></a>
+                <a href="/basic" data-link class="nav-link"><span class="nav-text"><i data-lucide="users"
+                            class="desktop-icon"></i> Basic</span> <i data-lucide="arrow-right"
+                        class="mobile-arrow"></i></a>
+                <a href="/post" data-link class="nav-link"><span class="nav-text"><i data-lucide="graduation-cap"
+                            class="desktop-icon"></i> Post Primary</span> <i data-lucide="arrow-right"
+                        class="mobile-arrow"></i></a>
+                <a href="/vet" data-link class="nav-link"><span class="nav-text"><i data-lucide="wrench"
+                            class="desktop-icon"></i> VET</span> <i data-lucide="arrow-right"
+                        class="mobile-arrow"></i></a>
+                <a href="/fode" data-link class="nav-link"><span class="nav-text"><i data-lucide="laptop"
+                            class="desktop-icon"></i> FODE</span> <i data-lucide="arrow-right"
+                        class="mobile-arrow"></i></a>
+                <a href="/contact" data-link class="nav-link"><span class="nav-text"><i data-lucide="mail"
+                            class="desktop-icon"></i> Contact</span> <i data-lucide="arrow-right"
+                        class="mobile-arrow"></i></a>
+                <a href="#" class="nav-link search-nav-link" aria-label="Search"><span class="nav-text"><i
+                            data-lucide="search" class="desktop-icon"></i> Search</span> <i data-lucide="arrow-right"
+                        class="mobile-arrow"></i></a>
             </nav>
         </div>
     </header>
@@ -97,27 +114,34 @@
             <div class="footer-col footer-brand">
                 <img src="assets/logo/mbp-logo-bg-removed.png" alt="Milne Bay Province Logo" class="footer-logo-img">
                 <h3 style="color: white; margin-top: 1rem; font-size: 1.2rem;">Milne Bay Province</h3>
-                <p style="color: var(--mbp-gold); font-size: 0.9rem; text-transform: uppercase; font-weight: 600;">
+                <p style="color: var(--mbp-gold); font-size: 0.9rem; text-transform: uppercase; font-weight: 600; margin-bottom: 0.75rem;">
                     Division of Education</p>
+                <div style="width: 40px; height: 3px; background: var(--mbp-gold); margin-bottom: 1rem; border-radius: 2px;"></div>
+                <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.85rem; line-height: 1.6; max-width: 260px; margin: 0;">
+                    Ensuring quality education for all children in Milne Bay Province to promote growth and opportunities.
+                </p>
             </div>
             <div class="footer-col">
                 <h4><i data-lucide="navigation"></i> Quick Navigation</h4>
-                <a href="/home" data-link>Home</a>
-                <a href="/about" data-link>About MBP Education</a>
-                <a href="/contact" data-link>Contact Us</a>
-                <a href="#">Site Map</a>
+                <a href="/home" data-link><i data-lucide="chevron-right"></i>Home</a>
+                <a href="/about" data-link><i data-lucide="chevron-right"></i>About MBP Education</a>
+                <a href="/basic" data-link><i data-lucide="chevron-right"></i>Basic Education</a>
+                <a href="/post" data-link><i data-lucide="chevron-right"></i>Post Primary</a>
+                <a href="#"><i data-lucide="chevron-right"></i>Site Map</a>
             </div>
             <div class="footer-col">
                 <h4><i data-lucide="link"></i> Related Links</h4>
-                <a href="https://www.education.gov.pg/" target="_blank">National Dept of Education (NDoE)</a>
-                <a href="https://www.tsc.gov.pg/" target="_blank">Teaching Service Commission</a>
-                <a href="#">Milne Bay Provincial Admin</a>
+                <a href="https://www.education.gov.pg/" target="_blank"><i data-lucide="external-link"></i>Department of Education|PNG</a>
+                <a href="https://www.tsc.gov.pg/" target="_blank"><i data-lucide="external-link"></i>Teaching Service Commission</a>
+                <a href="#"><i data-lucide="external-link"></i>Milne Bay Provincial Admin</a>
+                <a href="https://www.nla.gov.pg/" target="_blank"><i data-lucide="external-link"></i>National Library & Archives</a>
+                <a href="#" target="_blank"><i data-lucide="external-link"></i>e-Learning Portal</a>
             </div>
             <div class="footer-col">
-                <h4><i data-lucide="phone"></i> Emergency & Support</h4>
-                <p>Provincial Education Board Helpdesk</p>
-                <p><strong>Phone:</strong> (+675) 6410603</p>
-                <p><strong>Email:</strong> support@mbp.education.gov.pg</p>
+                <h4><i data-lucide="life-buoy"></i> Emergency & Support</h4>
+                <p class="contact-info"><i data-lucide="info"></i>Provincial Education Helpdesk</p>
+                <p class="contact-info"><i data-lucide="phone"></i><span><strong>Phone:</strong> (+675) 6410603</span></p>
+                <p class="contact-info"><i data-lucide="mail"></i><span><strong>Email:</strong> support@mbp.education.gov.pg</span></p>
             </div>
         </div>
         <div class="footer-bottom">
@@ -133,11 +157,11 @@
         const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
         const mobileMenuClose = document.querySelector('.mobile-menu-close');
         const mainNav = document.querySelector('.main-nav');
-        
+
         function toggleMobileMenu() {
             mainNav.classList.toggle('open');
         }
-        
+
         if (mobileMenuToggle) mobileMenuToggle.addEventListener('click', toggleMobileMenu);
         if (mobileMenuClose) mobileMenuClose.addEventListener('click', toggleMobileMenu);
 

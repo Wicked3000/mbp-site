@@ -35,15 +35,15 @@ window.HomeComponent = {
             <div class="quick-access-section">
                 <h3 class="qa-title">Quick Access</h3>
                 <div class="quick-access-grid">
-                    <a href="#" class="qa-btn blue"><i data-lucide="search"></i><span>School Finder</span></a>
-                    <a href="#" class="qa-btn green"><i data-lucide="file-text"></i><span>Policy Documents</span></a>
-                    <a href="#" class="qa-btn green"><i data-lucide="calendar"></i><span>Calendar</span></a>
-                    <a href="#" class="qa-btn green"><i data-lucide="briefcase"></i><span>Job Vacancies</span></a>
+                    <a href="https://gfb742e44b55c34-doeapps.adb.ap-sydney-1.oraclecloudapps.com/ords/r/emis/where-is-my-school/landing?session=616876509072831" target="_blank" class="qa-btn blue"><i data-lucide="search"></i><span>School Finder</span></a>
+                    <a href="/policy" data-link class="qa-btn green"><i data-lucide="file-text"></i><span>Policy Documents</span></a>
+                    <a href="/calendar" data-link class="qa-btn green"><i data-lucide="calendar"></i><span>Calendar</span></a>
+                    <a href="/jobs" data-link class="qa-btn green"><i data-lucide="briefcase"></i><span>Job Vacancies</span></a>
                     
                     <a href="/news" data-link class="qa-btn blue"><i data-lucide="newspaper"></i><span>News</span></a>
-                    <a href="#" class="qa-btn green"><i data-lucide="award"></i><span>Exam Results</span></a>
-                    <a href="#" class="qa-btn green"><i data-lucide="users"></i><span>Parent Portal</span></a>
-                    <a href="#" class="qa-btn green"><i data-lucide="laptop"></i><span>E-Learning</span></a>
+                    <a href="/exams" data-link class="qa-btn green"><i data-lucide="award"></i><span>Exam Results</span></a>
+                    <a href="/parents" data-link class="qa-btn green"><i data-lucide="users"></i><span>Parent Portal</span></a>
+                    <a href="/elearning" data-link class="qa-btn green"><i data-lucide="laptop"></i><span>E-Learning</span></a>
                 </div>
             </div>
 
@@ -108,29 +108,6 @@ window.HomeComponent = {
                     </div>
                 </section>
 
-                <!-- 3. Interactive Provincial School Map -->
-                <section class="home-section map-section">
-                    <h2 class="section-title">Provincial Schools Distribution</h2>
-                    <p class="section-subtitle">Explore our network of schools across the 4 districts of Milne Bay.</p>
-                    <div class="map-container glass-panel">
-                        <div class="map-controls">
-                            <button class="district-btn active" data-district="Alotau" data-schools="145" data-students="21,000">Alotau</button>
-                            <button class="district-btn" data-district="Esa'ala" data-schools="65" data-students="9,500">Esa'ala</button>
-                            <button class="district-btn" data-district="Kiriwina-Goodenough" data-schools="85" data-students="12,000">Kiriwina-Goodenough</button>
-                            <button class="district-btn" data-district="Samarai-Murua" data-schools="50" data-students="6,000">Samarai-Murua</button>
-                        </div>
-                        <div class="map-display">
-                            <i data-lucide="map" class="map-bg-icon"></i>
-                            <div class="district-info-card">
-                                <h3 id="map-district-name">Alotau District</h3>
-                                <div class="district-stats">
-                                    <p><i data-lucide="building"></i> <span id="map-district-schools">145</span> Schools</p>
-                                    <p><i data-lucide="users"></i> <span id="map-district-students">21,000</span> Students</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
 
                 <!-- Latest News & Announcements -->
                 <section class="home-section news-section">
@@ -167,6 +144,18 @@ window.HomeComponent = {
                     </div>
                     <div class="view-all-news">
                         <a href="/news#latest-news" data-link class="qa-btn blue" style="width: 100%; justify-content: center; margin-top: 2rem;"><i data-lucide="newspaper"></i><span>VIEW ALL NEWS</span></a>
+                    </div>
+                </section>
+
+                <!-- Provincial Plans Documents -->
+                <section class="home-section">
+                    <h2 class="section-title">Provincial Education Plans</h2>
+                    <p class="section-subtitle">Strategic documents guiding the future of education in Milne Bay Province.</p>
+                    <div class="plans-presentation">
+                        <img src="assets/plans/edu-plan-cover.png" alt="Provincial Education Plans Cover" class="plans-cover-img">
+                        <div class="plans-actions">
+                            <a href="#" class="qa-btn blue plans-download-btn"><i data-lucide="download"></i><span>Download Full Plan (PDF)</span></a>
+                        </div>
                     </div>
                 </section>
 
@@ -244,22 +233,6 @@ window.HomeComponent = {
             startAutoSlide();
         }
 
-        // --- Interactive Map Logic ---
-        const districtBtns = document.querySelectorAll('.district-btn');
-        const dName = document.getElementById('map-district-name');
-        const dSchools = document.getElementById('map-district-schools');
-        const dStudents = document.getElementById('map-district-students');
-
-        districtBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                districtBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                dName.textContent = btn.dataset.district + ' District';
-                dSchools.textContent = btn.dataset.schools;
-                dStudents.textContent = btn.dataset.students;
-            });
-        });
 
         // --- Statistics Counter Logic ---
         const statNumbers = document.querySelectorAll('.stat-number');
