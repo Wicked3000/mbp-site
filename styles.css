@@ -2025,3 +2025,129 @@ h1, h2, h3, h4, h5, h6 {
     width: auto;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
+
+/* Notice Board Section */
+.notice-board-section {
+    background-color: var(--mbp-red);
+    color: white;
+    padding: 2.5rem;
+    border-radius: 16px;
+    margin-bottom: 3rem;
+    box-shadow: 0 10px 30px rgba(220, 38, 38, 0.2);
+}
+
+.notice-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid rgba(255,255,255,0.2);
+    padding-bottom: 1rem;
+}
+
+.notice-icon {
+    width: 36px;
+    height: 36px;
+    color: var(--mbp-gold);
+}
+
+.notice-header h2 {
+    margin: 0;
+    color: white;
+    font-size: 2rem;
+}
+
+.notice-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.notice-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border-left: 5px solid var(--mbp-gold);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.notice-item:hover {
+    transform: translateX(5px);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.notice-title {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--mbp-gold);
+}
+
+.notice-desc {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    opacity: 0.95;
+}
+
+/* Floating Social Media Icons */
+body.menu-open .floating-social {
+    display: none !important;
+}
+
+.floating-social {
+    position: fixed;
+    top: 75%;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    z-index: 1000;
+}
+
+.floating-social .social-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    background-color: var(--mbp-blue);
+    color: white;
+    text-decoration: none;
+    transition: transform 0.3s ease, background-color 0.3s ease, width 0.3s ease;
+    border-radius: 8px 0 0 8px; /* Rounded corners on the left */
+    box-shadow: -2px 2px 10px rgba(0,0,0,0.1);
+}
+
+.floating-social .social-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.floating-social .social-icon:hover {
+    width: 55px; /* Slide out slightly on hover */
+}
+
+/* Brand Colors */
+.floating-social .facebook { background-color: #1877F2; }
+.floating-social .linkedin { background-color: #0A66C2; }
+.floating-social .whatsapp { background-color: #25D366; }
+
+.floating-social .facebook:hover { background-color: #166fe5; }
+.floating-social .linkedin:hover { background-color: #08539e; }
+.floating-social .whatsapp:hover { background-color: #1ebe56; }
+
+@media (max-width: 768px) {
+    .floating-social .social-icon {
+        width: 35px;
+        height: 35px;
+    }
+    .floating-social .social-icon svg {
+        width: 16px;
+        height: 16px;
+    }
+    .floating-social .social-icon:hover {
+        width: 45px;
+    }
+}

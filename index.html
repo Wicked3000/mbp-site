@@ -150,6 +150,19 @@
         </div>
     </footer>
 
+    <!-- Floating Social Media Icons -->
+    <div class="floating-social">
+        <a href="#" target="_blank" class="social-icon facebook" aria-label="Facebook">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="#" target="_blank" class="social-icon linkedin" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="#" target="_blank" class="social-icon whatsapp" aria-label="WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.498 14.382c-.301-.15-1.767-.867-2.04-.966-.273-.101-.473-.15-.673.15-.197.295-.771.964-.944 1.162-.175.195-.349.21-.646.061-.301-.15-1.265-.466-2.403-1.485-.888-.795-1.484-1.77-1.66-2.07-.174-.3-.019-.465.13-.615.136-.135.301-.345.451-.523.146-.181.194-.301.297-.496.098-.205.053-.395-.025-.545-.074-.15-.673-1.62-.922-2.206-.24-.584-.487-.51-.672-.51-.172-.015-.371-.015-.571-.015-.197 0-.523.074-.797.359-.273.285-1.045 1.02-1.045 2.475s1.07 2.865 1.219 3.075c.149.21 2.095 3.2 5.077 4.485.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.767-.721 2.016-1.426.248-.705.248-1.31.173-1.426-.073-.125-.272-.2-.573-.359z"/><path d="M12.001 22.002c-1.674 0-3.32-.44-4.776-1.272L2 22l1.32-5.112c-.911-1.503-1.391-3.23-1.391-4.992 0-5.513 4.498-10.012 10.012-10.012 5.513 0 10.011 4.499 10.011 10.012 0 5.513-4.498 10.012-10.011 10.012z"/></svg>
+        </a>
+    </div>
+
     <!-- Router Logic -->
     <script src="router.js"></script>
     <script>
@@ -160,6 +173,7 @@
 
         function toggleMobileMenu() {
             mainNav.classList.toggle('open');
+            document.body.classList.toggle('menu-open');
         }
 
         if (mobileMenuToggle) mobileMenuToggle.addEventListener('click', toggleMobileMenu);
@@ -169,6 +183,7 @@
         document.querySelectorAll('.main-nav .nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 mainNav.classList.remove('open');
+                document.body.classList.remove('menu-open');
             });
         });
 

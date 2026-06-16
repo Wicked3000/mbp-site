@@ -108,6 +108,27 @@ window.HomeComponent = {
                     </div>
                 </section>
 
+                <!-- Notice Board -->
+                <section class="home-section notice-board-section">
+                    <div class="notice-header">
+                        <i data-lucide="bell-ring" class="notice-icon"></i>
+                        <h2>Official Notice Board</h2>
+                    </div>
+                    <div class="notice-list">
+                        <div class="notice-item">
+                            <div class="notice-title">Important Update: Term 3 School Fees</div>
+                            <p class="notice-desc">All outstanding school fees for Term 3 must be deposited into the provincial trust account before July 10th, 2026.</p>
+                        </div>
+                        <div class="notice-item">
+                            <div class="notice-title">Teacher Postings 2026</div>
+                            <p class="notice-desc">The final list of teacher deployments for remote schools has been published. Please check the eRODSS portal for confirmation.</p>
+                        </div>
+                        <div class="notice-item">
+                            <div class="notice-title">Weather Alert</div>
+                            <p class="notice-desc">Schools in the island districts are advised to monitor marine weather warnings and take necessary precautions.</p>
+                        </div>
+                    </div>
+                </section>
 
                 <!-- Latest News & Announcements -->
                 <section class="home-section news-section">
