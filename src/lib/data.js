@@ -1,6 +1,3 @@
-// Mock student data for Milne Bay Province Selection Lists
-// This data persists in memory and is used when no database is configured
-
 let mockStudents = [
   { id: 1, candidate_name: 'Julian Kepas', primary_school: 'Alotau Primary', grade: 9, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'M' },
   { id: 2, candidate_name: 'Belinda Thomas', primary_school: 'Cameron Primary', grade: 9, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'F' },
@@ -54,6 +51,37 @@ export async function addStudent(student) {
   };
   mockStudents.unshift(newStudent);
   return newStudent;
+}
+
+export async function addStudentsBulk(studentsData) {
+  const addedStudents = [];
+  const failedStudents = [];
+
+  for (const studentData of studentsData) {
+    try {
+      // Validate required fields
+      if (!studentData.candidate_name || !studentData.primary_school || !studentData.destination_school || !studentData.grade) {
+        failedStudents.push({ data: studentData, error: 'Missing required fields: candidate_name, primary_school, destination_school, grade' });
+        continue;
+      }
+
+      const newStudent = {
+        id: nextStudentId++,
+        candidate_name: studentData.candidate_name,
+        primary_school: studentData.primary_school,
+        grade: Number(studentData.grade),
+        destination_school: studentData.destination_school,
+        status: studentData.status || 'Selected',
+        gender: studentData.gender || 'M'
+      };
+      mockStudents.unshift(newStudent);
+      addedStudents.push(newStudent);
+    } catch (error) {
+      failedStudents.push({ data: studentData, error: error.message });
+    }
+  }
+
+  return { addedStudents, failedStudents };
 }
 
 export async function deleteStudent(id) {
