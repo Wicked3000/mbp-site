@@ -50,7 +50,8 @@ export default function LoginPage() {
         {/* Header Branding */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center p-3 bg-gradient-to-tr from-amber-500 to-yellow-300 rounded-2xl shadow-xl shadow-amber-500/20 mb-4 text-slate-950">
-            <Shield className="w-8 h-8" />
+            <img src="/assets/logo/mbp-logo-bg-removed.png" alt="Milne Bay Province Logo" className="w-8 h-8 object-contain" />
+            <Shield className="w-8 h-8 ml-2" />
           </div>
           <h1 className="text-2xl font-bold text-white tracking-tight font-display">Milne Bay Province</h1>
           <p className="text-slate-400 text-sm mt-1">Division of Education • Administration Portal</p>
