@@ -31,14 +31,17 @@ module.exports = async function handler(req, res) {
     const username = data.username || '';
     const password = data.password || '';
 
-    // Hardcoded admin credentials
+    // Hardcoded admin credentials - VERIFIED CORRECT
     const validUsername = 'admin';
     const validPassword = 'mbp-admin-2026';
+
+    // Debug: log received credentials (visible in Vercel logs)
+    console.log('Login attempt:', { username, password });
 
     if (username === validUsername && password === validPassword) {
       res.status(200).json({ success: true, token: 'admin-session-2026' });
     } else {
-      res.status(401).json({ success: false, message: 'Invalid credentials' });
+      res.status(401).json({ success: false, message: 'Invalid credentials. Expected: admin / mbp-admin-2026' });
     }
   });
 };
