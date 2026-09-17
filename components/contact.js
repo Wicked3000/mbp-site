@@ -26,22 +26,74 @@ window.ContactComponent = {
                     
                     <div class="contact-form-col">
                         <div class="contact-form-card">
-                            <form id="contactForm" onsubmit="event.preventDefault(); alert('Message sent successfully!');">
+                            <form id="contactForm">
+                                <div id="formMessage" style="margin-bottom: 1rem; padding: 10px; border-radius: 5px; display: none;"></div>
                                 <div class="form-group">
-                                    <input type="text" placeholder="Enter Your Name *" required>
+                                    <input type="text" id="contactName" placeholder="Enter Your Name *" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" placeholder="Enter Your Email *" required>
+                                    <input type="email" id="contactEmail" placeholder="Enter Your Email *" required>
                                 </div>
                                 <div class="form-group">
-                                    <textarea placeholder="Enter Your Message *" required></textarea>
+                                    <textarea id="contactMsg" placeholder="Enter Your Message *" required></textarea>
                                 </div>
-                                <button type="submit" class="btn-send">Send Us <i data-lucide="arrow-right"></i></button>
+                                <button type="submit" class="btn-send" id="btnSubmit">Send Us <i data-lucide="arrow-right"></i></button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
         `;
+    },
+
+    afterRender() {
+        const contactForm = document.getElementById('contactForm');
+        const formMessage = document.getElementById('formMessage');
+        const btnSubmit = document.getElementById('btnSubmit');
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const name = document.getElementById('contactName').value;
+                const email = document.getElementById('contactEmail').value;
+                const message = document.getElementById('contactMsg').value;
+                
+                btnSubmit.disabled = true;
+                btnSubmit.innerHTML = 'Sending... <i data-lucide="loader" class="spin"></i>';
+                if(window.lucide) lucide.createIcons();
+
+                try {
+                    const response = await fetch('/api/submit-contact', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ name, email, message })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (response.ok) {
+                        formMessage.style.display = 'block';
+                        formMessage.style.backgroundColor = '#d4edda';
+                        formMessage.style.color = '#155724';
+                        formMessage.textContent = 'Message sent successfully!';
+                        contactForm.reset();
+                    } else {
+                        throw new Error(result.message || 'Error submitting form');
+                    }
+                } catch (error) {
+                    formMessage.style.display = 'block';
+                    formMessage.style.backgroundColor = '#f8d7da';
+                    formMessage.style.color = '#721c24';
+                    formMessage.textContent = 'Failed to send message: ' + error.message;
+                } finally {
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = 'Send Us <i data-lucide="arrow-right"></i>';
+                    if(window.lucide) lucide.createIcons();
+                }
+            });
+        }
     }
 };

@@ -141,7 +141,7 @@ window.HomeComponent = {
                                 <div class="news-date">15 Jun 2026</div>
                                 <h3>Term 3 Commences Soon</h3>
                                 <p>All primary and secondary schools across the province are preparing for the start of Term 3. Teachers are advised to review the updated syllabus materials.</p>
-                                <a href="#" class="read-more">Read More <i data-lucide="arrow-right"></i></a>
+                                <a href="/news" data-link class="read-more">Read More <i data-lucide="arrow-right"></i></a>
                             </div>
                         </div>
                         <div class="news-card">
@@ -150,7 +150,7 @@ window.HomeComponent = {
                                 <div class="news-date">02 Jun 2026</div>
                                 <h3>New TVET Facilities Opening</h3>
                                 <p>The Kwato VET Centre has officially opened its new technical workshop, expanding opportunities for vocational training in the region.</p>
-                                <a href="#" class="read-more">Read More <i data-lucide="arrow-right"></i></a>
+                                <a href="/news" data-link class="read-more">Read More <i data-lucide="arrow-right"></i></a>
                             </div>
                         </div>
                         <div class="news-card">
@@ -159,7 +159,7 @@ window.HomeComponent = {
                                 <div class="news-date">28 May 2026</div>
                                 <h3>Provincial Education Board Meeting</h3>
                                 <p>The quarterly PEB meeting concluded with new resolutions regarding remote school funding and teacher deployment for the upcoming academic year.</p>
-                                <a href="#" class="read-more">Read More <i data-lucide="arrow-right"></i></a>
+                                <a href="/news" data-link class="read-more">Read More <i data-lucide="arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -175,7 +175,7 @@ window.HomeComponent = {
                     <div class="plans-presentation">
                         <img src="assets/plans/edu-plan-cover.png" alt="Provincial Education Plans Cover" class="plans-cover-img">
                         <div class="plans-actions">
-                            <a href="#" class="qa-btn blue plans-download-btn"><i data-lucide="download"></i><span>Download Full Plan (PDF)</span></a>
+                            <a href="assets/downloads/education_plan.pdf" download class="qa-btn blue plans-download-btn"><i data-lucide="download"></i><span>Download Full Plan (PDF)</span></a>
                         </div>
                     </div>
                 </section>
@@ -187,22 +187,22 @@ window.HomeComponent = {
                         <div class="resource-card">
                             <i data-lucide="calendar"></i>
                             <h4>2026 Academic Calendar</h4>
-                            <button class="download-btn"><i data-lucide="download"></i> Download</button>
+                            <a href="assets/downloads/calendar_2026.pdf" download class="download-btn" style="text-decoration:none; display:inline-block; margin-top:10px;"><i data-lucide="download"></i> Download</a>
                         </div>
                         <div class="resource-card">
                             <i data-lucide="file-text"></i>
                             <h4>PEB Circulars</h4>
-                            <button class="download-btn"><i data-lucide="download"></i> Download</button>
+                            <a href="assets/downloads/peb_circulars.pdf" download class="download-btn" style="text-decoration:none; display:inline-block; margin-top:10px;"><i data-lucide="download"></i> Download</a>
                         </div>
                         <div class="resource-card">
                             <i data-lucide="book"></i>
                             <h4>Syllabus Updates</h4>
-                            <button class="download-btn"><i data-lucide="download"></i> Download</button>
+                            <a href="assets/downloads/syllabus_updates.pdf" download class="download-btn" style="text-decoration:none; display:inline-block; margin-top:10px;"><i data-lucide="download"></i> Download</a>
                         </div>
                         <div class="resource-card">
                             <i data-lucide="dollar-sign"></i>
                             <h4>School Fee Structures</h4>
-                            <button class="download-btn"><i data-lucide="download"></i> Download</button>
+                            <a href="assets/downloads/school_fee_structures.pdf" download class="download-btn" style="text-decoration:none; display:inline-block; margin-top:10px;"><i data-lucide="download"></i> Download</a>
                         </div>
                     </div>
                 </section>

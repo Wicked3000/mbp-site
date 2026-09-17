@@ -205,33 +205,27 @@ window.PostComponent = {
         const previewStudentsBody = document.getElementById('preview-students-body');
         const closeBtn = document.getElementById('modal-close-btn');
 
-        // Mock student data generation
-        const localFirstNames = ["Julian", "Belinda", "David", "Sarah", "Michael", "Grace", "John", "Alice", "Thomas", "Paul", "Mary", "Peter", "Esther", "Stephen", "Ruth"];
-        const localLastNames = ["Kepas", "Thomas", "Tau", "Noah", "Abel", "Oliver", "Wesley", "Kula", "Namuri", "Lona", "Bani", "Didymus", "Moses", "Keke", "Kila"];
-        const primarySchools = ["Alotau Primary", "Gurney Primary", "Logea Primary", "Kwagila Primary", "Cameron Primary", "KB Primary", "Duau Primary", "Kiriwina Primary", "Misima Primary", "Santa Maria Primary"];
-
-        const generateMockStudents = (schoolName, grade) => {
-            const count = Math.floor(Math.random() * 5) + 6; // Generate 6-10 students
-            const students = [];
-            for (let i = 0; i < count; i++) {
-                const fName = localFirstNames[Math.floor(Math.random() * localFirstNames.length)];
-                const lName = localLastNames[Math.floor(Math.random() * localLastNames.length)];
-                const pSchool = primarySchools[Math.floor(Math.random() * primarySchools.length)];
-                students.push({
-                    name: `${fName} ${lName}`,
-                    prev: grade === "11" ? `${schoolName} (Lower Sec)` : pSchool,
-                    status: "Selected"
-                });
+        // Fetch student data from the API
+        const fetchStudents = async (schoolName, grade) => {
+            try {
+                const response = await fetch(`/api/get-students?school=${encodeURIComponent(schoolName)}&grade=${grade}`);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error("Error fetching students:", error);
+                return [];
             }
-            return students;
         };
 
         // Event listener for action buttons
         document.querySelectorAll('[data-action]').forEach(button => {
-            button.addEventListener('click', (e) => {
+            button.addEventListener('click', async (e) => {
                 const action = button.getAttribute('data-action');
                 const school = button.getAttribute('data-school');
                 const grade = button.getAttribute('data-grade');
+
+                const students = await fetchStudents(school, grade);
 
                 if (action === 'view') {
                     // Show modal preview
@@ -239,29 +233,40 @@ window.PostComponent = {
                     previewSchoolName.textContent = school;
                     previewSubtitle.textContent = `Official Selection List for 2026 Intake (Grade ${grade}) - Milne Bay Province`;
                     
-                    const students = generateMockStudents(school, grade);
-                    previewStudentsBody.innerHTML = students.map((s, idx) => `
-                        <tr>
-                            <td>${idx + 1}</td>
-                            <td><strong>${s.name}</strong></td>
-                            <td>${s.prev}</td>
-                            <td style="color: var(--mbp-green); font-weight: 600;"><span style="display:inline-block; width:8px; height:8px; background:var(--mbp-green); border-radius:50%; margin-right:6px;"></span>${s.status}</td>
-                        </tr>
-                    `).join('');
+                    if (students.length === 0) {
+                        previewStudentsBody.innerHTML = `<tr><td colspan="4" style="text-align: center;">No students found for this selection list yet.</td></tr>`;
+                    } else {
+                        previewStudentsBody.innerHTML = students.map((s, idx) => {
+                            const name = s.name || s.candidate_name || '';
+                            const prev = s.prev || s.primary_school || '';
+                            return `
+                            <tr>
+                                <td>${idx + 1}</td>
+                                <td><strong>${name}</strong></td>
+                                <td>${prev}</td>
+                                <td style="color: var(--mbp-green); font-weight: 600;"><span style="display:inline-block; width:8px; height:8px; background:var(--mbp-green); border-radius:50%; margin-right:6px;"></span>${s.status || 'Selected'}</td>
+                            </tr>
+                        `}).join('');
+                    }
 
                     modal.classList.add('active');
                 } else if (action === 'download') {
                     // Trigger download of selection list as text file
-                    const students = generateMockStudents(school, grade);
                     let fileContent = `MILNE BAY PROVINCE DIVISION OF EDUCATION\n`;
                     fileContent += `OFFICIAL 2026 SELECTION LIST - GRADE ${grade}\n`;
                     fileContent += `===============================================\n\n`;
                     fileContent += `Institution: ${school}\n\n`;
                     fileContent += `No. | Candidate Name | Previous School | Selection Status\n`;
                     fileContent += `---------------------------------------------------------\n`;
-                    students.forEach((s, idx) => {
-                        fileContent += `${String(idx + 1).padEnd(3)} | ${s.name.padEnd(20)} | ${s.prev.padEnd(20)} | ${s.status}\n`;
-                    });
+                    
+                    if (students.length === 0) {
+                        fileContent += `No students found.\n`;
+                    } else {
+                        students.forEach((s, idx) => {
+                            fileContent += `${String(idx + 1).padEnd(3)} | ${s.name.padEnd(20)} | ${s.prev.padEnd(20)} | ${s.status}\n`;
+                        });
+                    }
+                    
                     fileContent += `\nGenerated: ${new Date().toLocaleDateString()}\n`;
                     fileContent += `End of List.\n`;
 

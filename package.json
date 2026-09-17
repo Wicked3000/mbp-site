@@ -4,6 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "npx serve",
+    "admin:dev": "npm --prefix admin run dev",
+    "admin:build": "npm --prefix admin run build",
+    "admin:start": "npm --prefix admin run start",
     "test": "echo \"No test specified\""
   },
   "dependencies": {

@@ -64,7 +64,7 @@ window.NewsComponent = {
                                 <div class="news-date">15 Jun 2026</div>
                                 <h3>Term 3 Commences Soon</h3>
                                 <p>All primary and secondary schools across the province are preparing for the start of Term 3. Teachers are advised to review the updated syllabus materials.</p>
-                                <a href="#" class="read-more">Read More <i data-lucide="arrow-right"></i></a>
+                                <a href="/news" data-link class="read-more">Read More <i data-lucide="arrow-right"></i></a>
                             </div>
                         </div>
                         <div class="news-card">
@@ -73,7 +73,7 @@ window.NewsComponent = {
                                 <div class="news-date">02 Jun 2026</div>
                                 <h3>New TVET Facilities Opening</h3>
                                 <p>The Kwato VET Centre has officially opened its new technical workshop, expanding opportunities for vocational training in the region.</p>
-                                <a href="#" class="read-more">Read More <i data-lucide="arrow-right"></i></a>
+                                <a href="/news" data-link class="read-more">Read More <i data-lucide="arrow-right"></i></a>
                             </div>
                         </div>
                         <div class="news-card">
@@ -82,7 +82,7 @@ window.NewsComponent = {
                                 <div class="news-date">28 May 2026</div>
                                 <h3>Provincial Education Board Meeting</h3>
                                 <p>The quarterly PEB meeting concluded with new resolutions regarding remote school funding and teacher deployment for the upcoming academic year.</p>
-                                <a href="#" class="read-more">Read More <i data-lucide="arrow-right"></i></a>
+                                <a href="/news" data-link class="read-more">Read More <i data-lucide="arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -100,7 +100,7 @@ window.NewsComponent = {
                                 <div class="news-date">14 May 2026</div>
                                 <h3>Esa'ala District Teacher Placements</h3>
                                 <p>New teacher placements for Esa'ala district have been finalized. Deployment schedules will be distributed to district coordinators.</p>
-                                <a href="#" class="read-more">Read More <i data-lucide="arrow-right"></i></a>
+                                <a href="/news" data-link class="read-more">Read More <i data-lucide="arrow-right"></i></a>
                             </div>
                         </div>
                         <div class="news-card">
@@ -109,7 +109,7 @@ window.NewsComponent = {
                                 <div class="news-date">05 May 2026</div>
                                 <h3>National Exam Preparations</h3>
                                 <p>Mock exams for Grades 8, 10, and 12 are scheduled to begin next month. Schools are advised to ensure all examination protocols are in place.</p>
-                                <a href="#" class="read-more">Read More <i data-lucide="arrow-right"></i></a>
+                                <a href="/news" data-link class="read-more">Read More <i data-lucide="arrow-right"></i></a>
                             </div>
                         </div>
                         <div class="news-card">
@@ -118,7 +118,7 @@ window.NewsComponent = {
                                 <div class="news-date">20 Apr 2026</div>
                                 <h3>Launch of E-Learning Portal</h3>
                                 <p>The new provincial E-learning portal is now live, providing students with access to digital resources and supplementary learning materials.</p>
-                                <a href="#" class="read-more">Read More <i data-lucide="arrow-right"></i></a>
+                                <a href="/news" data-link class="read-more">Read More <i data-lucide="arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
