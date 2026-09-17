@@ -280,26 +280,26 @@ export default function StudentsPage() {
               Grade 9 and Grade 11 intake records management across Milne Bay Province
             </p>
           </div>
-<div className="mt-4 md:mt-0 flex items-center space-x-3">
+<div className="mt-4 md:mt-0 flex items-center space-x-2">
             <button
               onClick={handleExportTextFile}
               disabled={filteredStudents.length === 0}
-              className="btn-gold text-xs font-medium w-full px-4 py-2 rounded-lg border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/15 transition-colors disabled:opacity-50"
+              className="btn-gold text-xs font-medium px-3 py-1.5 rounded-lg border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/15 transition-colors disabled:opacity-50"
             >
-              <Download className="w-3.5 h-3.5" />
-              <span>Export Selection List (.TXT)</span>
+              <Download className="w-3 h-3" />
+              <span>Export (.TXT)</span>
             </button>
             <button
               onClick={() => setShowBulkUpload(true)}
-              className="btn-gold text-xs font-medium w-full px-4 py-2 rounded-lg border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/15 transition-colors"
+              className="btn-gold text-xs font-medium px-3 py-1.5 rounded-lg border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/15 transition-colors"
             >
-              <Download className="w-3.5 h-3.5" /> Bulk Upload Students
+              <Download className="w-3 h-3" /> Bulk Upload
             </button>
             <button
               onClick={() => setShowAddModal(true)}
-              className="btn-gold text-xs font-medium w-full px-4 py-2 rounded-lg border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/15 transition-colors"
+              className="btn-gold text-xs font-medium px-3 py-1.5 rounded-lg border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/15 transition-colors"
             >
-              <Plus className="w-3.5 h-3.5" /> Add Candidate
+              <Plus className="w-3 h-3" /> Add
             </button>
           </div>
         </div>
