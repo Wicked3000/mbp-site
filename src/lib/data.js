@@ -1,13 +1,12 @@
-import mysql from 'mysql2/promise';
+// Mock student data for Milne Bay Province Selection Lists
+// This data persists in memory and is used when no database is configured
 
-// Initial seed data for students (matching setup_db.sql + additional schools)
 let mockStudents = [
   { id: 1, candidate_name: 'Julian Kepas', primary_school: 'Alotau Primary', grade: 9, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'M' },
   { id: 2, candidate_name: 'Belinda Thomas', primary_school: 'Cameron Primary', grade: 9, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'F' },
   { id: 3, candidate_name: 'David Tau', primary_school: 'Alotau Primary', grade: 9, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'M' },
   { id: 4, candidate_name: 'Sarah Noah', primary_school: 'Kwagila Primary', grade: 9, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'F' },
   { id: 5, candidate_name: 'Michael Abel', primary_school: 'Gurney Primary', grade: 9, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'M' },
-  { id: 6, candidate_name: 'Grace Oliver', primary_school: 'Alotau Primary', grade: 9, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'F' },
   { id: 7, candidate_name: 'John Wesley', primary_school: 'Duau Primary', grade: 9, destination_school: 'Duau High School', status: 'Selected', gender: 'M' },
   { id: 8, candidate_name: 'Alice Kula', primary_school: 'Duau Primary', grade: 9, destination_school: 'Duau High School', status: 'Selected', gender: 'F' },
   { id: 9, candidate_name: 'Thomas Namuri', primary_school: 'Logea Primary', grade: 9, destination_school: 'Duau High School', status: 'Selected', gender: 'M' },
@@ -30,45 +29,12 @@ let mockContacts = [
 let nextStudentId = 19;
 let nextContactId = 3;
 
-async function getDbConnection() {
-  try {
-    const connection = await mysql.createConnection({
-      host: process.env.DB_HOST || 'mysql.railway.internal',
-      port: Number(process.env.DB_PORT) || 3306,
-      user: process.env.DB_USER || 'root',
-      password: process.env.DB_PASS || 'ydxqzsUvGTMEbFhBqmSJrcuPAXcKsJqS',
-      database: process.env.DB_NAME || 'railway',
-      connectTimeout: 2000,
-    });
-    return connection;
-  } catch {
-    return null;
-  }
-}
+// ============================================
+// STUDENT FUNCTIONS
+// ============================================
 
 export async function fetchStudents(school = '', grade = 0) {
-  const db = await getDbConnection();
-  if (db) {
-    try {
-      let query = 'SELECT * FROM students WHERE 1=1';
-      const params = [];
-      if (school) {
-        query += ' AND destination_school = ?';
-        params.push(school);
-      }
-      if (grade && grade > 0) {
-        query += ' AND grade = ?';
-        params.push(grade);
-      }
-      const [rows] = await db.execute(query, params);
-      await db.end();
-      return rows;
-    } catch {
-      if (db) await db.end();
-    }
-  }
-
-  // Fallback to in-memory store
+  // Filter mock students by school and/or grade
   return mockStudents.filter(s => {
     const matchSchool = !school || s.destination_school.toLowerCase().includes(school.toLowerCase());
     const matchGrade = !grade || s.grade === Number(grade);
@@ -77,20 +43,6 @@ export async function fetchStudents(school = '', grade = 0) {
 }
 
 export async function addStudent(student) {
-  const db = await getDbConnection();
-  if (db) {
-    try {
-      const [res] = await db.execute(
-        'INSERT INTO students (candidate_name, primary_school, grade, destination_school, status, gender) VALUES (?, ?, ?, ?, ?, ?)',
-        [student.candidate_name, student.primary_school, student.grade, student.destination_school, student.status || 'Selected', student.gender || 'M']
-      );
-      await db.end();
-      return { id: res.insertId, ...student };
-    } catch {
-      if (db) await db.end();
-    }
-  }
-
   const newStudent = {
     id: nextStudentId++,
     candidate_name: student.candidate_name,
@@ -105,51 +57,19 @@ export async function addStudent(student) {
 }
 
 export async function deleteStudent(id) {
-  const db = await getDbConnection();
-  if (db) {
-    try {
-      await db.execute('DELETE FROM students WHERE id = ?', [id]);
-      await db.end();
-      return true;
-    } catch {
-      if (db) await db.end();
-    }
-  }
-
   mockStudents = mockStudents.filter(s => s.id !== Number(id));
   return true;
 }
 
-export async function fetchContacts() {
-  const db = await getDbConnection();
-  if (db) {
-    try {
-      const [rows] = await db.execute('SELECT * FROM contacts ORDER BY created_at DESC');
-      await db.end();
-      return rows;
-    } catch {
-      if (db) await db.end();
-    }
-  }
+// ============================================
+// CONTACT FUNCTIONS
+// ============================================
 
+export async function fetchContacts() {
   return mockContacts;
 }
 
 export async function addContact(contact) {
-  const db = await getDbConnection();
-  if (db) {
-    try {
-      const [res] = await db.execute(
-        'INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)',
-        [contact.name, contact.email, contact.message]
-      );
-      await db.end();
-      return { id: res.insertId, ...contact, created_at: new Date().toISOString() };
-    } catch {
-      if (db) await db.end();
-    }
-  }
-
   const newContact = {
     id: nextContactId++,
     name: contact.name,
@@ -162,17 +82,6 @@ export async function addContact(contact) {
 }
 
 export async function deleteContact(id) {
-  const db = await getDbConnection();
-  if (db) {
-    try {
-      await db.execute('DELETE FROM contacts WHERE id = ?', [id]);
-      await db.end();
-      return true;
-    } catch {
-      if (db) await db.end();
-    }
-  }
-
   mockContacts = mockContacts.filter(c => c.id !== Number(id));
   return true;
 }
