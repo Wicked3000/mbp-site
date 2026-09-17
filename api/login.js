@@ -3,8 +3,16 @@ const mysql = require('mysql2/promise');
 module.exports = async function handler(req, res) {
   // Allow CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
-  
-  // Only POST
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Handle preflight OPTIONS request
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
+  // Only accept POST
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -23,7 +31,7 @@ module.exports = async function handler(req, res) {
     const username = data.username || '';
     const password = data.password || '';
 
-    // Hardcoded admin credentials (matching the original PHP admin panel)
+    // Hardcoded admin credentials
     const validUsername = 'admin';
     const validPassword = 'mbp-admin-2026';
 
