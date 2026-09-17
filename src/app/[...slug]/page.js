@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-export default function RootPage() {
+export default function CatchAllPublicPage() {
   const filePath = path.join(process.cwd(), 'public', 'site.html');
   let html = '';
   if (fs.existsSync(filePath)) {
