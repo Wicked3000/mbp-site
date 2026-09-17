@@ -1,0 +1,12 @@
+{
+  "name": "mbp-site",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve",
+    "test": "echo \"No test specified\""
+  },
+  "dependencies": {
+    "mysql2": "^3.9.0"
+  }
+}
