@@ -3,13 +3,22 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "npx serve",
-    "admin:dev": "npm --prefix admin run dev",
-    "admin:build": "npm --prefix admin run build",
-    "admin:start": "npm --prefix admin run start",
-    "test": "echo \"No test specified\""
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
   },
   "dependencies": {
-    "mysql2": "^3.9.0"
+    "lucide-react": "^1.16.0",
+    "mysql2": "^3.9.0",
+    "next": "16.3.5",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.5",
+    "tailwindcss": "^4"
   }
 }
