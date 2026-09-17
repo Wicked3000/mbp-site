@@ -205,7 +205,7 @@ export default function StudentsPage() {
             </button>
             <button
               onClick={() => setShowAddModal(true)}
-              className="btn-gold text-xs flex items-center space-x-1.5"
+              className="btn-gold text-xs font-medium flex items-center space-x-2 px-4 py-2 rounded-lg border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/15 transition-colors"
             >
               <Plus className="w-4 h-4" />
               <span>Add Candidate</span>
