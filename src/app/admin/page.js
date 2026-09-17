@@ -49,7 +49,10 @@ export default function LoginPage() {
       <div className="w-full max-w-md relative z-10">
         {/* Header Branding */}
         <div className="text-center mb-8">
-          <img src="/assets/logo/mbp-logo-bg-removed.png" alt="Milne Bay Province Logo" className="w-16 h-16 object-contain" />
+          {/* White background box for logo */}
+          <div className="bg-white rounded-xl p-2 inline-flex items-center justify-center mx-auto mb-2">
+            <img src="/assets/logo/mbp-logo-bg-removed.png" alt="Milne Bay Province Logo" className="w-16 h-16 object-contain" />
+          </div>
           <div className="mt-2 text-slate-950 text-xs">Milne Bay Province</div>
         </div>
 
