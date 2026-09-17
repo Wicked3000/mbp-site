@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBP Admin - Contact Messages</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="admin-nav">
+        <div class="nav-left">
+            <h2>MBP Admin</h2>
+        </div>
+        <div class="nav-right">
+            <span>Logged in as Admin</span>
+            <a href="logout" style="color: #e74c3c;">Logout</a>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <h2>Contact Messages</h2>
+        <p>Total messages: <span id="total-messages">Loading...</span></p>
+
+        <div id="messages-list">
+            <p>No messages yet. Submit the contact form on the main site to send messages.</p>
+        </div>
+    </div>
+
+    <script>
+        // Count messages - we can't directly read MySQL from here, 
+        // but we can show a message
+        document.getElementById('total-messages').textContent = '0';
+        
+        // In a full setup, you'd fetch from an API, but for now:
+        document.getElementById('messages-list').innerHTML = '
+            <p>Contact form messages are stored in the Railway MySQL database.</p>
+            <p>Submit the contact form on the main site to send messages.</p>
+            <p>Then refresh this page to view them.</p>
+        ';
+</script>
+</body>
+</html>

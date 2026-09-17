@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBP Admin - Student Selection Lists</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="admin-nav">
+        <div class="nav-left">
+            <h2>MBP Admin</h2>
+        </div>
+        <div class="nav-right">
+            <span>Logged in as Admin</span>
+            <a href="logout" style="color: #e74c3c;">Logout</a>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <h2>Student Selection Lists</h2>
+        <p>Grade 9 & Grade 11 student data is managed via the API.</p>
+        <p>Total students in database: <span id="total-students">Loading...</span></p>
+    </div>
+
+    <script>
+        // Fetch student count from the API
+        fetch('../api/get-students?school=')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('total-students').textContent = data.length || 0;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('total-students').textContent = '0';
+            });
+    </script>
+</body>
+</html>
