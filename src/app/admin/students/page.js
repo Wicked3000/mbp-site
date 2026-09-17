@@ -50,6 +50,9 @@ export default function StudentsPage() {
   });
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState('');
+  const [showBulkUpload, setShowBulkUpload] = useState(false);
+  const [bulkUploading, setBulkUploading] = useState(false);
+  const [bulkFile, setBulkFile] = useState(null);
 
   const loadStudents = async () => {
     setLoading(true);
@@ -170,6 +173,89 @@ export default function StudentsPage() {
     URL.revokeObjectURL(url);
   };
 
+  const handleBulkUpload = async (e) => {
+    e.preventDefault();
+    
+    if (!bulkFile) {
+      setMessage('Please select a CSV file');
+      return;
+    }
+    
+    setBulkUploading(true);
+    setMessage('');
+    
+    // Parse CSV
+    const file = bulkFile;
+    const reader = new FileReader();
+    
+    reader.onload = async (e) => {
+      const text = reader.result;
+      const rows = text.split('\n').filter(row => row.trim());
+      
+      // Skip header if configured
+      const hasHeader = document.querySelector('input[value="yes"]');
+      let rowsToProcess = rows;
+      if (hasHeader && document.querySelector('input[value="yes"]').checked) {
+        rowsToProcess = rows.slice(1);
+      }
+      
+      // Skip empty rows
+      const skipEmpty = document.querySelector('input[value="no"]') === null;
+      const filteredRows = rowsToProcess.filter(row => row.trim().length > 0);
+      
+      // Parse CSV - simple CSV parsing (comma-separated)
+      const studentsData = filteredRows.map(row => {
+        const columns = row.split(',');
+        return {
+          candidate_name: columns[0] ? columns[0].trim() : '',
+          primary_school: columns[1] ? columns[1].trim() : '',
+          grade: columns[2] ? parseInt(columns[2].trim(), 10) : 9,
+          destination_school: columns[3] ? columns[3].trim() : 'Cameron Secondary School',
+          status: columns[4] ? columns[4].trim() : 'Selected',
+          gender: columns[5] ? columns[5].trim() : 'M'
+        };
+      });
+      
+      // Call bulk add function
+      const result = await addStudentsBulk(studentsData);
+      
+      setBulkUploading(false);
+      setMessage(`Successfully added ${result.addedStudents.length} students. ${
+        result.failedStudents.length > 0 ? ` ${result.failedStudents.length} failed.` : ''
+      }`);
+      
+      setShowBulkUpload(false);
+      loadStudents();
+    };
+    
+    reader.readAsText(bulkFile);
+  };
+
+  const addStudentsBulk = async (studentsData) => {
+    const addedStudents = [];
+    const failedStudents = [];
+
+    for (const student of studentsData) {
+      try {
+        const res = await fetch('/api/students', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(student)
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          addedStudents.push(student);
+        } else {
+          failedStudents.push({ student, error: data.error || 'Unknown error' });
+        }
+      } catch (err) {
+        failedStudents.push({ student, error: 'Network error' });
+      }
+    }
+
+    return { addedStudents, failedStudents };
+  };
+
   const filteredStudents = students.filter(s => {
     const candidate = (s.candidate_name || s.name || '').toLowerCase();
     const primary = (s.primary_school || s.prev || '').toLowerCase();
@@ -194,7 +280,7 @@ export default function StudentsPage() {
               Grade 9 and Grade 11 intake records management across Milne Bay Province
             </p>
           </div>
-          <div className="mt-4 md:mt-0 flex items-center space-x-3">
+<div className="mt-4 md:mt-0 flex items-center space-x-3">
             <button
               onClick={handleExportTextFile}
               disabled={filteredStudents.length === 0}
@@ -204,6 +290,12 @@ export default function StudentsPage() {
               <span>Export Selection List (.TXT)</span>
             </button>
             <button
+              onClick={() => setShowBulkUpload(true)}
+              className="btn-gold text-xs font-medium w-full px-4 py-2 rounded-lg border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/15 transition-colors"
+            >
+              <Download className="w-3.5 h-3.5" /> Bulk Upload Students
+            </button>
+            <button
               onClick={() => setShowAddModal(true)}
               className="btn-gold text-xs font-medium w-full px-4 py-2 rounded-lg border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/15 transition-colors"
             >
@@ -211,6 +303,114 @@ export default function StudentsPage() {
             </button>
           </div>
         </div>
+
+        {/* Bulk Upload Modal */}
+        {showBulkUpload && (
+          <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className="glass-panel max-w-lg w-full p-6 border border-slate-800 shadow-2xl relative">
+              <div className="flex items-end justify-end mb-4">
+                <button
+                  onClick={() => setShowBulkUpload(false)}
+                  className="text-slate-400 hover:text-white"
+                >
+                  <i data-lucide="x" className="w-4 h-4" />
+                </button>
+              </div>
+              <form onSubmit={handleBulkUpload} className="space-y-4">
+                <p className="text-sm text-slate-500 mb-4">
+                  Upload a CSV file to add multiple students to the selection list.
+                  <br className="hidden md:block" />
+                  <span className="text-xs text-slate-500">
+                    Format: candidate_name,primary_school,grade,destination_school,status,gender
+                  </span>
+                </p>
+                <div>
+                  <label
+                    className="block text-sm font-medium text-slate-500 mb-2"
+                  >
+                    CSV File
+                  </label>
+                  <input
+                    type="file"
+                    accept=".csv"
+                    onChange={(e) => setBulkFile(e.target.files[0])}
+                    className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+                <div>
+                  <label
+                    className="block text-sm font-medium text-slate-500 mb-2"
+                  >
+                    Skip header row?
+                  </label>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      name="header"
+                      value="yes"
+                      checked
+                      className="rounded-md p-1"
+                    />
+                    <span className="text-sm text-slate-500">Yes</span>
+                    <input
+                      type="radio"
+                      name="header"
+                      value="no"
+                      className="rounded-md p-1 ml-2"
+                    />
+                    <span className="text-sm text-slate-500">No</span>
+                  </div>
+                </div>
+                <div>
+                  <label
+                    className="block text-sm font-medium text-slate-500 mb-2"
+                  >
+                    Skip empty rows?
+                  </label>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      name="empty"
+                      value="yes"
+                      checked
+                      className="rounded-md p-1"
+                    />
+                    <span className="text-sm text-slate-500">Yes</span>
+                    <input
+                      type="radio"
+                      name="empty"
+                      value="no"
+                      className="rounded-md p-1 ml-2"
+                    />
+                    <span className="text-sm text-slate-500">No</span>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500 mb-2">
+                    Maximum {students.length} students currently in system. Uploaded
+                    students will be added to the existing list.
+                  </p>
+                </div>
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => setShowBulkUpload(false)}
+                    className="btn-gold w-full text-xs font-medium py-2"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={bulkUploading}
+                    className="btn-gold w-full text-xs font-medium py-2"
+                  >
+                    {bulkUploading ? 'Uploading...' : 'Upload Students'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
 
         {/* Filter Controls Bar */}
         <div className="glass-panel p-4 mb-6 border border-slate-800 flex flex-col md:flex-row md:items-center gap-4">
