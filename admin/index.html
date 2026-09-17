@@ -28,10 +28,14 @@
     <script>
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const form = new FormData(e.target);
+            const formData = new FormData(e.target);
+            const object = Object.fromEntries(formData);
             const response = await fetch('../api/login', {
                 method: 'POST',
-                body: form
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(object)
             });
             const data = await response.json();
             if (data.success) {
