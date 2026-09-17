@@ -33,8 +33,8 @@ let nextContactId = 3;
 async function getDbConnection() {
   try {
     const connection = await mysql.createConnection({
-      host: process.env.DB_HOST || 'hayabusa.proxy.rlwy.net',
-      port: Number(process.env.DB_PORT) || 39501,
+      host: process.env.DB_HOST || 'mysql.railway.internal',
+      port: Number(process.env.DB_PORT) || 3306,
       user: process.env.DB_USER || 'root',
       password: process.env.DB_PASS || 'ydxqzsUvGTMEbFhBqmSJrcuPAXcKsJqS',
       database: process.env.DB_NAME || 'railway',
