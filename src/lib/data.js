@@ -1,4 +1,6 @@
-let mockStudents = [
+import { getPool, testConnection } from './database';
+
+const mockStudents = [
   { id: 1, candidate_name: 'Julian Kepas', primary_school: 'Alotau Primary', grade: 9, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'M' },
   { id: 2, candidate_name: 'Belinda Thomas', primary_school: 'Cameron Primary', grade: 9, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'F' },
   { id: 3, candidate_name: 'David Tau', primary_school: 'Alotau Primary', grade: 9, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'M' },
@@ -53,20 +55,20 @@ let mockStudents = [
   { id: 40, candidate_name: 'Grace Wesley', primary_school: 'Wesley Primary School', grade: 11, destination_school: 'Wesley Secondary School', status: 'Selected', gender: 'F' },
 ];
 
-let mockContacts = [
+const mockContacts = [
   { id: 1, name: 'David Kila', email: 'david.kila@gmail.com', message: 'Inquiring about Grade 9 selection list verification dates for Cameron Secondary.', created_at: new Date('2026-09-15T10:30:00Z').toISOString() },
   { id: 2, name: 'Mary Anne', email: 'm.anne@education.gov.pg', message: 'Requesting updated teacher posting circular for Woodlark Junior High.', created_at: new Date('2026-09-16T14:15:00Z').toISOString() },
 ];
 
-let nextStudentId = 41;
-let nextContactId = 3;
+let dbAvailable = null;
 
-// ============================================
-// STUDENT FUNCTIONS
-// ============================================
+async function checkDb() {
+  if (dbAvailable !== null) return dbAvailable;
+  dbAvailable = await testConnection();
+  return dbAvailable;
+}
 
-export async function fetchStudents(school = '', grade = 0) {
-  // Filter mock students by school and/or grade
+function filterMockStudents(school = '', grade = 0) {
   return mockStudents.filter(s => {
     const matchSchool = !school || s.destination_school.toLowerCase().includes(school.toLowerCase());
     const matchGrade = !grade || s.grade === Number(grade);
@@ -74,9 +76,47 @@ export async function fetchStudents(school = '', grade = 0) {
   });
 }
 
+export async function fetchStudents(school = '', grade = 0) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      let query = 'SELECT * FROM students WHERE 1=1';
+      const params = [];
+      if (school) {
+        query += ' AND destination_school = ?';
+        params.push(school);
+      }
+      if (grade > 0) {
+        query += ' AND grade = ?';
+        params.push(grade);
+      }
+      const [rows] = await pool.execute(query, params);
+      if (rows.length > 0) return rows;
+    } catch (error) {
+      console.error('Database fetch failed, falling back to mock data:', error.message);
+    }
+  }
+  return filterMockStudents(school, grade);
+}
+
 export async function addStudent(student) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [result] = await pool.execute(
+        'INSERT INTO students (candidate_name, primary_school, grade, destination_school, status, gender) VALUES (?, ?, ?, ?, ?, ?)',
+        [student.candidate_name, student.primary_school, student.grade, student.destination_school, student.status || 'Selected', student.gender || 'M']
+      );
+      return { ...student, id: result.insertId };
+    } catch (error) {
+      console.error('Database insert failed, falling back to mock data:', error.message);
+    }
+  }
+  // Fallback to mock data
   const newStudent = {
-    id: nextStudentId++,
+    id: Date.now(),
     candidate_name: student.candidate_name,
     primary_school: student.primary_school,
     grade: Number(student.grade),
@@ -89,21 +129,52 @@ export async function addStudent(student) {
 }
 
 export async function deleteStudent(id) {
-  mockStudents = mockStudents.filter(s => s.id !== Number(id));
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      await pool.execute('DELETE FROM students WHERE id = ?', [id]);
+      return true;
+    } catch (error) {
+      console.error('Database delete failed:', error.message);
+    }
+  }
+  // Fallback
+  const idx = mockStudents.findIndex(s => s.id === Number(id));
+  if (idx !== -1) mockStudents.splice(idx, 1);
   return true;
 }
 
-// ============================================
-// CONTACT FUNCTIONS
-// ============================================
-
 export async function fetchContacts() {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [rows] = await pool.execute('SELECT * FROM contacts ORDER BY created_at DESC');
+      return rows;
+    } catch (error) {
+      console.error('Database fetch contacts failed, falling back to mock data:', error.message);
+    }
+  }
   return mockContacts;
 }
 
 export async function addContact(contact) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [result] = await pool.execute(
+        'INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)',
+        [contact.name, contact.email, contact.message]
+      );
+      return { ...contact, id: result.insertId, created_at: new Date().toISOString() };
+    } catch (error) {
+      console.error('Database insert contact failed, falling back to mock data:', error.message);
+    }
+  }
   const newContact = {
-    id: nextContactId++,
+    id: Date.now(),
     name: contact.name,
     email: contact.email,
     message: contact.message,
@@ -114,6 +185,78 @@ export async function addContact(contact) {
 }
 
 export async function deleteContact(id) {
-  mockContacts = mockContacts.filter(c => c.id !== Number(id));
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      await pool.execute('DELETE FROM contacts WHERE id = ?', [id]);
+      return true;
+    } catch (error) {
+      console.error('Database delete contact failed:', error.message);
+    }
+  }
+  const idx = mockContacts.findIndex(c => c.id === Number(id));
+  if (idx !== -1) mockContacts.splice(idx, 1);
   return true;
+}
+
+export async function seedDatabase() {
+  const useDb = await checkDb();
+  if (!useDb) return { success: false, message: 'Database not available' };
+
+  try {
+    const pool = getPool();
+    
+    // Create tables if they don't exist
+    await pool.execute(`
+      CREATE TABLE IF NOT EXISTS students (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        candidate_name VARCHAR(255) NOT NULL,
+        primary_school VARCHAR(255) NOT NULL,
+        grade INT NOT NULL,
+        destination_school VARCHAR(255) NOT NULL,
+        status VARCHAR(50) DEFAULT 'Selected',
+        gender VARCHAR(10) DEFAULT 'M',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    
+    await pool.execute(`
+      CREATE TABLE IF NOT EXISTS contacts (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        message TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    
+    // Check if students table is empty
+    const [studentRows] = await pool.execute('SELECT COUNT(*) as count FROM students');
+    if (studentRows[0].count === 0) {
+      // Seed with mock data
+      for (const student of mockStudents) {
+        await pool.execute(
+          'INSERT INTO students (candidate_name, primary_school, grade, destination_school, status, gender) VALUES (?, ?, ?, ?, ?, ?)',
+          [student.candidate_name, student.primary_school, student.grade, student.destination_school, student.status, student.gender]
+        );
+      }
+    }
+    
+    // Check if contacts table is empty
+    const [contactRows] = await pool.execute('SELECT COUNT(*) as count FROM contacts');
+    if (contactRows[0].count === 0) {
+      for (const contact of mockContacts) {
+        await pool.execute(
+          'INSERT INTO contacts (name, email, message, created_at) VALUES (?, ?, ?, ?)',
+          [contact.name, contact.email, contact.message, contact.created_at]
+        );
+      }
+    }
+    
+    return { success: true, message: 'Database seeded successfully' };
+  } catch (error) {
+    console.error('Database seeding failed:', error.message);
+    return { success: false, message: error.message };
+  }
 }
