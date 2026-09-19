@@ -6,8 +6,8 @@ import { Shield, Lock, User, AlertCircle, ArrowRight, CheckCircle2 } from 'lucid
 
 export default function LoginPage() {
   const router = useRouter();
-  const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('mbp-admin-2026');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -125,12 +125,6 @@ export default function LoginPage() {
               {!loading && <ArrowRight className="w-4 h-4" />}
             </button>
           </form>
-
-          <div className="mt-6 pt-5 border-t border-slate-800 text-center">
-            <p className="text-xs text-slate-400">
-              Default Credentials: <code className="bg-slate-800 text-amber-300 px-1.5 py-0.5 rounded font-mono">admin</code> / <code className="bg-slate-800 text-amber-300 px-1.5 py-0.5 rounded font-mono">mbp-admin-2026</code>
-            </p>
-          </div>
         </div>
 
         <div className="mt-6 text-center">

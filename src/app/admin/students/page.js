@@ -190,18 +190,22 @@ export default function StudentsPage() {
     
     reader.onload = async (e) => {
       const text = reader.result;
-      const rows = text.split('\n').filter(row => row.trim());
+      const rows = text.split('\n');
       
       // Skip header if configured
-      const hasHeader = document.querySelector('input[value="yes"]');
+      const hasHeader = document.querySelector('input[name="header"][value="yes"]');
       let rowsToProcess = rows;
-      if (hasHeader && document.querySelector('input[value="yes"]').checked) {
+      if (hasHeader && hasHeader.checked) {
         rowsToProcess = rows.slice(1);
       }
       
-      // Skip empty rows
-      const skipEmpty = document.querySelector('input[value="no"]') === null;
-      const filteredRows = rowsToProcess.filter(row => row.trim().length > 0);
+      // Skip empty rows based on user selection
+      const skipEmptyRadio = document.querySelector('input[name="empty"]:checked');
+      const skipEmpty = skipEmptyRadio && skipEmptyRadio.value === 'yes';
+      let filteredRows = rowsToProcess;
+      if (skipEmpty) {
+        filteredRows = rowsToProcess.filter(row => row.trim().length > 0);
+      }
       
       // Parse CSV - simple CSV parsing (comma-separated)
       const studentsData = filteredRows.map(row => {
@@ -387,7 +391,7 @@ export default function StudentsPage() {
                 </div>
                 <div>
                   <p className="text-sm text-slate-500 mb-2">
-                    Maximum {students.length} students currently in system. Uploaded
+                    Showing {students.length} student(s) in current view. Uploaded
                     students will be added to the existing list.
                   </p>
                 </div>

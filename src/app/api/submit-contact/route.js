@@ -20,7 +20,7 @@ export async function POST(request) {
     });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Connection failed: ' + error.message },
+      { error: 'Failed to submit contact' },
       { status: 500 }
     );
   }

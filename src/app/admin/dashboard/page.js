@@ -168,7 +168,7 @@ export default function DashboardPage() {
               </span>
               <span className="text-lg font-bold text-white font-display">Operational</span>
             </div>
-            <p className="text-xs text-slate-400 mt-2">Next.js 16 + Railway DB API</p>
+            <p className="text-xs text-slate-400 mt-2">In-Memory Data Store</p>
           </div>
         </div>
 

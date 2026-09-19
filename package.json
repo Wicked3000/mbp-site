@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "start": "next start"
   },
   "dependencies": {
     "lucide-react": "^1.16.0",
@@ -16,7 +15,6 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "mysql2": "^3.24.4",
     "tailwindcss": "^4"
   }
 }

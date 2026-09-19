@@ -6,7 +6,7 @@ export async function GET() {
     const contacts = await fetchContacts();
     return NextResponse.json(contacts);
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to fetch contacts' }, { status: 500 });
   }
 }
 
@@ -20,6 +20,6 @@ export async function DELETE(request) {
     await deleteContact(id);
     return NextResponse.json({ success: true });
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to delete contact' }, { status: 500 });
   }
 }

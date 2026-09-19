@@ -5,7 +5,10 @@ export async function POST(request) {
     const body = await request.json();
     const { username, password } = body || {};
 
-    if (username === 'admin' && password === 'mbp-admin-2026') {
+    const validUsername = process.env.ADMIN_USERNAME;
+    const validPassword = process.env.ADMIN_PASSWORD;
+
+    if (username === validUsername && password === validPassword) {
       const response = NextResponse.json({ success: true, token: 'admin-session-2026' });
       response.cookies.set('mbp_admin_session', 'admin-session-2026', {
         httpOnly: true,
@@ -18,12 +21,12 @@ export async function POST(request) {
     }
 
     return NextResponse.json(
-      { success: false, message: 'Invalid credentials. Expected: admin / mbp-admin-2026' },
+      { success: false, message: 'Invalid credentials' },
       { status: 401 }
     );
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: error.message },
+      { success: false, message: 'Authentication failed' },
       { status: 500 }
     );
   }

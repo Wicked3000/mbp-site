@@ -208,7 +208,7 @@ window.PostComponent = {
         // Fetch student data from the API
         const fetchStudents = async (schoolName, grade) => {
             try {
-                const response = await fetch(`/api/get-students?school=${encodeURIComponent(schoolName)}&grade=${grade}`);
+                const response = await fetch(`/api/students?school=${encodeURIComponent(schoolName)}&grade=${grade}`);
                 if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
                 return data;
@@ -263,7 +263,9 @@ window.PostComponent = {
                         fileContent += `No students found.\n`;
                     } else {
                         students.forEach((s, idx) => {
-                            fileContent += `${String(idx + 1).padEnd(3)} | ${s.name.padEnd(20)} | ${s.prev.padEnd(20)} | ${s.status}\n`;
+                            const name = (s.candidate_name || s.name || '').padEnd(20);
+                            const prev = (s.primary_school || s.prev || '').padEnd(20);
+                            fileContent += `${String(idx + 1).padEnd(3)} | ${name} | ${prev} | ${s.status}\n`;
                         });
                     }
                     
