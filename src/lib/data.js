@@ -61,10 +61,15 @@ const mockContacts = [
 ];
 
 let dbAvailable = null;
+let dbSeeded = false;
 
 async function checkDb() {
   if (dbAvailable !== null) return dbAvailable;
   dbAvailable = await testConnection();
+  if (dbAvailable && !dbSeeded) {
+    await seedDatabase();
+    dbSeeded = true;
+  }
   return dbAvailable;
 }
 
