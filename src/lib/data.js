@@ -3,7 +3,8 @@ let mockStudents = [
   { id: 2, candidate_name: 'Belinda Thomas', primary_school: 'Cameron Primary', grade: 9, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'F' },
   { id: 3, candidate_name: 'David Tau', primary_school: 'Alotau Primary', grade: 9, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'M' },
   { id: 4, candidate_name: 'Sarah Noah', primary_school: 'Kwagila Primary', grade: 9, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'F' },
-  { id: 5, candidate_name: 'Michael Abel', primary_school: 'Gurney Primary', grade: 9, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'M' },
+  { id: 5, candidate_name: 'Michael Abel', primary_school: 'Gurney Primary', grade: 9, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'F' },
+  { id: 6, candidate_name: 'Grace Oliver', primary_school: 'Alotau Primary', grade: 9, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'F' },
   { id: 7, candidate_name: 'John Wesley', primary_school: 'Duau Primary', grade: 9, destination_school: 'Duau High School', status: 'Selected', gender: 'M' },
   { id: 8, candidate_name: 'Alice Kula', primary_school: 'Duau Primary', grade: 9, destination_school: 'Duau High School', status: 'Selected', gender: 'F' },
   { id: 9, candidate_name: 'Thomas Namuri', primary_school: 'Logea Primary', grade: 9, destination_school: 'Duau High School', status: 'Selected', gender: 'M' },
@@ -16,6 +17,40 @@ let mockStudents = [
   { id: 16, candidate_name: 'Simon Peter', primary_school: 'Holy Name Sec (Lower)', grade: 11, destination_school: 'Holy Name Secondary School', status: 'Selected', gender: 'M' },
   { id: 17, candidate_name: 'Martha John', primary_school: 'Holy Name Sec (Lower)', grade: 11, destination_school: 'Holy Name Secondary School', status: 'Selected', gender: 'F' },
   { id: 18, candidate_name: 'Lazarus Mary', primary_school: 'Cameron Sec (Lower)', grade: 11, destination_school: 'Holy Name Secondary School', status: 'Selected', gender: 'M' },
+
+  // Grade 11 - Cameron Secondary School
+  { id: 19, candidate_name: 'John Smith', primary_school: 'Alotau Primary School', grade: 11, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'M' },
+  { id: 20, candidate_name: 'Mary Kila', primary_school: 'Gurney Primary School', grade: 11, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'F' },
+  { id: 21, candidate_name: 'Peter Waiko', primary_school: 'Duau Primary School', grade: 11, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'M' },
+  { id: 22, candidate_name: 'Grace Omena', primary_school: 'Hagita Primary School', grade: 11, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'F' },
+  { id: 23, candidate_name: 'Samuel Kila', primary_school: 'Kiriwina Primary School', grade: 11, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'M' },
+  { id: 24, candidate_name: 'Anna Misima', primary_school: 'Misima Primary School', grade: 11, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'F' },
+  { id: 25, candidate_name: 'David Yeleyamba', primary_school: 'Yeleyamba Primary School', grade: 11, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'M' },
+  { id: 26, candidate_name: 'Lucy Santa', primary_school: 'Santa Maria Primary School', grade: 11, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'F' },
+  { id: 27, candidate_name: 'Michael Suau', primary_school: 'Suau Primary School', grade: 11, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'M' },
+  { id: 28, candidate_name: 'Rebecca Wesley', primary_school: 'Wesley Primary School', grade: 11, destination_school: 'Cameron Secondary School', status: 'Selected', gender: 'F' },
+
+  // Grade 11 - Duau High School
+  { id: 29, candidate_name: 'James Duau', primary_school: 'Duau Primary School', grade: 11, destination_school: 'Duau High School', status: 'Selected', gender: 'M' },
+  { id: 30, candidate_name: 'Linda Duau', primary_school: 'Duau Primary School', grade: 11, destination_school: 'Duau High School', status: 'Selected', gender: 'F' },
+  { id: 31, candidate_name: 'Robert Logea', primary_school: 'Logea Primary School', grade: 11, destination_school: 'Duau High School', status: 'Selected', gender: 'M' },
+  { id: 32, candidate_name: 'Susan KB', primary_school: 'KB Primary School', grade: 11, destination_school: 'Duau High School', status: 'Selected', gender: 'F' },
+
+  // Grade 11 - Kiriwina High School
+  { id: 33, candidate_name: 'Thomas Kiriwina', primary_school: 'Kiriwina Primary School', grade: 11, destination_school: 'Kiriwina High School', status: 'Selected', gender: 'M' },
+  { id: 34, candidate_name: 'Helen Kiriwina', primary_school: 'Kiriwina Primary School', grade: 11, destination_school: 'Kiriwina High School', status: 'Selected', gender: 'F' },
+
+  // Grade 11 - Misima High School
+  { id: 35, candidate_name: 'David Misima', primary_school: 'Misima Primary School', grade: 11, destination_school: 'Misima High School', status: 'Selected', gender: 'M' },
+  { id: 36, candidate_name: 'Sarah Misima', primary_school: 'Misima Primary School', grade: 11, destination_school: 'Misima High School', status: 'Selected', gender: 'F' },
+
+  // Grade 11 - Santa Maria Secondary School
+  { id: 37, candidate_name: 'Paul Santa', primary_school: 'Santa Maria Primary School', grade: 11, destination_school: 'Santa Maria Secondary School', status: 'Selected', gender: 'M' },
+  { id: 38, candidate_name: 'Mary Santa', primary_school: 'Santa Maria Primary School', grade: 11, destination_school: 'Santa Maria Secondary School', status: 'Selected', gender: 'F' },
+
+  // Grade 11 - Wesley Secondary School
+  { id: 39, candidate_name: 'John Wesley Jr', primary_school: 'Wesley Primary School', grade: 11, destination_school: 'Wesley Secondary School', status: 'Selected', gender: 'M' },
+  { id: 40, candidate_name: 'Grace Wesley', primary_school: 'Wesley Primary School', grade: 11, destination_school: 'Wesley Secondary School', status: 'Selected', gender: 'F' },
 ];
 
 let mockContacts = [
@@ -23,7 +58,7 @@ let mockContacts = [
   { id: 2, name: 'Mary Anne', email: 'm.anne@education.gov.pg', message: 'Requesting updated teacher posting circular for Woodlark Junior High.', created_at: new Date('2026-09-16T14:15:00Z').toISOString() },
 ];
 
-let nextStudentId = 19;
+let nextStudentId = 41;
 let nextContactId = 3;
 
 // ============================================

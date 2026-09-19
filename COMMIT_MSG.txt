@@ -1,0 +1,19 @@
+Fix all audit findings and Grade 11 selection list issues
+
+- Fix Download button TypeError on Post Primary page (correct field access)
+- Remove all hardcoded credentials (admin, DB passwords) -> env vars
+- Add auth middleware protecting /admin/* and admin API routes
+- Fix SPA script loading: middleware rewrites to /site.html, add <base href="/">
+- Fix relative asset paths in public/site.html
+- Configure vercel.json with SPA rewrite rules
+- Remove duplicate root-level SPA files (keep public/ copy)
+- Fix bulk upload skip empty rows logic
+- Fix dashboard labels (system status, student count)
+- Fix dead links and mobile menu accessibility (aria-expanded)
+- Sanitize API error messages (no internal details leaked)
+- Consolidate duplicate API endpoints (/api/get-students -> /api/students)
+- Remove dead root api/ and public/dashboard/ PHP files
+- Remove broken lint script, add eslint.config.js
+- Remove unused mysql2 dependency and DB code
+- Remove dead addStudentsBulk export
+- Ensure Grade 11 selection lists display admin updates via shared /api/students
