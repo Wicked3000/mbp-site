@@ -60,17 +60,16 @@ const mockContacts = [
   { id: 2, name: 'Mary Anne', email: 'm.anne@education.gov.pg', message: 'Requesting updated teacher posting circular for Woodlark Junior High.', created_at: new Date('2026-09-16T14:15:00Z').toISOString() },
 ];
 
-let dbAvailable = null;
 let dbSeeded = false;
 
 async function checkDb() {
-  if (dbAvailable !== null) return dbAvailable;
-  dbAvailable = await testConnection();
-  if (dbAvailable && !dbSeeded) {
+  // Don't cache failures - test connection on each call
+  const available = await testConnection();
+  if (available && !dbSeeded) {
     await seedDatabase();
     dbSeeded = true;
   }
-  return dbAvailable;
+  return available;
 }
 
 function filterMockStudents(school = '', grade = 0) {
