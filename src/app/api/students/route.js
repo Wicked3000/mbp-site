@@ -22,7 +22,8 @@ export async function POST(request) {
     const student = await addStudent(body);
     return NextResponse.json({ success: true, student });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to add student' }, { status: 500 });
+    console.error('Add student error:', error);
+    return NextResponse.json({ error: error.message || 'Failed to add student' }, { status: 500 });
   }
 }
 
@@ -36,6 +37,7 @@ export async function DELETE(request) {
     await deleteStudent(id);
     return NextResponse.json({ success: true });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to delete student' }, { status: 500 });
+    console.error('Delete student error:', error);
+    return NextResponse.json({ error: error.message || 'Failed to delete student' }, { status: 500 });
   }
 }
