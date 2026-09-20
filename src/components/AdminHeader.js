@@ -63,13 +63,13 @@ export default function AdminHeader() {
           </nav>
 
           <div className="flex items-center space-x-3">
-            <a
+            <Link
               href="/"
               className="hidden sm:flex items-center space-x-1.5 text-xs text-slate-400 hover:text-slate-200 transition-colors bg-slate-800/60 hover:bg-slate-800 px-3 py-1.5 rounded-md border border-slate-700/60"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Public Site</span>
-            </a>
+            </Link>
             <div className="h-4 w-px bg-slate-800 hidden sm:block"></div>
             <button
               onClick={handleLogout}

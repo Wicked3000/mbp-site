@@ -264,9 +264,9 @@ export default function DashboardPage() {
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                 <span>API Connection Active</span>
               </span>
-              <a href="/" className="text-amber-400 hover:underline">
+              <Link href="/" className="text-amber-400 hover:underline">
                 View Public Site →
-              </a>
+              </Link>
             </div>
           </div>
         </div>
