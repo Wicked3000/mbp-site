@@ -2,7 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Shield, Lock, User, AlertCircle, ArrowRight, CheckCircle2 } from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { Lock, User, AlertCircle, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -33,7 +35,7 @@ export default function LoginPage() {
       } else {
         setError(data.message || 'Invalid username or password');
       }
-    } catch (err) {
+    } catch (_err) {
       setError('Connection error. Please try again.');
     } finally {
       setLoading(false);
@@ -51,7 +53,7 @@ export default function LoginPage() {
         <div className="text-center mb-8">
           {/* White background box for logo */}
           <div className="bg-white rounded-xl p-2 inline-flex items-center justify-center mx-auto mb-2">
-            <img src="/assets/logo/mbp-logo-bg-removed.png" alt="Milne Bay Province Logo" className="w-16 h-16 object-contain" />
+            <Image src="/assets/logo/mbp-logo-bg-removed.png" alt="Milne Bay Province Logo" width={64} height={64} className="w-16 h-16 object-contain" />
           </div>
           <div className="mt-2 text-slate-950 text-xs">Milne Bay Province</div>
         </div>
@@ -128,9 +130,9 @@ export default function LoginPage() {
         </div>
 
         <div className="mt-6 text-center">
-          <a href="/" className="text-xs text-slate-400 hover:text-amber-400 transition-colors">
+          <Link href="/" className="text-xs text-slate-400 hover:text-amber-400 transition-colors">
             ← Return to MBP Division of Education Public Website
-          </a>
+          </Link>
         </div>
       </div>
     </main>

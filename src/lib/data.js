@@ -63,11 +63,10 @@ const mockContacts = [
 let dbSeeded = false;
 
 async function checkDb() {
-  // Don't cache failures - test connection on each call
   const available = await testConnection();
   if (available && !dbSeeded) {
-    await seedDatabase();
     dbSeeded = true;
+    await seedDatabase();
   }
   return available;
 }
@@ -115,11 +114,17 @@ export async function addStudent(student) {
       );
       return { ...student, id: result.insertId };
     } catch (error) {
-      console.error('Database insert failed:', error);
-      throw new Error(`Database insert failed: ${error.message}`);
+      console.error('Database insert failed, falling back to in-memory store:', error.message);
     }
   }
-  throw new Error('Database not available - cannot persist student');
+  const newStudent = {
+    ...student,
+    id: mockStudents.length ? Math.max(...mockStudents.map(s => s.id)) + 1 : 1,
+    status: student.status || 'Selected',
+    gender: student.gender || 'M'
+  };
+  mockStudents.push(newStudent);
+  return newStudent;
 }
 
 export async function deleteStudent(id) {
@@ -130,11 +135,14 @@ export async function deleteStudent(id) {
       await pool.execute('DELETE FROM students WHERE id = ?', [id]);
       return true;
     } catch (error) {
-      console.error('Database delete failed:', error);
-      throw new Error(`Database delete failed: ${error.message}`);
+      console.error('Database delete failed, falling back to in-memory store:', error.message);
     }
   }
-  throw new Error('Database not available - cannot delete student');
+  const idx = mockStudents.findIndex(s => s.id === Number(id));
+  if (idx !== -1) {
+    mockStudents.splice(idx, 1);
+  }
+  return true;
 }
 
 export async function fetchContacts() {
@@ -162,11 +170,16 @@ export async function addContact(contact) {
       );
       return { ...contact, id: result.insertId, created_at: new Date().toISOString() };
     } catch (error) {
-      console.error('Database insert contact failed:', error);
-      throw new Error(`Database insert contact failed: ${error.message}`);
+      console.error('Database insert contact failed, falling back to in-memory store:', error.message);
     }
   }
-  throw new Error('Database not available - cannot persist contact');
+  const newContact = {
+    ...contact,
+    id: mockContacts.length ? Math.max(...mockContacts.map(c => c.id)) + 1 : 1,
+    created_at: new Date().toISOString()
+  };
+  mockContacts.push(newContact);
+  return newContact;
 }
 
 export async function deleteContact(id) {
@@ -177,15 +190,18 @@ export async function deleteContact(id) {
       await pool.execute('DELETE FROM contacts WHERE id = ?', [id]);
       return true;
     } catch (error) {
-      console.error('Database delete contact failed:', error);
-      throw new Error(`Database delete contact failed: ${error.message}`);
+      console.error('Database delete contact failed, falling back to in-memory store:', error.message);
     }
   }
-  throw new Error('Database not available - cannot delete contact');
+  const idx = mockContacts.findIndex(c => c.id === Number(id));
+  if (idx !== -1) {
+    mockContacts.splice(idx, 1);
+  }
+  return true;
 }
 
 export async function seedDatabase() {
-  const useDb = await checkDb();
+  const useDb = await testConnection();
   if (!useDb) return { success: false, message: 'Database not available' };
 
   try {
