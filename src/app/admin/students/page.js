@@ -53,6 +53,8 @@ export default function StudentsPage() {
   const [showBulkUpload, setShowBulkUpload] = useState(false);
   const [bulkUploading, setBulkUploading] = useState(false);
   const [bulkFile, setBulkFile] = useState(null);
+  const [skipHeader, setSkipHeader] = useState(true);
+  const [skipEmpty, setSkipEmpty] = useState(true);
 
   const loadStudents = async () => {
     setLoading(true);
@@ -193,15 +195,12 @@ export default function StudentsPage() {
       const rows = text.split('\n');
       
       // Skip header if configured
-      const hasHeader = document.querySelector('input[name="header"][value="yes"]');
       let rowsToProcess = rows;
-      if (hasHeader && hasHeader.checked) {
+      if (skipHeader) {
         rowsToProcess = rows.slice(1);
       }
       
       // Skip empty rows based on user selection
-      const skipEmptyRadio = document.querySelector('input[name="empty"]:checked');
-      const skipEmpty = skipEmptyRadio && skipEmptyRadio.value === 'yes';
       let filteredRows = rowsToProcess;
       if (skipEmpty) {
         filteredRows = rowsToProcess.filter(row => row.trim().length > 0);
@@ -269,12 +268,12 @@ export default function StudentsPage() {
   });
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
+    <div className="min-h-screen bg-transparent text-slate-100 flex flex-col lg:pl-60">
       <AdminHeader />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Page Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 pb-6 border-b border-slate-800">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 pb-6 border-b border-[#1565C0]/40">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight font-display flex items-center space-x-3">
               <GraduationCap className="w-8 h-8 text-amber-400" />
@@ -310,8 +309,8 @@ export default function StudentsPage() {
 
         {/* Bulk Upload Modal */}
         {showBulkUpload && (
-          <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="glass-panel max-w-lg w-full p-6 border border-slate-800 shadow-2xl relative">
+          <div className="fixed inset-0 z-50 bg-[#0a192f]/85 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className="glass-panel max-w-lg w-full p-6 border border-[#1565C0]/40 shadow-2xl relative">
               <div className="flex items-end justify-end mb-4">
                 <button
                   onClick={() => setShowBulkUpload(false)}
@@ -338,7 +337,7 @@ export default function StudentsPage() {
                     type="file"
                     accept=".csv"
                     onChange={(e) => setBulkFile(e.target.files[0])}
-                    className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
+                    className="w-full px-3 py-2 bg-[#0a192f] border border-[#1565C0]/50 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
                   />
                 </div>
                 <div>
@@ -352,7 +351,8 @@ export default function StudentsPage() {
                       type="radio"
                       name="header"
                       value="yes"
-                      checked
+                      checked={skipHeader}
+                      onChange={() => setSkipHeader(true)}
                       className="rounded-md p-1"
                     />
                     <span className="text-sm text-slate-500">Yes</span>
@@ -360,6 +360,8 @@ export default function StudentsPage() {
                       type="radio"
                       name="header"
                       value="no"
+                      checked={!skipHeader}
+                      onChange={() => setSkipHeader(false)}
                       className="rounded-md p-1 ml-2"
                     />
                     <span className="text-sm text-slate-500">No</span>
@@ -376,7 +378,8 @@ export default function StudentsPage() {
                       type="radio"
                       name="empty"
                       value="yes"
-                      checked
+                      checked={skipEmpty}
+                      onChange={() => setSkipEmpty(true)}
                       className="rounded-md p-1"
                     />
                     <span className="text-sm text-slate-500">Yes</span>
@@ -384,6 +387,8 @@ export default function StudentsPage() {
                       type="radio"
                       name="empty"
                       value="no"
+                      checked={!skipEmpty}
+                      onChange={() => setSkipEmpty(false)}
                       className="rounded-md p-1 ml-2"
                     />
                     <span className="text-sm text-slate-500">No</span>
@@ -417,7 +422,7 @@ export default function StudentsPage() {
         )}
 
         {/* Filter Controls Bar */}
-        <div className="glass-panel p-4 mb-6 border border-slate-800 flex flex-col md:flex-row md:items-center gap-4">
+        <div className="glass-panel p-4 mb-6 border border-[#1565C0]/40 flex flex-col md:flex-row md:items-center gap-4">
           <div className="relative flex-1">
             <Search className="w-4 h-4 absolute left-3.5 top-3 text-slate-400" />
             <input
@@ -425,7 +430,7 @@ export default function StudentsPage() {
               placeholder="Search candidate name, primary school..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
+              className="w-full pl-10 pr-4 py-2 bg-[#0a192f] border border-[#1565C0]/50 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
             />
           </div>
 
@@ -435,7 +440,7 @@ export default function StudentsPage() {
               <select
                 value={selectedSchool}
                 onChange={(e) => setSelectedSchool(e.target.value)}
-                className="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-400"
+                className="bg-[#0a192f] border border-[#1565C0]/50 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-400"
               >
                 <option value="">All Secondary & High Schools</option>
                 {SCHOOL_LIST.map((sch) => (
@@ -447,7 +452,7 @@ export default function StudentsPage() {
             <select
               value={selectedGrade}
               onChange={(e) => setSelectedGrade(e.target.value)}
-              className="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-400"
+              className="bg-[#0a192f] border border-[#1565C0]/50 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-400"
             >
               <option value="0">All Grades</option>
               <option value="9">Grade 9</option>
@@ -457,10 +462,10 @@ export default function StudentsPage() {
         </div>
 
         {/* Students Table */}
-        <div className="glass-panel border border-slate-800 overflow-hidden rounded-xl">
+        <div className="glass-panel border border-[#1565C0]/40 overflow-hidden rounded-xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm text-slate-300">
-              <thead className="bg-slate-900/80 text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-800">
+              <thead className="bg-[#0D47A1]/80 text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-[#1565C0]/40">
                 <tr>
                   <th className="px-5 py-3.5">#</th>
                   <th className="px-5 py-3.5">Candidate Name</th>
@@ -487,7 +492,7 @@ export default function StudentsPage() {
                   </tr>
                 ) : (
                   filteredStudents.map((s, idx) => (
-                    <tr key={s.id || idx} className="hover:bg-slate-800/40 transition-colors">
+                    <tr key={s.id || idx} className="hover:bg-[#1565C0]/30 transition-colors">
                       <td className="px-5 py-4 text-xs font-mono text-slate-500">{idx + 1}</td>
                       <td className="px-5 py-4 font-semibold text-white">
                         {s.candidate_name || s.name}
@@ -527,7 +532,7 @@ export default function StudentsPage() {
               </tbody>
             </table>
           </div>
-          <div className="p-4 bg-slate-900/60 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+          <div className="p-4 bg-[#0D47A1]/50 border-t border-[#1565C0]/40 flex items-center justify-between text-xs text-slate-400">
             <span>Showing {filteredStudents.length} candidate(s)</span>
             <span>Milne Bay Province Division of Education</span>
           </div>
@@ -536,9 +541,9 @@ export default function StudentsPage() {
 
       {/* Add Candidate Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="glass-panel max-w-lg w-full p-6 border border-slate-800 shadow-2xl relative">
-            <div className="flex items-center justify-between mb-5 pb-3 border-b border-slate-800">
+        <div className="fixed inset-0 z-50 bg-[#0a192f]/85 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="glass-panel max-w-lg w-full p-6 border border-[#1565C0]/40 shadow-2xl relative">
+            <div className="flex items-center justify-between mb-5 pb-3 border-b border-[#1565C0]/40">
               <h3 className="font-bold text-lg text-white">Add Candidate to Selection List</h3>
               <button
                 onClick={() => setShowAddModal(false)}
@@ -557,7 +562,7 @@ export default function StudentsPage() {
                   value={formData.candidate_name}
                   onChange={(e) => setFormData({ ...formData, candidate_name: e.target.value })}
                   placeholder="e.g. Samuel Kila"
-                  className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:border-amber-400"
+                  className="w-full px-3 py-2 bg-[#0a192f] border border-[#1565C0]/50 rounded-lg text-sm text-white focus:outline-none focus:border-amber-400"
                 />
               </div>
 
@@ -569,7 +574,7 @@ export default function StudentsPage() {
                   value={formData.primary_school}
                   onChange={(e) => setFormData({ ...formData, primary_school: e.target.value })}
                   placeholder="e.g. Alotau Primary School"
-                  className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:border-amber-400"
+                  className="w-full px-3 py-2 bg-[#0a192f] border border-[#1565C0]/50 rounded-lg text-sm text-white focus:outline-none focus:border-amber-400"
                 />
               </div>
 
@@ -579,7 +584,7 @@ export default function StudentsPage() {
                   <select
                     value={formData.grade}
                     onChange={(e) => setFormData({ ...formData, grade: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:border-amber-400"
+                    className="w-full px-3 py-2 bg-[#0a192f] border border-[#1565C0]/50 rounded-lg text-sm text-white focus:outline-none focus:border-amber-400"
                   >
                     <option value="9">Grade 9</option>
                     <option value="11">Grade 11</option>
@@ -591,7 +596,7 @@ export default function StudentsPage() {
                   <select
                     value={formData.gender}
                     onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:border-amber-400"
+                    className="w-full px-3 py-2 bg-[#0a192f] border border-[#1565C0]/50 rounded-lg text-sm text-white focus:outline-none focus:border-amber-400"
                   >
                     <option value="M">Male (M)</option>
                     <option value="F">Female (F)</option>
@@ -604,7 +609,7 @@ export default function StudentsPage() {
                 <select
                   value={formData.destination_school}
                   onChange={(e) => setFormData({ ...formData, destination_school: e.target.value })}
-                  className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:border-amber-400"
+                  className="w-full px-3 py-2 bg-[#0a192f] border border-[#1565C0]/50 rounded-lg text-sm text-white focus:outline-none focus:border-amber-400"
                 >
                   {SCHOOL_LIST.map((sch) => (
                     <option key={sch} value={sch}>{sch}</option>
@@ -612,11 +617,11 @@ export default function StudentsPage() {
                 </select>
               </div>
 
-              <div className="flex items-center justify-end space-x-3 pt-4 border-t border-slate-800">
+              <div className="flex items-center justify-end space-x-3 pt-4 border-t border-[#1565C0]/40">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-lg"
+                  className="px-4 py-2 bg-[#0D47A1] hover:bg-[#1565C0] text-slate-300 text-xs font-medium rounded-lg"
                 >
                   Cancel
                 </button>

@@ -41,26 +41,28 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-slate-950">
+    <main className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden text-[#0D47A1]">
       {/* Background Decorative Glow Blobs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#1565C0]/15 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#FBC02D]/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute top-10 right-10 w-72 h-72 bg-[#2E7D32]/15 rounded-full blur-3xl pointer-events-none"></div>
 
       <div className="w-full max-w-md relative z-10">
         {/* Header Branding */}
         <div className="text-center mb-8">
           {/* White background box for logo */}
-          <div className="bg-white rounded-xl p-2 inline-flex items-center justify-center mx-auto mb-2">
+          <div className="bg-white rounded-xl p-2 inline-flex items-center justify-center mx-auto mb-2 shadow-lg shadow-[#0D47A1]/10 border border-[#1565C0]/20">
             <img src="/assets/logo/mbp-logo-bg-removed.png" alt="Milne Bay Province Logo" className="w-16 h-16 object-contain" />
           </div>
-          <div className="mt-2 text-slate-950 text-xs">Milne Bay Province</div>
+          <div className="mt-2 text-[#0D47A1] font-semibold text-sm tracking-wide">Milne Bay Province — Division of Education</div>
+          <div style={{ width: '40px', height: '3px', background: 'linear-gradient(90deg, #1565C0, #FBC02D, #1B5E20)', margin: '0.6rem auto 0', borderRadius: '2px' }}></div>
         </div>
 
         {/* Login Box */}
-        <div className="p-8 shadow-2xl border border-slate-800 bg-slate-900/90 rounded-2xl">
-          <h2 className="text-xl font-semibold text-white mb-6 flex items-center justify-between">
+        <div className="p-8 shadow-2xl border border-[#1565C0]/25 bg-white/95 rounded-2xl backdrop-blur">
+          <h2 className="text-xl font-bold text-[#0D47A1] mb-6 flex items-center justify-between">
             <span>Admin Sign In</span>
-            <span className="text-xs font-normal text-slate-400 bg-slate-800/80 px-2.5 py-1 rounded-full border border-slate-700">v2.0 Next.js</span>
+            <span className="text-xs font-normal text-[#1565C0] bg-[#1565C0]/10 px-2.5 py-1 rounded-full border border-[#1565C0]/25">v2.0 Next.js</span>
           </h2>
 
           {error && (
@@ -79,11 +81,11 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-semibold text-[#0D47A1] uppercase tracking-wider mb-2">
                 Username
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#1565C0]">
                   <User className="w-4 h-4" />
                 </div>
                 <input
@@ -91,18 +93,18 @@ export default function LoginPage() {
                   required
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-900/80 border border-slate-700/80 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all text-sm"
+                  className="w-full pl-10 pr-4 py-2.5 bg-white border border-[#1565C0]/30 rounded-lg text-[#0a192f] placeholder-slate-400 focus:outline-none focus:border-[#0D47A1] focus:ring-1 focus:ring-[#0D47A1] transition-all text-sm"
                   placeholder="Enter administrator username"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-semibold text-[#0D47A1] uppercase tracking-wider mb-2">
                 Password
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#1565C0]">
                   <Lock className="w-4 h-4" />
                 </div>
                 <input
@@ -110,7 +112,7 @@ export default function LoginPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-900/80 border border-slate-700/80 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all text-sm"
+                  className="w-full pl-10 pr-4 py-2.5 bg-white border border-[#1565C0]/30 rounded-lg text-[#0a192f] placeholder-slate-400 focus:outline-none focus:border-[#0D47A1] focus:ring-1 focus:ring-[#0D47A1] transition-all text-sm"
                   placeholder="Enter password"
                 />
               </div>
@@ -128,7 +130,7 @@ export default function LoginPage() {
         </div>
 
         <div className="mt-6 text-center">
-          <a href="/" className="text-xs text-slate-400 hover:text-amber-400 transition-colors">
+          <a href="/" className="text-xs font-medium text-[#1565C0] hover:text-[#0D47A1] transition-colors">
             ← Return to MBP Division of Education Public Website
           </a>
         </div>

@@ -23,7 +23,7 @@ export async function POST(request) {
     return NextResponse.json({ success: true, student });
   } catch (error) {
     console.error('Add student error:', error);
-    return NextResponse.json({ error: error.message || 'Failed to add student' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to add student' }, { status: 500 });
   }
 }
 
@@ -38,6 +38,6 @@ export async function DELETE(request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Delete student error:', error);
-    return NextResponse.json({ error: error.message || 'Failed to delete student' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to delete student' }, { status: 500 });
   }
 }

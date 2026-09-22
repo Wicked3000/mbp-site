@@ -1,14 +1,26 @@
 import { NextResponse } from 'next/server';
+import { verifyAdmin } from '@/lib/data';
 
 export async function POST(request) {
   try {
     const body = await request.json();
     const { username, password } = body || {};
 
-    const validUsername = process.env.ADMIN_USERNAME;
-    const validPassword = process.env.ADMIN_PASSWORD;
+    const dbVerified = await verifyAdmin(username, password);
+    if (dbVerified === true) {
+      const response = NextResponse.json({ success: true, token: 'admin-session-2026' });
+      response.cookies.set('mbp_admin_session', 'admin-session-2026', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 60 * 60 * 24 * 7 // 1 week
+      });
+      return response;
+    }
 
-    if (username === validUsername && password === validPassword) {
+    // Fallback for when the database is unavailable
+    if (dbVerified === null && username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
       const response = NextResponse.json({ success: true, token: 'admin-session-2026' });
       response.cookies.set('mbp_admin_session', 'admin-session-2026', {
         httpOnly: true,

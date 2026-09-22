@@ -1,5 +1,7 @@
 window.HomeComponent = {
     async render() {
+        const noticesHtml = await HomeComponent.fetchNoticesHtml();
+        const newsHtml = await HomeComponent.fetchNewsHtml();
         return `
             <div class="hero-slider-container">
                 <div class="hero-slide active" style="background-image: url('assets/slider/island.png');">
@@ -115,18 +117,7 @@ window.HomeComponent = {
                         <h2>Official Notice Board</h2>
                     </div>
                     <div class="notice-list">
-                        <div class="notice-item">
-                            <div class="notice-title">Important Update: Term 3 School Fees</div>
-                            <p class="notice-desc">All outstanding school fees for Term 3 must be deposited into the provincial trust account before July 10th, 2026.</p>
-                        </div>
-                        <div class="notice-item">
-                            <div class="notice-title">Teacher Postings 2026</div>
-                            <p class="notice-desc">The final list of teacher deployments for remote schools has been published. Please check the eRODSS portal for confirmation.</p>
-                        </div>
-                        <div class="notice-item">
-                            <div class="notice-title">Weather Alert</div>
-                            <p class="notice-desc">Schools in the island districts are advised to monitor marine weather warnings and take necessary precautions.</p>
-                        </div>
+                        ${noticesHtml}
                     </div>
                 </section>
 
@@ -135,33 +126,7 @@ window.HomeComponent = {
                     <h2 class="section-title">Latest News & Announcements</h2>
                     <p class="section-subtitle">Stay up to date with the Milne Bay Province Division of Education.</p>
                     <div class="news-grid">
-                        <div class="news-card">
-                            <img src="https://placehold.co/600x400/eeeeee/999999?text=News+Thumbnail" alt="News Thumbnail" class="news-thumbnail">
-                            <div class="news-card-content">
-                                <div class="news-date">15 Jun 2026</div>
-                                <h3>Term 3 Commences Soon</h3>
-                                <p>All primary and secondary schools across the province are preparing for the start of Term 3. Teachers are advised to review the updated syllabus materials.</p>
-                                <a href="/news" data-link class="read-more">Read More <i data-lucide="arrow-right"></i></a>
-                            </div>
-                        </div>
-                        <div class="news-card">
-                            <img src="https://placehold.co/600x400/eeeeee/999999?text=News+Thumbnail" alt="News Thumbnail" class="news-thumbnail">
-                            <div class="news-card-content">
-                                <div class="news-date">02 Jun 2026</div>
-                                <h3>New TVET Facilities Opening</h3>
-                                <p>The Kwato VET Centre has officially opened its new technical workshop, expanding opportunities for vocational training in the region.</p>
-                                <a href="/news" data-link class="read-more">Read More <i data-lucide="arrow-right"></i></a>
-                            </div>
-                        </div>
-                        <div class="news-card">
-                            <img src="https://placehold.co/600x400/eeeeee/999999?text=News+Thumbnail" alt="News Thumbnail" class="news-thumbnail">
-                            <div class="news-card-content">
-                                <div class="news-date">28 May 2026</div>
-                                <h3>Provincial Education Board Meeting</h3>
-                                <p>The quarterly PEB meeting concluded with new resolutions regarding remote school funding and teacher deployment for the upcoming academic year.</p>
-                                <a href="/news" data-link class="read-more">Read More <i data-lucide="arrow-right"></i></a>
-                            </div>
-                        </div>
+                        ${newsHtml}
                     </div>
                     <div class="view-all-news">
                         <a href="/news#latest-news" data-link class="qa-btn blue" style="width: 100%; justify-content: center; margin-top: 2rem;"><i data-lucide="newspaper"></i><span>VIEW ALL NEWS</span></a>
@@ -208,6 +173,117 @@ window.HomeComponent = {
                 </section>
             </div>
         `;
+    },
+
+    async fetchNewsHtml() {
+        const fallback = `
+            <div class="news-card">
+                <img src="https://placehold.co/600x400/eeeeee/999999?text=News+Thumbnail" alt="News Thumbnail" class="news-thumbnail">
+                <div class="news-card-content">
+                    <div class="news-date">15 Jun 2026</div>
+                    <h3>Term 3 Commences Soon</h3>
+                    <p>All primary and secondary schools across the province are preparing for the start of Term 3. Teachers are advised to review the updated syllabus materials.</p>
+                    <a href="/news" data-link class="read-more">Read More <i data-lucide="arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="news-card">
+                <img src="https://placehold.co/600x400/eeeeee/999999?text=News+Thumbnail" alt="News Thumbnail" class="news-thumbnail">
+                <div class="news-card-content">
+                    <div class="news-date">02 Jun 2026</div>
+                    <h3>New TVET Facilities Opening</h3>
+                    <p>The Kwato VET Centre has officially opened its new technical workshop, expanding opportunities for vocational training in the region.</p>
+                    <a href="/news" data-link class="read-more">Read More <i data-lucide="arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="news-card">
+                <img src="https://placehold.co/600x400/eeeeee/999999?text=News+Thumbnail" alt="News Thumbnail" class="news-thumbnail">
+                <div class="news-card-content">
+                    <div class="news-date">28 May 2026</div>
+                    <h3>Provincial Education Board Meeting</h3>
+                    <p>The quarterly PEB meeting concluded with new resolutions regarding remote school funding and teacher deployment for the upcoming academic year.</p>
+                    <a href="/news" data-link class="read-more">Read More <i data-lucide="arrow-right"></i></a>
+                </div>
+            </div>`;
+
+        const escapeHtml = (str) =>
+            String(str == null ? '' : str).replace(/[&<>"']/g, (c) => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[c]));
+
+        const formatDate = (d) => {
+            const date = new Date(d);
+            if (isNaN(date.getTime())) return '';
+            return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+        };
+
+        try {
+            const res = await fetch('/api/news');
+            if (!res.ok) throw new Error('News fetch failed');
+            const data = await res.json();
+            if (Array.isArray(data) && data.length > 0) {
+                return data
+                    .slice(0, 3)
+                    .map((n) => {
+                        const img = n.image_url || 'https://placehold.co/600x400/eeeeee/999999?text=MBP+News';
+                        return `
+                        <div class="news-card">
+                            <img src="${escapeHtml(img)}" alt="${escapeHtml(n.title)}" class="news-thumbnail">
+                            <div class="news-card-content">
+                                <div class="news-date">${escapeHtml(formatDate(n.published_at))}</div>
+                                <h3>${escapeHtml(n.title)}</h3>
+                                <p>${escapeHtml(n.summary || n.body)}</p>
+<a href="/news/${n.id}" data-link class="read-more">Read More <i data-lucide="arrow-right"></i></a>
+                            </div>
+                        </div>`;
+                    })
+                    .join('');
+            }
+            return fallback;
+        } catch (error) {
+            console.warn('Latest News: falling back to static content.', error);
+            return fallback;
+        }
+    },
+
+    async fetchNoticesHtml() {
+        const fallback = `
+            <div class="notice-item">
+                <div class="notice-title">Important Update: Term 3 School Fees</div>
+                <p class="notice-desc">All outstanding school fees for Term 3 must be deposited into the provincial trust account before July 10th, 2026.</p>
+            </div>
+            <div class="notice-item">
+                <div class="notice-title">Teacher Postings 2026</div>
+                <p class="notice-desc">The final list of teacher deployments for remote schools has been published. Please check the eRODSS portal for confirmation.</p>
+            </div>
+            <div class="notice-item">
+                <div class="notice-title">Weather Alert</div>
+                <p class="notice-desc">Schools in the island districts are advised to monitor marine weather warnings and take necessary precautions.</p>
+            </div>`;
+
+        const escapeHtml = (str) =>
+            String(str == null ? '' : str).replace(/[&<>"']/g, (c) => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[c]));
+
+        try {
+            const res = await fetch('/api/notices');
+            if (!res.ok) throw new Error('Notice fetch failed');
+            const data = await res.json();
+            if (Array.isArray(data) && data.length > 0) {
+                return data
+                    .slice(0, 4)
+                    .map((n) => `
+                        <div class="notice-item">
+                            <div class="notice-title">${escapeHtml(n.title)}</div>
+                            <p class="notice-desc">${escapeHtml(n.body)}</p>
+                        </div>`)
+                    .join('');
+            }
+            return fallback;
+        } catch (error) {
+            console.warn('Notice Board: falling back to static content.', error);
+            return fallback;
+        }
     },
 
     afterRender() {

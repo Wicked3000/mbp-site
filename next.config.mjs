@@ -6,19 +6,12 @@ const nextConfig = {
   },
   rewrites: async () => [
     {
-      source: '/site.html',
+      source: '/',
       destination: '/site.html',
     },
     {
       source: '/:path*',
       destination: '/site.html',
-      has: [
-        {
-          type: 'header',
-          key: 'accept',
-          value: 'text/html',
-        },
-      ],
     },
   ],
 };

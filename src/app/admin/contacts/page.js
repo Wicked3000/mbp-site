@@ -80,12 +80,12 @@ export default function ContactsPage() {
   });
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
+    <div className="min-h-screen bg-transparent text-slate-100 flex flex-col lg:pl-60">
       <AdminHeader />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Page Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 pb-6 border-b border-slate-800">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 pb-6 border-b border-[#1565C0]/40">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight font-display flex items-center space-x-3">
               <Mail className="w-8 h-8 text-amber-400" />
@@ -99,7 +99,7 @@ export default function ContactsPage() {
             <button
               onClick={loadContacts}
               disabled={loading}
-              className="flex items-center space-x-2 px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium rounded-lg border border-slate-700 transition-colors"
+              className="flex items-center space-x-2 px-3.5 py-2 bg-[#0D47A1] hover:bg-[#1565C0] text-slate-200 text-xs font-medium rounded-lg border border-[#1565C0]/50 transition-colors"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
               <span>Refresh Messages</span>
@@ -108,7 +108,7 @@ export default function ContactsPage() {
         </div>
 
         {/* Search Bar */}
-        <div className="glass-panel p-4 mb-6 border border-slate-800">
+        <div className="glass-panel p-4 mb-6 border border-[#1565C0]/40">
           <div className="relative">
             <Search className="w-4 h-4 absolute left-3.5 top-3 text-slate-400" />
             <input
@@ -116,16 +116,16 @@ export default function ContactsPage() {
               placeholder="Filter messages by sender name, email, or content..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
+              className="w-full pl-10 pr-4 py-2 bg-[#0a192f] border border-[#1565C0]/50 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
             />
           </div>
         </div>
 
         {/* Contacts Table */}
-        <div className="glass-panel border border-slate-800 overflow-hidden rounded-xl">
+        <div className="glass-panel border border-[#1565C0]/40 overflow-hidden rounded-xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm text-slate-300">
-              <thead className="bg-slate-900/80 text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-800">
+              <thead className="bg-[#0D47A1]/80 text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-[#1565C0]/40">
                 <tr>
                   <th className="px-5 py-3.5">#</th>
                   <th className="px-5 py-3.5">Sender Name</th>
@@ -150,7 +150,7 @@ export default function ContactsPage() {
                   </tr>
                 ) : (
                   filteredContacts.map((c, idx) => (
-                    <tr key={c.id || idx} className="hover:bg-slate-800/40 transition-colors">
+                    <tr key={c.id || idx} className="hover:bg-[#1565C0]/30 transition-colors">
                       <td className="px-5 py-4 text-xs font-mono text-slate-500">{idx + 1}</td>
                       <td className="px-5 py-4 font-semibold text-white">
                         {c.name}
@@ -185,7 +185,7 @@ export default function ContactsPage() {
               </tbody>
             </table>
           </div>
-          <div className="p-4 bg-slate-900/60 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+          <div className="p-4 bg-[#0D47A1]/50 border-t border-[#1565C0]/40 flex items-center justify-between text-xs text-slate-400">
             <span>Total {filteredContacts.length} message(s)</span>
             <span>Milne Bay Province Division of Education</span>
           </div>
@@ -194,9 +194,9 @@ export default function ContactsPage() {
 
       {/* View Message Detail Modal */}
       {selectedContact && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="glass-panel max-w-lg w-full p-6 border border-slate-800 shadow-2xl relative">
-            <div className="flex items-center justify-between mb-5 pb-3 border-b border-slate-800">
+        <div className="fixed inset-0 z-50 bg-[#0a192f]/85 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="glass-panel max-w-lg w-full p-6 border border-[#1565C0]/40 shadow-2xl relative">
+            <div className="flex items-center justify-between mb-5 pb-3 border-b border-[#1565C0]/40">
               <h3 className="font-bold text-lg text-white flex items-center space-x-2">
                 <MessageSquare className="w-5 h-5 text-amber-400" />
                 <span>Contact Message Detail</span>
@@ -210,7 +210,7 @@ export default function ContactsPage() {
             </div>
 
             <div className="space-y-4 text-sm">
-              <div className="bg-slate-900/80 p-3.5 rounded-lg border border-slate-800 space-y-2">
+              <div className="bg-[#0D47A1]/80 p-3.5 rounded-lg border border-[#1565C0]/40 space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-slate-400 uppercase font-semibold">Sender</span>
                   <span className="text-xs text-slate-400 flex items-center space-x-1">
@@ -232,12 +232,12 @@ export default function ContactsPage() {
 
               <div>
                 <label className="block text-xs uppercase font-semibold text-slate-400 mb-2">Message Content</label>
-                <div className="p-4 bg-slate-900/90 border border-slate-800 rounded-lg text-slate-200 leading-relaxed text-sm whitespace-pre-wrap">
+                <div className="p-4 bg-[#0a192f]/90 border border-[#1565C0]/40 rounded-lg text-slate-200 leading-relaxed text-sm whitespace-pre-wrap">
                   {selectedContact.message}
                 </div>
               </div>
 
-              <div className="flex items-center justify-between pt-4 border-t border-slate-800">
+              <div className="flex items-center justify-between pt-4 border-t border-[#1565C0]/40">
                 <button
                   onClick={() => handleDelete(selectedContact.id)}
                   className="btn-danger text-xs px-3.5 py-2 flex items-center space-x-1.5"

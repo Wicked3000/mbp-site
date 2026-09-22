@@ -44,6 +44,7 @@ window.PostComponent = {
                         </button>
                     </div>
                 </div>
+                <div class="selection-list-body" data-school="${school}" data-grade="${grade}" hidden><div class="selection-list-empty">Loading selection list...</div></div>
             `).join('');
         };
 
@@ -218,6 +219,49 @@ window.PostComponent = {
             }
         };
 
+        const escapeHtml = (str) => String(str ?? '').replace(/[&<>"']/g, c => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        }[c]));
+
+        const renderInlineLists = async () => {
+            const bodies = document.querySelectorAll('.selection-list-body');
+            for (const el of bodies) {
+                const school = el.getAttribute('data-school');
+                const grade = el.getAttribute('data-grade');
+                const students = await fetchStudents(school, grade);
+                el.setAttribute('data-loaded', 'true');
+                if (students.length === 0) {
+                    el.innerHTML = `<p class="selection-list-empty">No students found for this selection list yet.</p>`;
+                } else {
+                    el.innerHTML = `
+                        <div class="table-container">
+                            <table class="data-table selection-inline-table">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Candidate Name</th>
+                                        <th>Previous School</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${students.map((s, idx) => `
+                                        <tr>
+                                            <td>${idx + 1}</td>
+                                            <td><strong>${escapeHtml(s.candidate_name || s.name || '')}</strong></td>
+                                            <td>${escapeHtml(s.primary_school || s.prev || '')}</td>
+                                            <td style="color: var(--mbp-green); font-weight: 600;">${escapeHtml(s.status || 'Selected')}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>`;
+                }
+            }
+        };
+
+        renderInlineLists();
+
         // Event listener for action buttons
         document.querySelectorAll('[data-action]').forEach(button => {
             button.addEventListener('click', async (e) => {
@@ -228,28 +272,23 @@ window.PostComponent = {
                 const students = await fetchStudents(school, grade);
 
                 if (action === 'view') {
-                    // Show modal preview
-                    modalTitle.textContent = `2026 Grade ${grade} Selection List`;
-                    previewSchoolName.textContent = school;
-                    previewSubtitle.textContent = `Official Selection List for 2026 Intake (Grade ${grade}) - Milne Bay Province`;
-                    
-                    if (students.length === 0) {
-                        previewStudentsBody.innerHTML = `<tr><td colspan="4" style="text-align: center;">No students found for this selection list yet.</td></tr>`;
-                    } else {
-                        previewStudentsBody.innerHTML = students.map((s, idx) => {
-                            const name = s.name || s.candidate_name || '';
-                            const prev = s.prev || s.primary_school || '';
-                            return `
-                            <tr>
-                                <td>${idx + 1}</td>
-                                <td><strong>${name}</strong></td>
-                                <td>${prev}</td>
-                                <td style="color: var(--mbp-green); font-weight: 600;"><span style="display:inline-block; width:8px; height:8px; background:var(--mbp-green); border-radius:50%; margin-right:6px;"></span>${s.status || 'Selected'}</td>
-                            </tr>
-                        `}).join('');
+                    // Toggle the inline selection list table (single-open accordion)
+                    let target = null;
+                    let wasHidden = true;
+                    document.querySelectorAll('.selection-list-body').forEach(el => {
+                        if (el.getAttribute('data-school') === school && el.getAttribute('data-grade') === grade) {
+                            wasHidden = el.hidden;
+                            target = el;
+                        } else {
+                            el.hidden = true;
+                        }
+                    });
+                    if (target) {
+                        target.hidden = !wasHidden;
+                        if (!target.hidden) {
+                            setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+                        }
                     }
-
-                    modal.classList.add('active');
                 } else if (action === 'download') {
                     // Trigger download of selection list as text file
                     let fileContent = `MILNE BAY PROVINCE DIVISION OF EDUCATION\n`;

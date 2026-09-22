@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import { getPool, testConnection } from './database';
 
 const mockStudents = [
@@ -60,14 +61,67 @@ const mockContacts = [
   { id: 2, name: 'Mary Anne', email: 'm.anne@education.gov.pg', message: 'Requesting updated teacher posting circular for Woodlark Junior High.', created_at: new Date('2026-09-16T14:15:00Z').toISOString() },
 ];
 
+const mockNotices = [
+  { id: 1, title: 'Important Update: Term 3 School Fees', body: 'All outstanding school fees for Term 3 must be deposited into the provincial trust account before July 10th, 2026.' },
+  { id: 2, title: 'Teacher Postings 2026', body: 'The final list of teacher deployments for remote schools has been published. Please check the eRODSS portal for confirmation.' },
+  { id: 3, title: 'Weather Alert', body: 'Schools in the island districts are advised to monitor marine weather warnings and take necessary precautions.' },
+];
+
+const mockNews = [
+  {
+    id: 1,
+    title: 'Term 3 Commences Soon',
+    summary: 'All primary and secondary schools across the province are preparing for the start of Term 3. Teachers are advised to review the updated syllabus materials.',
+    full_story: 'The Milne Bay Province Division of Education wishes to inform all schools, teachers, parents and guardians that the third academic term officially commences on Monday 15 June 2026.\n\nTeachers are reminded to collect and review the updated syllabus materials from their district education offices before the first day of term. School administrators are asked to confirm staffing, class lists and inspection schedules with their district coordinators.\n\nParents and guardians are encouraged to settle outstanding school fees and purchase required stationary ahead of time. Further advisory circulars will be issued in the coming weeks.',
+    image_url: 'https://placehold.co/600x400/eeeeee/999999?text=Term+3+Commences',
+    published_at: '2026-06-15',
+    is_breaking: 1
+  },
+  {
+    id: 2,
+    title: 'New TVET Facilities Opening',
+    summary: 'The Kwato VET Centre has officially opened its new technical workshop, expanding opportunities for vocational training in the region.',
+    full_story: 'The Kwato Vocational Education and Training (VET) Centre officially opened its new technical workshop on Tuesday 2 June 2026.\n\nThe workshop will run accredited courses in automotive engineering, carpentry and electrical installation, giving students hands-on practical experience with modern tools and equipment.\n\nEnrolment for the 2027 academic year is now open. Interested students should submit their Grade 12 certificates and school references to the centre administration before the end of Term 3.',
+    image_url: 'https://placehold.co/600x400/eeeeee/999999?text=TVET+Opening',
+    published_at: '2026-06-02',
+    is_breaking: 0
+  },
+  {
+    id: 3,
+    title: 'Provincial Education Board Meeting',
+    summary: 'The quarterly PEB meeting concluded with new resolutions regarding remote school funding and teacher deployment for the upcoming academic year.',
+    full_story: 'The Milne Bay Provincial Education Board (PEB) held its quarterly meeting and concluded with several key resolutions for the next academic year.\n\nRemote school funding allocations were approved, prioritising island and rural districts with limited resources. Teacher deployment schedules were also reviewed, with new postings to be published on the eRODSS portal by the end of the month.\n\nA full summary of the resolutions will be circulated to all district education coordinators and school principals.',
+    image_url: 'https://placehold.co/600x400/eeeeee/999999?text=PEB+Meeting',
+    published_at: '2026-05-28',
+    is_breaking: 0
+  },
+];
+
+const mockLatestNews = [
+  {
+    id: 1,
+    title: 'Department of Education | Papua New Guinea',
+    is_external: 1,
+    external_url: 'https://www.education.gov.pg/',
+    news_id: null
+  },
+  {
+    id: 2,
+    title: 'Term 3 Commences Soon',
+    is_external: 0,
+    external_url: '',
+    news_id: 1
+  },
+];
+
 let dbSeeded = false;
 
 async function checkDb() {
   // Don't cache failures - test connection on each call
   const available = await testConnection();
   if (available && !dbSeeded) {
-    await seedDatabase();
     dbSeeded = true;
+    await seedDatabase();
   }
   return available;
 }
@@ -184,8 +238,248 @@ export async function deleteContact(id) {
   throw new Error('Database not available - cannot delete contact');
 }
 
-export async function seedDatabase() {
+export async function fetchNotices() {
   const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [rows] = await pool.execute('SELECT * FROM notices ORDER BY created_at DESC, id DESC');
+      return rows;
+    } catch (error) {
+      console.error('Database fetch notices failed, falling back to mock data:', error.message);
+    }
+  }
+  return mockNotices;
+}
+
+export async function addNotice(notice) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [result] = await pool.execute(
+        'INSERT INTO notices (title, body) VALUES (?, ?)',
+        [notice.title, notice.body]
+      );
+      return { ...notice, id: result.insertId, created_at: new Date().toISOString() };
+    } catch (error) {
+      console.error('Database insert notice failed:', error);
+      throw new Error(`Database insert notice failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot persist notice');
+}
+
+export async function updateNotice(id, notice) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [result] = await pool.execute(
+        'UPDATE notices SET title = ?, body = ? WHERE id = ?',
+        [notice.title, notice.body, id]
+      );
+      if (result.affectedRows === 0) throw new Error('Notice not found');
+      return { ...notice, id };
+    } catch (error) {
+      console.error('Database update notice failed:', error);
+      throw new Error(`Database update notice failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot update notice');
+}
+
+export async function deleteNotice(id) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      await pool.execute('DELETE FROM notices WHERE id = ?', [id]);
+      return true;
+    } catch (error) {
+      console.error('Database delete notice failed:', error);
+      throw new Error(`Database delete notice failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot delete notice');
+}
+
+export async function fetchNews(breakingOnly = false) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      if (breakingOnly) {
+        const [rows] = await pool.execute(
+          'SELECT * FROM news_items WHERE is_breaking = 1 ORDER BY published_at DESC, id DESC LIMIT 4'
+        );
+        return rows;
+      }
+      const [rows] = await pool.execute('SELECT * FROM news_items ORDER BY published_at DESC, id DESC');
+      return rows;
+    } catch (error) {
+      console.error('Database fetch news failed, falling back to mock data:', error.message);
+    }
+  }
+  if (breakingOnly) {
+    return mockNews.filter((n) => n.is_breaking).slice(0, 4);
+  }
+  return mockNews;
+}
+
+export async function addNewsItem(item) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const publishedAt = item.published_at || new Date().toISOString();
+      const [result] = await pool.execute(
+        'INSERT INTO news_items (title, summary, full_story, image_url, published_at, is_breaking) VALUES (?, ?, ?, ?, ?, ?)',
+        [item.title, item.summary, item.full_story || item.summary, item.image_url || '', publishedAt, item.is_breaking ? 1 : 0]
+      );
+      return { ...item, full_story: item.full_story || item.summary, is_breaking: item.is_breaking ? 1 : 0, id: result.insertId, published_at: publishedAt };
+    } catch (error) {
+      console.error('Database insert news failed:', error);
+      throw new Error(`Database insert news failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot persist news item');
+}
+
+export async function updateNewsItem(id, item) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [result] = await pool.execute(
+        'UPDATE news_items SET title = ?, summary = ?, full_story = ?, image_url = ?, published_at = ?, is_breaking = ? WHERE id = ?',
+        [item.title, item.summary, item.full_story || item.summary, item.image_url || '', item.published_at, item.is_breaking ? 1 : 0, id]
+      );
+      if (result.affectedRows === 0) throw new Error('News item not found');
+      return { ...item, full_story: item.full_story || item.summary, is_breaking: item.is_breaking ? 1 : 0, id };
+    } catch (error) {
+      console.error('Database update news failed:', error);
+      throw new Error(`Database update news failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot update news item');
+}
+
+export async function deleteNewsItem(id) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      await pool.execute('DELETE FROM news_items WHERE id = ?', [id]);
+      return true;
+    } catch (error) {
+      console.error('Database delete news failed:', error);
+      throw new Error(`Database delete news failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot delete news item');
+}
+
+export async function fetchLatestNews() {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [rows] = await pool.execute('SELECT * FROM latest_news ORDER BY id DESC LIMIT 4');
+      return rows;
+    } catch (error) {
+      console.error('Database fetch latest news failed, falling back to mock data:', error.message);
+    }
+  }
+  return mockLatestNews;
+}
+
+async function normalizeLatestNewsItem(item) {
+  const isExternal = item.is_external === 1 || item.link_type === 'external' ? 1 : 0;
+  return {
+    title: String(item.title || '').trim(),
+    is_external: isExternal,
+    external_url: isExternal ? String(item.external_url || '').trim() : '',
+    news_id: isExternal ? null : (item.news_id ? Number(item.news_id) : null)
+  };
+}
+
+export async function addLatestNewsItem(item) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const norm = await normalizeLatestNewsItem(item);
+      const [result] = await pool.execute(
+        'INSERT INTO latest_news (title, is_external, external_url, news_id) VALUES (?, ?, ?, ?)',
+        [norm.title, norm.is_external, norm.external_url, norm.news_id]
+      );
+      return { id: result.insertId, ...norm };
+    } catch (error) {
+      console.error('Database insert latest news failed:', error);
+      throw new Error(`Database insert latest news failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot persist latest news item');
+}
+
+export async function updateLatestNewsItem(id, item) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const norm = await normalizeLatestNewsItem(item);
+      const [result] = await pool.execute(
+        'UPDATE latest_news SET title = ?, is_external = ?, external_url = ?, news_id = ? WHERE id = ?',
+        [norm.title, norm.is_external, norm.external_url, norm.news_id, id]
+      );
+      if (result.affectedRows === 0) throw new Error('Latest news item not found');
+      return { id, ...norm };
+    } catch (error) {
+      console.error('Database update latest news failed:', error);
+      throw new Error(`Database update latest news failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot update latest news item');
+}
+
+export async function deleteLatestNewsItem(id) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      await pool.execute('DELETE FROM latest_news WHERE id = ?', [id]);
+      return true;
+    } catch (error) {
+      console.error('Database delete latest news failed:', error);
+      throw new Error(`Database delete latest news failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot delete latest news item');
+}
+
+export async function verifyAdmin(username, password) {
+  const useDb = await checkDb();
+  if (!useDb) return null;
+  try {
+    const pool = getPool();
+    const [rows] = await pool.execute(
+      'SELECT password_hash FROM admins WHERE username = ?',
+      [username]
+    );
+    if (rows.length === 0) return false;
+    const [saltHex, hashHex] = rows[0].password_hash.split(':');
+    const storedHash = Buffer.from(hashHex, 'hex');
+    const candidateHash = crypto.scryptSync(password || '', Buffer.from(saltHex, 'hex'), storedHash.length);
+    return crypto.timingSafeEqual(candidateHash, storedHash);
+  } catch (error) {
+    console.error('Admin verification error:', error.message);
+    return null;
+  }
+}
+
+export async function seedDatabase() {
+  const useDb = await testConnection();
   if (!useDb) return { success: false, message: 'Database not available' };
 
   try {
@@ -214,6 +508,69 @@ export async function seedDatabase() {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
+
+    await pool.execute(`
+      CREATE TABLE IF NOT EXISTS admins (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(100) NOT NULL UNIQUE,
+        password_hash VARCHAR(512) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    await pool.execute(`
+      CREATE TABLE IF NOT EXISTS notices (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        body TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    await pool.execute(`
+      CREATE TABLE IF NOT EXISTS news_items (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        summary TEXT NOT NULL,
+        full_story TEXT NOT NULL,
+        image_url VARCHAR(500) DEFAULT '',
+        published_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        is_breaking TINYINT(1) NOT NULL DEFAULT 0
+      )
+    `);
+
+    await pool.execute(`
+      CREATE TABLE IF NOT EXISTS latest_news (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        is_external TINYINT(1) NOT NULL DEFAULT 0,
+        external_url VARCHAR(500) DEFAULT '',
+        news_id INT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    // Migrate older news tables (body column) to summary/full_story if needed
+    const [newsCols] = await pool.execute(
+      "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'news_items'"
+    );
+    const newsColNames = newsCols.map((c) => c.COLUMN_NAME);
+    try {
+      if (!newsColNames.includes('summary')) {
+        await pool.execute('ALTER TABLE news_items ADD COLUMN summary TEXT NULL AFTER body');
+      }
+      if (!newsColNames.includes('full_story')) {
+        await pool.execute('ALTER TABLE news_items ADD COLUMN full_story TEXT NULL AFTER summary');
+      }
+      await pool.execute('UPDATE news_items SET summary = body WHERE summary IS NULL OR summary = \'\'');
+      await pool.execute('UPDATE news_items SET full_story = COALESCE(NULLIF(full_story, \'\'), summary) WHERE full_story IS NULL OR full_story = \'\'');
+      if (!newsColNames.includes('is_breaking')) {
+        await pool.execute('ALTER TABLE news_items ADD COLUMN is_breaking TINYINT(1) NOT NULL DEFAULT 0');
+        await pool.execute('UPDATE news_items SET is_breaking = 1 WHERE id = 1');
+      }
+    } catch (error) {
+      console.error('News table migration warning:', error.message);
+    }
     
     // Check if students table is empty
     const [studentRows] = await pool.execute('SELECT COUNT(*) as count FROM students');
@@ -237,7 +594,53 @@ export async function seedDatabase() {
         );
       }
     }
-    
+
+    // Seed default admin user if admins table is empty
+    const [adminRows] = await pool.execute('SELECT COUNT(*) as count FROM admins');
+    if (adminRows[0].count === 0) {
+      const adminUsername = process.env.ADMIN_USERNAME;
+      const adminPassword = process.env.ADMIN_PASSWORD;
+      const salt = crypto.randomBytes(16);
+      const hash = crypto.scryptSync(adminPassword, salt, 32);
+      await pool.execute(
+        'INSERT INTO admins (username, password_hash) VALUES (?, ?)',
+        [adminUsername, `${salt.toString('hex')}:${hash.toString('hex')}`]
+      );
+    }
+
+    // Check if notices table is empty
+    const [noticeRows] = await pool.execute('SELECT COUNT(*) as count FROM notices');
+    if (noticeRows[0].count === 0) {
+      for (const notice of mockNotices) {
+        await pool.execute(
+          'INSERT INTO notices (title, body) VALUES (?, ?)',
+          [notice.title, notice.body]
+        );
+      }
+    }
+
+    // Check if news table is empty
+    const [newsRows] = await pool.execute('SELECT COUNT(*) as count FROM news_items');
+    if (newsRows[0].count === 0) {
+      for (const item of mockNews) {
+        await pool.execute(
+          'INSERT INTO news_items (title, summary, full_story, image_url, published_at, is_breaking) VALUES (?, ?, ?, ?, ?, ?)',
+          [item.title, item.summary, item.full_story, item.image_url, item.published_at, item.is_breaking ? 1 : 0]
+        );
+      }
+    }
+
+    // Check if latest news table is empty
+    const [latestRows] = await pool.execute('SELECT COUNT(*) as count FROM latest_news');
+    if (latestRows[0].count === 0) {
+      for (const item of mockLatestNews) {
+        await pool.execute(
+          'INSERT INTO latest_news (title, is_external, external_url, news_id) VALUES (?, ?, ?, ?)',
+          [item.title, item.is_external, item.external_url, item.news_id]
+        );
+      }
+    }
+
     return { success: true, message: 'Database seeded successfully' };
   } catch (error) {
     console.error('Database seeding failed:', error.message);

@@ -43,7 +43,8 @@ class Router {
     async handleRoute(url) {
         // Parse URL to separate pathname and hash
         const [path, hash] = url.split('#');
-        const route = this.routes[path] || this.routes['/'];
+        const newsDetailMatch = path.match(/^\/news\/(\d+)$/);
+        const route = (newsDetailMatch ? { component: 'NewsComponent', file: 'news.js' } : this.routes[path]) || this.routes['/'];
         
         try {
             // Ensure component script is loaded
