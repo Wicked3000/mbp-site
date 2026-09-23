@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { LayoutDashboard, Users, Mail, LogOut, ArrowLeft, Bell, Newspaper, Rss } from 'lucide-react';
+import { LayoutDashboard, Users, Mail, LogOut, ArrowLeft, Bell, Newspaper, Rss, Image } from 'lucide-react';
 
 export default function AdminHeader() {
   const pathname = usePathname();
@@ -26,8 +26,9 @@ export default function AdminHeader() {
     { name: 'Student Selection Lists', href: '/admin/students', icon: Users },
     { name: 'Contact Messages', href: '/admin/contacts', icon: Mail },
     { name: 'News & Announcements', href: '/admin/news', icon: Newspaper },
-    { name: 'Latest News', href: '/admin/latest-news', icon: Rss },
+    { name: 'Latest News Ticker', href: '/admin/latest-news', icon: Rss },
     { name: 'Official Notice Board', href: '/admin/notices', icon: Bell },
+    { name: 'News Page Banner', href: '/admin/banners', icon: Image },
   ];
 
   return (
@@ -42,7 +43,6 @@ export default function AdminHeader() {
               </div>
               <div>
                 <span className="font-bold text-base text-white tracking-tight font-display">MBP Education</span>
-                <span className="ml-2 text-xs bg-amber-400/20 text-amber-300 border border-amber-400/30 px-2 py-0.5 rounded-full font-medium">Admin</span>
               </div>
             </div>
 
@@ -96,7 +96,6 @@ export default function AdminHeader() {
           </div>
           <div>
             <span className="font-bold text-base text-white tracking-tight font-display leading-tight">MBP Education</span>
-            <span className="block text-xs bg-amber-400/20 text-amber-300 border border-amber-400/30 px-2 py-0.5 rounded-full font-medium mt-0.5 w-fit">Admin</span>
           </div>
         </div>
 

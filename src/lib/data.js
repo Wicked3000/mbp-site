@@ -114,6 +114,33 @@ const mockLatestNews = [
   },
 ];
 
+const mockNewsBanners = [
+  {
+    id: 1,
+    image_url: 'assets/slider/island.png',
+    title: 'Discover Milne Bay',
+    subtitle: 'Providing quality education and fostering unity across our islands, mountains, and seas.',
+    order_index: 0,
+    active: 1
+  },
+  {
+    id: 2,
+    image_url: 'assets/slider/school.png',
+    title: 'Empowering the Future',
+    subtitle: 'Modern educational pathways and bright opportunities for every child.',
+    order_index: 1,
+    active: 1
+  },
+  {
+    id: 3,
+    image_url: 'assets/slider/culture.png',
+    title: 'Preserving Our Heritage',
+    subtitle: 'Embracing our vibrant cultural heritage while advancing towards a prosperous future.',
+    order_index: 2,
+    active: 1
+  },
+];
+
 let dbSeeded = false;
 
 async function checkDb() {
@@ -458,6 +485,92 @@ export async function deleteLatestNewsItem(id) {
   throw new Error('Database not available - cannot delete latest news item');
 }
 
+// --- News Page Banner Management ---
+
+export async function fetchNewsBanners() {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [rows] = await pool.execute(
+        'SELECT * FROM news_banners WHERE active = 1 ORDER BY order_index ASC, id ASC'
+      );
+      return rows;
+    } catch (error) {
+      console.error('Database fetch news banners failed, falling back to mock data:', error.message);
+    }
+  }
+  return mockNewsBanners.filter((b) => b.active === 1).sort((a, b) => a.order_index - b.order_index);
+}
+
+export async function fetchAllNewsBanners() {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [rows] = await pool.execute(
+        'SELECT * FROM news_banners ORDER BY order_index ASC, id ASC'
+      );
+      return rows;
+    } catch (error) {
+      console.error('Database fetch all news banners failed, falling back to mock data:', error.message);
+    }
+  }
+  return [...mockNewsBanners].sort((a, b) => a.order_index - b.order_index);
+}
+
+export async function addNewsBanner(banner) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [result] = await pool.execute(
+        'INSERT INTO news_banners (image_url, title, subtitle, order_index, active) VALUES (?, ?, ?, ?, ?)',
+        [banner.image_url || '', banner.title || '', banner.subtitle || '', banner.order_index || 0, banner.active ? 1 : 0]
+      );
+      return { id: result.insertId, ...banner };
+    } catch (error) {
+      console.error('Database insert news banner failed:', error);
+      throw new Error(`Database insert news banner failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot persist news banner');
+}
+
+export async function updateNewsBanner(id, banner) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [result] = await pool.execute(
+        'UPDATE news_banners SET image_url = ?, title = ?, subtitle = ?, order_index = ?, active = ? WHERE id = ?',
+        [banner.image_url || '', banner.title || '', banner.subtitle || '', banner.order_index || 0, banner.active ? 1 : 0, id]
+      );
+      if (result.affectedRows === 0) throw new Error('News banner not found');
+      return { id, ...banner };
+    } catch (error) {
+      console.error('Database update news banner failed:', error);
+      throw new Error(`Database update news banner failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot update news banner');
+}
+
+export async function deleteNewsBanner(id) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      await pool.execute('DELETE FROM news_banners WHERE id = ?', [id]);
+      return true;
+    } catch (error) {
+      console.error('Database delete news banner failed:', error);
+      throw new Error(`Database delete news banner failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot delete news banner');
+}
+
 export async function verifyAdmin(username, password) {
   const useDb = await checkDb();
   if (!useDb) return null;
@@ -550,6 +663,18 @@ export async function seedDatabase() {
       )
     `);
 
+    await pool.execute(`
+      CREATE TABLE IF NOT EXISTS news_banners (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        image_url VARCHAR(500) NOT NULL DEFAULT '',
+        title VARCHAR(255) NOT NULL DEFAULT '',
+        subtitle TEXT,
+        order_index INT NOT NULL DEFAULT 0,
+        active TINYINT(1) NOT NULL DEFAULT 1,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
     // Migrate older news tables (body column) to summary/full_story if needed
     const [newsCols] = await pool.execute(
       "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'news_items'"
@@ -637,6 +762,17 @@ export async function seedDatabase() {
         await pool.execute(
           'INSERT INTO latest_news (title, is_external, external_url, news_id) VALUES (?, ?, ?, ?)',
           [item.title, item.is_external, item.external_url, item.news_id]
+        );
+      }
+    }
+
+    // Check if news_banners table is empty
+    const [bannerRows] = await pool.execute('SELECT COUNT(*) as count FROM news_banners');
+    if (bannerRows[0].count === 0) {
+      for (const banner of mockNewsBanners) {
+        await pool.execute(
+          'INSERT INTO news_banners (image_url, title, subtitle, order_index, active) VALUES (?, ?, ?, ?, ?)',
+          [banner.image_url, banner.title, banner.subtitle, banner.order_index, banner.active]
         );
       }
     }

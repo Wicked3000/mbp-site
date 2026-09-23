@@ -133,6 +133,18 @@ window.HomeComponent = {
                     </div>
                 </section>
 
+                <!-- News Ticker -->
+                <section class="home-section news-ticker-section">
+                    <div class="news-ticker-container">
+                        <div class="ticker-label">NEWS</div>
+                        <div class="ticker-wrap">
+                            <div class="ticker-move" id="home-ticker-move">
+                                <!-- Ticker items will be injected here -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <!-- Provincial Plans Documents -->
                 <section class="home-section">
                     <h2 class="section-title">Provincial Education Plans</h2>
@@ -241,6 +253,52 @@ window.HomeComponent = {
             return fallback;
         } catch (error) {
             console.warn('Latest News: falling back to static content.', error);
+            return fallback;
+        }
+    },
+
+    async fetchLatestNewsHtml() {
+        const fallback = `
+            <div class="ticker-group">
+                <span class="ticker-item">ALL SCHOOLS: Term 3 Commences on 15 Jun 2026</span>
+                <span class="ticker-item">NEW DIRECTIVE: PEB Resolutions finalized for upcoming academic year</span>
+                <span class="ticker-item">REMINDER: Grade 10 Mock Exams begin next week</span>
+            </div>
+            <div class="ticker-group">
+                <span class="ticker-item">ALL SCHOOLS: Term 3 Commences on 15 Jun 2026</span>
+                <span class="ticker-item">NEW DIRECTIVE: PEB Resolutions finalized for upcoming academic year</span>
+                <span class="ticker-item">REMINDER: Grade 10 Mock Exams begin next week</span>
+            </div>`;
+
+        const escapeHtml = (str) =>
+            String(str == null ? '' : str).replace(/[&<>"']/g, (c) => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[c]));
+
+        try {
+            const res = await fetch('/api/latest-news');
+            if (!res.ok) throw new Error('Latest news fetch failed');
+            const data = await res.json();
+            if (Array.isArray(data) && data.length > 0) {
+                const loopItems = [];
+                const copies = Math.max(1, Math.ceil(4 / data.length));
+                for (let c = 0; c < copies; c++) {
+                    for (const li of data) {
+                        if (li.is_external) {
+                            loopItems.push(`<a class="ticker-item" href="${escapeHtml(li.external_url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(li.title)}</a>`);
+                        } else if (li.news_id) {
+                            loopItems.push(`<a class="ticker-item" href="/news/${li.news_id}" data-link>${escapeHtml(li.title)}</a>`);
+                        } else {
+                            loopItems.push(`<span class="ticker-item">${escapeHtml(li.title)}</span>`);
+                        }
+                    }
+                }
+                const joined = loopItems.join('');
+                return `<div class="ticker-group">${joined}</div><div class="ticker-group">${joined}</div>`;
+            }
+            return fallback;
+        } catch (error) {
+            console.warn('Latest News ticker: falling back to static content.', error);
             return fallback;
         }
     },
@@ -366,6 +424,14 @@ window.HomeComponent = {
             observer.observe(statsSection);
         } else if(statsSection) {
             animateStats(); // Fallback if IntersectionObserver not supported
+        }
+
+        // --- News Ticker Logic ---
+        const tickerMove = document.getElementById('home-ticker-move');
+        if (tickerMove) {
+            HomeComponent.fetchLatestNewsHtml().then(html => {
+                tickerMove.innerHTML = html;
+            });
         }
     }
 };
