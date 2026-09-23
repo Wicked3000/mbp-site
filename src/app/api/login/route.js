@@ -8,8 +8,9 @@ export async function POST(request) {
 
     const dbVerified = await verifyAdmin(username, password);
     if (dbVerified === true) {
-      const response = NextResponse.json({ success: true, token: 'admin-session-2026' });
-      response.cookies.set('mbp_admin_session', 'admin-session-2026', {
+      const sessionToken = crypto.randomUUID();
+      const response = NextResponse.json({ success: true, token: sessionToken });
+      response.cookies.set('mbp_admin_session', sessionToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
@@ -21,8 +22,9 @@ export async function POST(request) {
 
     // Fallback for when the database is unavailable
     if (dbVerified === null && username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
-      const response = NextResponse.json({ success: true, token: 'admin-session-2026' });
-      response.cookies.set('mbp_admin_session', 'admin-session-2026', {
+      const sessionToken = crypto.randomUUID();
+      const response = NextResponse.json({ success: true, token: sessionToken });
+      response.cookies.set('mbp_admin_session', sessionToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',

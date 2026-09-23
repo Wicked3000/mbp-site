@@ -48,18 +48,16 @@ export default function LoginPage() {
       <div className="absolute top-10 right-10 w-72 h-72 bg-[#2E7D32]/15 rounded-full blur-3xl pointer-events-none"></div>
 
       <div className="w-full max-w-md relative z-10">
-        {/* Header Branding */}
-        <div className="text-center mb-8">
-          {/* White background box for logo */}
-          <div className="bg-white rounded-xl p-2 inline-flex items-center justify-center mx-auto mb-2 shadow-lg shadow-[#0D47A1]/10 border border-[#1565C0]/20">
-            <img src="/assets/logo/mbp-logo-bg-removed.png" alt="Milne Bay Province Logo" className="w-16 h-16 object-contain" />
-          </div>
-          <div className="mt-2 text-[#0D47A1] font-semibold text-sm tracking-wide">Milne Bay Province — Division of Education</div>
-          <div style={{ width: '40px', height: '3px', background: 'linear-gradient(90deg, #1565C0, #FBC02D, #1B5E20)', margin: '0.6rem auto 0', borderRadius: '2px' }}></div>
-        </div>
-
         {/* Login Box */}
-        <div className="p-8 shadow-2xl border border-[#1565C0]/25 bg-white/95 rounded-2xl backdrop-blur">
+        <div className="p-8 shadow-2xl border border-[#1565C0]/25 bg-white rounded-2xl backdrop-blur">
+          <div className="mb-5 flex justify-center">
+            <div className="bg-white rounded-xl p-2 inline-flex items-center justify-center shadow-lg shadow-[#0D47A1]/10 border border-[#1565C0]/20">
+              <img src="/assets/logo/mbp-logo-bg-removed.png" alt="Milne Bay Province Logo" className="w-16 h-16 object-contain" />
+            </div>
+          </div>
+          <div className="mb-6 rounded-xl bg-[#800020] px-4 py-3 text-center">
+            <div className="text-sm font-semibold tracking-wide text-white">Milne Bay Province - Division of Education</div>
+          </div>
           <h2 className="text-xl font-bold text-[#0D47A1] mb-6 flex items-center justify-between">
             <span>Admin Sign In</span>
             <span className="text-xs font-normal text-[#1565C0] bg-[#1565C0]/10 px-2.5 py-1 rounded-full border border-[#1565C0]/25">v2.0 Next.js</span>
@@ -130,7 +128,7 @@ export default function LoginPage() {
         </div>
 
         <div className="mt-6 text-center">
-          <a href="/" className="text-xs font-medium text-[#1565C0] hover:text-[#0D47A1] transition-colors">
+          <a href="/" className="text-xs font-medium text-white hover:text-white transition-colors">
             ← Return to MBP Division of Education Public Website
           </a>
         </div>

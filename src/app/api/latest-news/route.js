@@ -33,7 +33,7 @@ export async function POST(request) {
     return NextResponse.json({ success: true, item });
   } catch (error) {
     console.error('Add latest news error:', error);
-    return NextResponse.json({ error: error.message || 'Failed to add latest news' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to add latest news' }, { status: 500 });
   }
 }
 
@@ -65,7 +65,7 @@ export async function PATCH(request) {
     return NextResponse.json({ success: true, item });
   } catch (error) {
     console.error('Update latest news error:', error);
-    return NextResponse.json({ error: error.message || 'Failed to update latest news' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to update latest news' }, { status: 500 });
   }
 }
 
@@ -80,6 +80,6 @@ export async function DELETE(request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Delete latest news error:', error);
-    return NextResponse.json({ error: error.message || 'Failed to delete latest news' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to delete latest news' }, { status: 500 });
   }
 }

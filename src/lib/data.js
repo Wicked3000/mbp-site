@@ -141,6 +141,100 @@ const mockNewsBanners = [
   },
 ];
 
+const mockPolicyCategories = [
+  {
+    id: 1,
+    name: 'Governance & Administration',
+    slug: 'governance-administration',
+    description: 'Policies guiding school governance, leadership, accountability, and provincial administration.',
+    order_index: 0,
+    active: 1
+  },
+  {
+    id: 2,
+    name: 'Curriculum & Assessment',
+    slug: 'curriculum-assessment',
+    description: 'Curriculum standards, assessment procedures, and learning resources for schools across the province.',
+    order_index: 1,
+    active: 1
+  },
+  {
+    id: 3,
+    name: 'Student Welfare & Safety',
+    slug: 'student-welfare-safety',
+    description: 'Guidelines for student wellbeing, protection, inclusion, and safe learning environments.',
+    order_index: 2,
+    active: 1
+  },
+  {
+    id: 4,
+    name: 'Finance & Procurement',
+    slug: 'finance-procurement',
+    description: 'Financial management, procurement, reporting, and resource allocation policies.',
+    order_index: 3,
+    active: 1
+  }
+];
+
+const mockPolicyDocuments = [
+  {
+    id: 1,
+    category_id: 1,
+    category_name: 'Governance & Administration',
+    title: 'Provincial School Governance Framework',
+    description: 'Roles, responsibilities, and accountability requirements for provincial schools and education leaders.',
+    document_url: '/assets/downloads/education_plan.pdf',
+    thumbnail_url: '/assets/plans/edu-plan-cover.png',
+    file_type: 'PDF',
+    file_size: '2.4 MB',
+    order_index: 0,
+    active: 1,
+    published_at: '2026-06-20'
+  },
+  {
+    id: 2,
+    category_id: 2,
+    category_name: 'Curriculum & Assessment',
+    title: 'Curriculum Implementation Guidelines',
+    description: 'Standards and procedures for delivering the national curriculum in Milne Bay Province schools.',
+    document_url: '/assets/downloads/syllabus_updates.pdf',
+    thumbnail_url: '/assets/slider/school.png',
+    file_type: 'PDF',
+    file_size: '1.8 MB',
+    order_index: 0,
+    active: 1,
+    published_at: '2026-06-12'
+  },
+  {
+    id: 3,
+    category_id: 3,
+    category_name: 'Student Welfare & Safety',
+    title: 'Student Welfare and Child Protection Policy',
+    description: 'Minimum safeguards and response procedures for protecting students in all learning environments.',
+    document_url: '/assets/downloads/peb_circulars.pdf',
+    thumbnail_url: '/assets/slider/culture.png',
+    file_type: 'PDF',
+    file_size: '1.2 MB',
+    order_index: 0,
+    active: 1,
+    published_at: '2026-05-28'
+  },
+  {
+    id: 4,
+    category_id: 4,
+    category_name: 'Finance & Procurement',
+    title: 'School Financial Management Policy',
+    description: 'Financial planning, approval, reporting, and procurement controls for provincial schools.',
+    document_url: '/assets/downloads/school_fee_structures.pdf',
+    thumbnail_url: '/assets/slider/island.png',
+    file_type: 'PDF',
+    file_size: '1.5 MB',
+    order_index: 0,
+    active: 1,
+    published_at: '2026-05-15'
+  }
+];
+
 let dbSeeded = false;
 
 async function checkDb() {
@@ -571,6 +665,86 @@ export async function deleteNewsBanner(id) {
   throw new Error('Database not available - cannot delete news banner');
 }
 
+// --- Policy Management ---
+
+export async function fetchPolicyCategories() {
+  // Static for now
+  return mockPolicyCategories;
+}
+
+export async function fetchPolicyDocuments(categoryId = null) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      if (categoryId) {
+        const [rows] = await pool.execute('SELECT * FROM policies WHERE category_id = ? ORDER BY order_index ASC, id DESC', [categoryId]);
+        return rows;
+      }
+      const [rows] = await pool.execute('SELECT * FROM policies ORDER BY category_id ASC, order_index ASC, id DESC');
+      return rows;
+    } catch (error) {
+      console.error('Database fetch policies failed, falling back to mock data:', error.message);
+    }
+  }
+  let docs = [...mockPolicyDocuments];
+  if (categoryId) docs = docs.filter(d => Number(d.category_id) === Number(categoryId));
+  return docs.sort((a, b) => a.order_index - b.order_index);
+}
+
+export async function addPolicyDocument(doc) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const publishedAt = doc.published_at || new Date().toISOString().split('T')[0];
+      const [result] = await pool.execute(
+        'INSERT INTO policies (category_id, category_name, title, description, document_url, thumbnail_url, file_type, file_size, order_index, active, published_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [doc.category_id, doc.category_name || '', doc.title, doc.description || '', doc.document_url || '', doc.thumbnail_url || '', doc.file_type || 'PDF', doc.file_size || '', doc.order_index || 0, doc.active === undefined ? 1 : (doc.active ? 1 : 0), publishedAt]
+      );
+      return { id: result.insertId, ...doc, published_at: publishedAt };
+    } catch (error) {
+      console.error('Database insert policy failed:', error);
+      throw new Error(`Database insert policy failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot persist policy document');
+}
+
+export async function updatePolicyDocument(id, doc) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [result] = await pool.execute(
+        'UPDATE policies SET category_id = ?, category_name = ?, title = ?, description = ?, document_url = ?, thumbnail_url = ?, file_type = ?, file_size = ?, order_index = ?, active = ?, published_at = ? WHERE id = ?',
+        [doc.category_id, doc.category_name || '', doc.title, doc.description || '', doc.document_url || '', doc.thumbnail_url || '', doc.file_type || 'PDF', doc.file_size || '', doc.order_index || 0, doc.active === undefined ? 1 : (doc.active ? 1 : 0), doc.published_at, id]
+      );
+      if (result.affectedRows === 0) throw new Error('Policy document not found');
+      return { id, ...doc };
+    } catch (error) {
+      console.error('Database update policy failed:', error);
+      throw new Error(`Database update policy failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot update policy document');
+}
+
+export async function deletePolicyDocument(id) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      await pool.execute('DELETE FROM policies WHERE id = ?', [id]);
+      return true;
+    } catch (error) {
+      console.error('Database delete policy failed:', error);
+      throw new Error(`Database delete policy failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot delete policy document');
+}
+
 export async function verifyAdmin(username, password) {
   const useDb = await checkDb();
   if (!useDb) return null;
@@ -675,6 +849,24 @@ export async function seedDatabase() {
       )
     `);
 
+    await pool.execute(`
+      CREATE TABLE IF NOT EXISTS policies (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        category_id INT NOT NULL,
+        category_name VARCHAR(255) NOT NULL DEFAULT '',
+        title VARCHAR(255) NOT NULL,
+        description TEXT,
+        document_url VARCHAR(500) DEFAULT '',
+        thumbnail_url VARCHAR(500) DEFAULT '',
+        file_type VARCHAR(50) DEFAULT 'PDF',
+        file_size VARCHAR(50) DEFAULT '',
+        order_index INT NOT NULL DEFAULT 0,
+        active TINYINT(1) NOT NULL DEFAULT 1,
+        published_at DATE NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
     // Migrate older news tables (body column) to summary/full_story if needed
     const [newsCols] = await pool.execute(
       "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'news_items'"
@@ -773,6 +965,17 @@ export async function seedDatabase() {
         await pool.execute(
           'INSERT INTO news_banners (image_url, title, subtitle, order_index, active) VALUES (?, ?, ?, ?, ?)',
           [banner.image_url, banner.title, banner.subtitle, banner.order_index, banner.active]
+        );
+      }
+    }
+
+    // Check if policies table is empty
+    const [policyRows] = await pool.execute('SELECT COUNT(*) as count FROM policies');
+    if (policyRows[0].count === 0) {
+      for (const doc of mockPolicyDocuments) {
+        await pool.execute(
+          'INSERT INTO policies (category_id, category_name, title, description, document_url, thumbnail_url, file_type, file_size, order_index, active, published_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+          [doc.category_id, doc.category_name, doc.title, doc.description, doc.document_url, doc.thumbnail_url, doc.file_type, doc.file_size, doc.order_index, doc.active, doc.published_at]
         );
       }
     }

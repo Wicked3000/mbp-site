@@ -12,10 +12,10 @@ export function middleware(request) {
     }
   }
 
-  // Protect admin API routes (public read-only access to students, notices, news and latest news lists)
-  if (pathname.startsWith('/api/students') || pathname.startsWith('/api/contacts') || pathname.startsWith('/api/notices') || pathname.startsWith('/api/news') || pathname.startsWith('/api/latest-news') || pathname.startsWith('/api/banners') || pathname.startsWith('/api/upload')) {
+  // Protect admin API routes (public read-only access to students, notices, news, latest news, banners and policies lists)
+  if (pathname.startsWith('/api/students') || pathname.startsWith('/api/contacts') || pathname.startsWith('/api/notices') || pathname.startsWith('/api/news') || pathname.startsWith('/api/latest-news') || pathname.startsWith('/api/banners') || pathname.startsWith('/api/policies') || pathname.startsWith('/api/upload')) {
     const isPublicRead =
-      (pathname.startsWith('/api/students') || pathname.startsWith('/api/notices') || pathname.startsWith('/api/news') || pathname.startsWith('/api/latest-news') || pathname.startsWith('/api/banners')) && request.method === 'GET';
+      (pathname.startsWith('/api/students') || pathname.startsWith('/api/notices') || pathname.startsWith('/api/news') || pathname.startsWith('/api/latest-news') || pathname.startsWith('/api/banners') || pathname.startsWith('/api/policies')) && request.method === 'GET';
     if (!sessionCookie && !isPublicRead) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -33,6 +33,7 @@ export const config = {
     '/api/news/:path*',
     '/api/latest-news/:path*',
     '/api/banners/:path*',
+    '/api/policies/:path*',
     '/api/upload/:path*',
   ],
 };

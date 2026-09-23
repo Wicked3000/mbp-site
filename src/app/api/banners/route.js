@@ -7,7 +7,7 @@ export async function GET() {
     return NextResponse.json(banners);
   } catch (error) {
     console.error('Fetch news banners error:', error);
-    return NextResponse.json({ error: error.message || 'Failed to fetch news banners' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to fetch news banners' }, { status: 500 });
   }
 }
 
@@ -29,7 +29,7 @@ export async function POST(request) {
     return NextResponse.json({ success: true, banner });
   } catch (error) {
     console.error('Add news banner error:', error);
-    return NextResponse.json({ error: error.message || 'Failed to add news banner' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to add news banner' }, { status: 500 });
   }
 }
 
@@ -56,7 +56,7 @@ export async function PATCH(request) {
     return NextResponse.json({ success: true, banner });
   } catch (error) {
     console.error('Update news banner error:', error);
-    return NextResponse.json({ error: error.message || 'Failed to update news banner' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to update news banner' }, { status: 500 });
   }
 }
 
@@ -71,6 +71,6 @@ export async function DELETE(request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Delete news banner error:', error);
-    return NextResponse.json({ error: error.message || 'Failed to delete news banner' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to delete news banner' }, { status: 500 });
   }
 }

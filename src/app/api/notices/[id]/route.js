@@ -17,7 +17,7 @@ export async function PATCH(request, { params }) {
     return NextResponse.json({ success: true, notice });
   } catch (error) {
     console.error('Update notice error:', error);
-    return NextResponse.json({ error: error.message || 'Failed to update notice' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to update notice' }, { status: 500 });
   }
 }
 
@@ -31,6 +31,6 @@ export async function DELETE(request, { params }) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Delete notice error:', error);
-    return NextResponse.json({ error: error.message || 'Failed to delete notice' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to delete notice' }, { status: 500 });
   }
 }

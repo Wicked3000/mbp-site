@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { LayoutDashboard, Users, Mail, LogOut, ArrowLeft, Bell, Newspaper, Rss, Image } from 'lucide-react';
+import { LayoutDashboard, Users, Mail, LogOut, ArrowLeft, Bell, Newspaper, Rss, Image, FileText } from 'lucide-react';
 
 export default function AdminHeader() {
   const pathname = usePathname();
@@ -28,6 +28,7 @@ export default function AdminHeader() {
     { name: 'News & Announcements', href: '/admin/news', icon: Newspaper },
     { name: 'Latest News Ticker', href: '/admin/latest-news', icon: Rss },
     { name: 'Official Notice Board', href: '/admin/notices', icon: Bell },
+    { name: 'Policy Documents', href: '/admin/policies', icon: FileText },
     { name: 'News Page Banner', href: '/admin/banners', icon: Image },
   ];
 

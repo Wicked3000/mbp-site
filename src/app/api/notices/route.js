@@ -22,7 +22,7 @@ export async function POST(request) {
     return NextResponse.json({ success: true, notice });
   } catch (error) {
     console.error('Add notice error:', error);
-    return NextResponse.json({ error: error.message || 'Failed to add notice' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to add notice' }, { status: 500 });
   }
 }
 
@@ -43,7 +43,7 @@ export async function PATCH(request) {
     return NextResponse.json({ success: true, notice });
   } catch (error) {
     console.error('Update notice error:', error);
-    return NextResponse.json({ error: error.message || 'Failed to update notice' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to update notice' }, { status: 500 });
   }
 }
 
@@ -58,6 +58,6 @@ export async function DELETE(request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Delete notice error:', error);
-    return NextResponse.json({ error: error.message || 'Failed to delete notice' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to delete notice' }, { status: 500 });
   }
 }
