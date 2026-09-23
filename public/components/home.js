@@ -434,5 +434,23 @@ window.HomeComponent = {
                 tickerMove.innerHTML = html;
             });
         }
+
+        // --- Plans Thumbnail Entrance Animation ---
+        const plansSection = document.querySelector('.plans-presentation');
+        if (plansSection) {
+            if (window.IntersectionObserver) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            plansSection.classList.add('in-view');
+                            observer.unobserve(plansSection);
+                        }
+                    });
+                }, { threshold: 0.3 });
+                observer.observe(plansSection);
+            } else {
+                plansSection.classList.add('in-view');
+            }
+        }
     }
 };

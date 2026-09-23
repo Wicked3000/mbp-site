@@ -2255,7 +2255,14 @@ a.ticker-item:hover {
     margin-top: 2rem;
     padding: 2rem;
     background: transparent;
-    animation: plansFadeInUp 0.9s ease-out both;
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+    transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+}
+
+.plans-presentation.in-view {
+    opacity: 1;
+    transform: translateY(0) scale(1);
 }
 
 .plans-thumb-wrap {
@@ -2279,19 +2286,16 @@ a.ticker-item:hover {
     border-color: var(--mbp-gold);
 }
 
-@keyframes plansFadeInUp {
-    0% { opacity: 0; transform: translateY(30px) scale(0.96); }
-    100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-
 @keyframes plansFloat {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+    50% { transform: translateY(-12px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .plans-presentation {
-        animation: none;
+        opacity: 1;
+        transform: none;
+        transition: none;
     }
     .plans-thumb-wrap {
         animation: none;
