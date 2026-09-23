@@ -16,7 +16,7 @@ window.HomeComponent = {
                         <p>Modern educational pathways and bright opportunities for every child.</p>
                     </div>
                 </div>
-                <div class="hero-slide" style="background-image: url('assets/slider/mbp-img2.jpg');">
+                <div class="hero-slide" style="background-image: url('assets/slider/mbp-img2.png');">
                     <div class="hero-content">
                         <h1>Preserving Our Heritage</h1>
                         <p>Embracing our vibrant cultural heritage while advancing towards a prosperous future.</p>
