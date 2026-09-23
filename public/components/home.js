@@ -149,7 +149,9 @@ window.HomeComponent = {
                     <h2 class="section-title">Provincial Education Plans</h2>
                     <p class="section-subtitle">Strategic documents guiding the future of education in Milne Bay Province.</p>
                     <div class="plans-presentation">
-                        <img src="assets/plans/edu-plan-cover.png" alt="Provincial Education Plans Cover" class="plans-cover-img">
+                        <div class="plans-thumb-wrap">
+                            <img src="assets/plans/edu-plan-cover.png" alt="Provincial Education Plans Cover" class="plans-cover-img">
+                        </div>
                         <div class="plans-actions">
                             <a href="assets/downloads/education_plan.pdf" download class="qa-btn blue plans-download-btn"><i data-lucide="download"></i><span>Download Full Plan (PDF)</span></a>
                         </div>
