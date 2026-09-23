@@ -2197,6 +2197,50 @@ a.ticker-item:hover {
     /* News Grid */
     .news-grid {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    .news-section {
+        padding: 2rem 1rem;
+        width: 100%;
+    }
+
+    /* News Ticker on mobile: stack label above marquee */
+    .news-ticker-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .ticker-label {
+        padding: 0.5rem 1rem;
+        text-align: center;
+    }
+    .ticker-item {
+        padding: 0 1.5rem;
+        font-size: 0.85rem;
+    }
+    .ticker-item::after {
+        margin-left: 1.5rem;
+    }
+    .news-ticker-container {
+        border-top: 3px solid var(--mbp-gold);
+        border-bottom: none;
+    }
+
+    /* News Cards on mobile */
+    .news-card {
+        width: 100%;
+        border-radius: 10px;
+    }
+    .news-thumbnail {
+        height: 170px;
+    }
+    .news-card-content {
+        padding: 1.25rem;
+    }
+    .news-card-content h3 {
+        font-size: 1.1rem;
+    }
+    .view-all-news {
+        margin-top: 2rem;
     }
 
     /* Quick Access */

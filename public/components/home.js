@@ -4,19 +4,19 @@ window.HomeComponent = {
         const newsHtml = await HomeComponent.fetchNewsHtml();
         return `
             <div class="hero-slider-container">
-                <div class="hero-slide active" style="background-image: url('assets/slider/island.png');">
+                <div class="hero-slide active" style="background-image: url('assets/slider/mbp-img1.jpg');">
                     <div class="hero-content">
                         <h1>Discover Milne Bay</h1>
                         <p>Providing quality education and fostering unity across our islands, mountains, and seas.</p>
                     </div>
                 </div>
-                <div class="hero-slide" style="background-image: url('assets/slider/school.png');">
+                <div class="hero-slide" style="background-image: url('assets/slider/mbp-img3.jpg');">
                     <div class="hero-content">
                         <h1>Empowering the Future</h1>
                         <p>Modern educational pathways and bright opportunities for every child.</p>
                     </div>
                 </div>
-                <div class="hero-slide" style="background-image: url('assets/slider/culture.png');">
+                <div class="hero-slide" style="background-image: url('assets/slider/mbp-img2.jpg');">
                     <div class="hero-content">
                         <h1>Preserving Our Heritage</h1>
                         <p>Embracing our vibrant cultural heritage while advancing towards a prosperous future.</p>
