@@ -125,23 +125,22 @@ window.HomeComponent = {
                 <section class="home-section news-section">
                     <h2 class="section-title">Latest News & Announcements</h2>
                     <p class="section-subtitle">Stay up to date with the Milne Bay Province Division of Education.</p>
-                    <div class="news-grid">
-                        ${newsHtml}
-                    </div>
-                    <div class="view-all-news">
-                        <a href="/news#latest-news" data-link class="qa-btn blue" style="width: 100%; justify-content: center; margin-top: 2rem;"><i data-lucide="newspaper"></i><span>VIEW ALL NEWS</span></a>
-                    </div>
-                </section>
-
-                <!-- News Ticker -->
-                <section class="home-section news-ticker-section">
-                    <div class="news-ticker-container">
+                    
+                    <!-- News Ticker -->
+                    <div class="news-ticker-container" style="margin-bottom: 2rem;">
                         <div class="ticker-label">NEWS</div>
                         <div class="ticker-wrap">
                             <div class="ticker-move" id="home-ticker-move">
                                 <!-- Ticker items will be injected here -->
                             </div>
                         </div>
+                    </div>
+
+                    <div class="news-grid">
+                        ${newsHtml}
+                    </div>
+                    <div class="view-all-news">
+                        <a href="/news#latest-news" data-link class="qa-btn blue" style="width: 100%; justify-content: center; margin-top: 2rem;"><i data-lucide="newspaper"></i><span>VIEW ALL NEWS</span></a>
                     </div>
                 </section>
 
