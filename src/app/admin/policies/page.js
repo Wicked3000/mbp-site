@@ -27,6 +27,8 @@ export default function PoliciesPage() {
   });
   
   const [submitting, setSubmitting] = useState(false);
+  const [uploadingDoc, setUploadingDoc] = useState(false);
+  const [uploadingThumb, setUploadingThumb] = useState(false);
   const [message, setMessage] = useState('');
 
   const loadData = async () => {
@@ -102,6 +104,45 @@ export default function PoliciesPage() {
       setMessage({ type: 'error', text: 'Network error occurred' });
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleFileUpload = async (e, field) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (field === 'document_url') setUploadingDoc(true);
+    if (field === 'thumbnail_url') setUploadingThumb(true);
+
+    const form = new FormData();
+    form.append('file', file);
+    form.append('folder', 'policies');
+
+    try {
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: form
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setFormData(prev => {
+          const newData = { ...prev, [field]: data.url };
+          if (field === 'document_url') {
+            const mb = (file.size / (1024 * 1024)).toFixed(1);
+            const ext = file.name.split('.').pop().toUpperCase();
+            newData.file_size = mb > 0 ? `${mb} MB` : `${(file.size / 1024).toFixed(0)} KB`;
+            newData.file_type = ext;
+          }
+          return newData;
+        });
+      } else {
+        alert(data.error || 'Upload failed');
+      }
+    } catch (err) {
+      alert('Upload failed');
+    } finally {
+      if (field === 'document_url') setUploadingDoc(false);
+      if (field === 'thumbnail_url') setUploadingThumb(false);
     }
   };
 
@@ -303,24 +344,26 @@ export default function PoliciesPage() {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Document URL</label>
+                      <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Document File</label>
                       <input
-                        type="text"
-                        value={formData.document_url}
-                        onChange={(e) => setFormData({ ...formData, document_url: e.target.value })}
-                        className="w-full bg-[#0a192f]/50 border border-[#1565C0]/40 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-amber-400 transition-colors"
-                        placeholder="/assets/downloads/doc.pdf"
+                        type="file"
+                        accept=".pdf,.doc,.docx"
+                        onChange={(e) => handleFileUpload(e, 'document_url')}
+                        className="block w-full text-sm text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                       />
+                      {uploadingDoc && <p className="text-xs text-amber-400 mt-1">Uploading...</p>}
+                      {formData.document_url && <p className="text-xs text-emerald-400 mt-1 truncate">Uploaded: {formData.document_url.split('/').pop()}</p>}
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Thumbnail URL</label>
+                      <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Thumbnail Image</label>
                       <input
-                        type="text"
-                        value={formData.thumbnail_url}
-                        onChange={(e) => setFormData({ ...formData, thumbnail_url: e.target.value })}
-                        className="w-full bg-[#0a192f]/50 border border-[#1565C0]/40 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-amber-400 transition-colors"
-                        placeholder="/assets/plans/cover.png"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleFileUpload(e, 'thumbnail_url')}
+                        className="block w-full text-sm text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                       />
+                      {uploadingThumb && <p className="text-xs text-amber-400 mt-1">Uploading...</p>}
+                      {formData.thumbnail_url && <p className="text-xs text-emerald-400 mt-1 truncate">Uploaded: {formData.thumbnail_url.split('/').pop()}</p>}
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-4">
