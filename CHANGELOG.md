@@ -6,6 +6,9 @@ All notable changes to the Milne Bay Province – Division of Education website 
 
 ## Last Changes
 
+### 2026-09-24 — Contact page overlay restyle
+- Changed the contact page background overlay gradient to `linear-gradient(346deg, rgb(47 54 65 / 85%), rgb(61 30 30 / 80%))`.
+
 ### 2026-09-24 — Dynamic FODE selection list with admin management
 - The FODE page (`/fode`) "2024 FODE Selection List" section is now dynamic: intake lists and candidates are fetched live from the back-end and can be viewed (inline accordion) or downloaded.
 - Added `/api/fode-students` API (public GET read, admin POST/DELETE) and a new `fode_students` MySQL table (auto-seeded with the FODE Intake 2026 list, mock-data fallback included).
