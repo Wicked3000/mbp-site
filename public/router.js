@@ -72,6 +72,11 @@ class Router {
                     component.afterRender();
                 }
 
+                // Update active nav highlight
+                if (typeof window.updateActiveNav === 'function') {
+                    window.updateActiveNav();
+                }
+
                 // Scroll to hash if provided
                 if (hash) {
                     setTimeout(() => {

@@ -191,6 +191,17 @@
             });
         });
 
+        // Highlight the nav link for the current page
+        window.updateActiveNav = function updateActiveNav() {
+            const path = window.location.pathname;
+            document.querySelectorAll('.main-nav .nav-link').forEach(link => {
+                const href = link.getAttribute('href');
+                link.classList.toggle('active', href === path);
+            });
+        };
+        window.addEventListener('popstate', () => window.updateActiveNav());
+        document.addEventListener('DOMContentLoaded', () => window.updateActiveNav());
+
         // Search Overlay Logic
         document.addEventListener('DOMContentLoaded', () => {
             const searchLink = document.querySelector('.search-nav-link');
