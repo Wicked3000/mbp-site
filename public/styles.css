@@ -2526,3 +2526,138 @@ body.menu-open .floating-social {
         border-radius: 10px;
     }
 }
+
+/* Map Zoom Lightbox & Hover Hint */
+.about-map-container {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    cursor: zoom-in;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+.about-map-img {
+    display: block;
+    width: 100%;
+    transition: transform 0.35s ease, filter 0.35s ease;
+}
+.about-map-container:hover .about-map-img {
+    transform: scale(1.04);
+    filter: brightness(1.05);
+}
+.zoom-hint {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    background: rgba(3, 20, 80, 0.85);
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+    z-index: 2;
+}
+.about-map-container:hover .zoom-hint {
+    opacity: 1;
+    transform: translateY(0);
+}
+.zoom-hint i { width: 16px; height: 16px; }
+
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.92);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+.lightbox.open { opacity: 1; }
+.lightbox[hidden] { display: none; }
+.lightbox-stage {
+    width: 100%;
+    max-height: 82vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+.lightbox-stage img {
+    display: block;
+    max-width: 94vw;
+    max-height: 82vh;
+    transform-origin: center center;
+    transition: transform 0.2s ease;
+    user-select: none;
+    -webkit-user-drag: none;
+    border-radius: 4px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+.lightbox-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    cursor: pointer;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.25); }
+.lightbox-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    background: rgba(255,255,255,0.08);
+    padding: 0.6rem 1rem;
+    border-radius: 999px;
+}
+.lightbox-toolbar button {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.lightbox-toolbar button:hover { background: rgba(255,255,255,0.25); }
+.lightbox-hint {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.8rem;
+    padding: 0 0.4rem;
+    white-space: nowrap;
+}
+@media (prefers-reduced-motion: reduce) {
+    .about-map-container:hover .about-map-img { transform: none; }
+    .zoom-hint { transition: none; }
+    .about-map-container:hover .zoom-hint { transform: none; }
+    .lightbox { transition: none; }
+}

@@ -31,8 +31,9 @@ window.AboutComponent = {
                         <div class="section-body text-content">
                             <!-- Split Top Layout (Map & Geography) -->
                             <div class="about-grid-layout" style="margin-bottom: 2.5rem;">
-                                <div class="about-map-container">
+                                <div class="about-map-container" title="Click to view full map">
                                     <img src="assets/about/milne_bay_map.jpg" alt="Map of Milne Bay Province" class="about-map-img">
+                                    <span class="zoom-hint"><i data-lucide="zoom-in"></i> Click to view full map</span>
                                 </div>
                                 <div class="about-text-column">
                                     <p>Milne Bay occupies the eastern half of the island of Papua New Guinea, which is 100 south and 1510 East of the equator and to the Northeastern tip of Australia. Milne Bay comprises about 10 large islands and more than 150 smaller islands and atolls. The province has a land and sea area of 16 200 sq km.</p>
@@ -68,5 +69,76 @@ window.AboutComponent = {
                 </div>
             </div>
         `;
+    },
+
+    afterRender() {
+        const container = document.querySelector('.about-map-container');
+        const img = container && container.querySelector('.about-map-img');
+        if (!container || !img) return;
+
+        if (window.__aboutMapZoomBound) return;
+        window.__aboutMapZoomBound = true;
+
+        const buildLightbox = () => {
+            if (document.getElementById('map-lightbox')) return;
+            const lb = document.createElement('div');
+            lb.className = 'lightbox';
+            lb.id = 'map-lightbox';
+            lb.hidden = true;
+            lb.innerHTML = `
+                <button type="button" class="lightbox-close" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+                <div class="lightbox-stage">
+                    <img src="${img.getAttribute('src')}" alt="Map of Milne Bay Province">
+                </div>
+                <div class="lightbox-toolbar">
+                    <button type="button" data-zoom="out" aria-label="Zoom out">−</button>
+                    <button type="button" data-zoom="reset" aria-label="Reset zoom">↺</button>
+                    <button type="button" data-zoom="in" aria-label="Zoom in">＋</button>
+                    <span class="lightbox-hint">Scroll or pinch to zoom</span>
+                </div>`;
+            document.body.appendChild(lb);
+        };
+
+        buildLightbox();
+        const lb = document.getElementById('map-lightbox');
+        const lbi = lb.querySelector('.lightbox-stage img');
+
+        let scale = 1;
+        const MIN = 1, MAX = 8, STEP = 0.4;
+        const apply = () => { lbi.style.transform = `scale(${scale})`; };
+        const zoom = (dir) => {
+            scale = Math.min(MAX, Math.max(MIN, +(scale + dir * STEP).toFixed(2)));
+            apply();
+        };
+
+        const open = () => {
+            scale = 1;
+            apply();
+            lb.hidden = false;
+            requestAnimationFrame(() => lb.classList.add('open'));
+            document.body.style.overflow = 'hidden';
+        };
+        const close = () => {
+            lb.classList.remove('open');
+            document.body.style.overflow = '';
+            setTimeout(() => { lb.hidden = true; }, 250);
+        };
+
+        container.addEventListener('click', open);
+
+        lb.querySelector('.lightbox-close').addEventListener('click', close);
+        lb.querySelector('[data-zoom="in"]').addEventListener('click', () => zoom(1));
+        lb.querySelector('[data-zoom="out"]').addEventListener('click', () => zoom(-1));
+        lb.querySelector('[data-zoom="reset"]').addEventListener('click', () => { scale = 1; apply(); });
+        lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
+        lb.querySelector('.lightbox-stage').addEventListener('wheel', (e) => {
+            e.preventDefault();
+            zoom(e.deltaY < 0 ? 1 : -1);
+        }, { passive: false });
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !lb.hidden) close();
+        });
     }
 };
