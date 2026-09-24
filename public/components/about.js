@@ -16,10 +16,10 @@ window.AboutComponent = {
                     
                     <!-- Image Placeholders -->
                     <div class="about-image-gallery">
-                        <div class="about-image-placeholder"><i data-lucide="image"></i></div>
-                        <div class="about-image-placeholder"><i data-lucide="image"></i></div>
-                        <div class="about-image-placeholder"><i data-lucide="image"></i></div>
-                        <div class="about-image-placeholder"><i data-lucide="image"></i></div>
+                        <img src="assets/about/img1.png" alt="Milne Bay Province image 1" class="about-gallery-img">
+                        <img src="assets/about/img2.jpg" alt="Milne Bay Province image 2" class="about-gallery-img">
+                        <img src="assets/about/img3.jpg" alt="Milne Bay Province image 3" class="about-gallery-img">
+                        <img src="assets/about/img4.jpg" alt="Milne Bay Province image 4" class="about-gallery-img">
                     </div>
 
                     <!-- Land and People Section -->
