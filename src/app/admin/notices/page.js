@@ -206,7 +206,7 @@ export default function NoticesPage() {
                             <span>{new Date(n.created_at).toLocaleDateString()}</span>
                           </span>
                         ) : (
-                          <span>—</span>
+                          <span></span>
                         )}
                       </td>
                       <td className="px-5 py-4 text-right space-x-2 whitespace-nowrap">

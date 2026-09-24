@@ -168,7 +168,7 @@ export default function ContactsPage() {
                         {c.email}
                       </td>
                       <td className="px-5 py-4 font-mono text-xs text-emerald-300/90">
-                        {c.phone || '—'}
+                        {c.phone || ''}
                       </td>
                       <td className="px-5 py-4 text-slate-300 max-w-xs truncate">
                         {c.message}

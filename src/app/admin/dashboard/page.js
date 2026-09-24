@@ -354,14 +354,14 @@ export default function DashboardPage() {
               ) : (
                 <HorizontalBars data={schoolData} />
               )}
-              <p className="text-[11px] text-slate-500 mt-3">Where selections are heaviest — monitor intake distribution.</p>
+              <p className="text-[11px] text-slate-500 mt-3">Where selections are heaviest, monitor intake distribution.</p>
             </div>
 
             <div className="p-5 border border-[#1565C0]/40 bg-[#0a192f]/90 rounded-2xl">
               <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#1565C0]/40">
                 <div className="flex items-center space-x-2">
                   <Mail className="w-4 h-4 text-[#2E7D32]" />
-                  <h3 className="text-sm font-bold text-white">Contact Messages — Last 6 Months</h3>
+                  <h3 className="text-sm font-bold text-white">Contact Messages: Last 6 Months</h3>
                 </div>
                 <span className="text-[10px] text-slate-500 uppercase tracking-wider">{contactCount} Total</span>
               </div>

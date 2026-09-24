@@ -181,11 +181,13 @@ Public GET endpoints (no auth): `students`, `notices`, `news`, `latest-news`, `b
 | `/api/fode-students` | FODE intake selection-list candidates (view/download) |
 | `/api/contacts` | Contact submissions |
 | `/api/submit-contact` | Public contact form submission (name, email, phone, message) |
+| `/api/whatsapp-subscribe` | Public WhatsApp subscription (phone, name, source) |
+| `/api/whatsapp-subscribers` | WhatsApp subscriber list (admin GET / DELETE) |
 | `/api/upload` | Admin file uploads (e.g. policy PDFs) |
 
 ### Admin Pages
 
-`/admin` is a React dashboard with pages for **dashboard, students, vet-students, fode-students, page-banners, welcome, news, latest-news, notices, policies, banners, and contacts**. Bulk CSV upload and student export are supported.
+`/admin` is a React dashboard with pages for **dashboard, students, vet-students, fode-students, page-banners, welcome, news, latest-news, notices, policies, banners, contacts, and whatsapp**. Bulk CSV upload and student export are supported.
 
 ### Authentication
 

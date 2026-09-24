@@ -102,6 +102,11 @@ const mockContacts = [
   { id: 2, name: 'Mary Anne', email: 'm.anne@education.gov.pg', phone: '+675 7234 5678', message: 'Requesting updated teacher posting circular for Woodlark Junior High.', created_at: new Date('2026-09-16T14:15:00Z').toISOString() },
 ];
 
+const mockWhatsappSubscribers = [
+  { id: 1, phone: '+675 7123 4567', name: 'David Kila', source: 'homepage', created_at: new Date('2026-09-15T10:30:00Z').toISOString() },
+  { id: 2, phone: '+675 7234 5678', name: 'Mary Anne', source: 'homepage', created_at: new Date('2026-09-16T14:15:00Z').toISOString() },
+];
+
 const mockNotices = [
   { id: 1, title: 'Important Update: Term 3 School Fees', body: 'All outstanding school fees for Term 3 must be deposited into the provincial trust account before July 10th, 2026.' },
   { id: 2, title: 'Teacher Postings 2026', body: 'The final list of teacher deployments for remote schools has been published. Please check the eRODSS portal for confirmation.' },
@@ -552,6 +557,55 @@ export async function deleteContact(id) {
     }
   }
   throw new Error('Database not available - cannot delete contact');
+}
+
+// --- WhatsApp Group & Channel Subscription ---
+
+export async function fetchWhatsappSubscribers() {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [rows] = await pool.execute('SELECT * FROM whatsapp_subscribers ORDER BY created_at DESC');
+      return rows;
+    } catch (error) {
+      console.error('Database fetch whatsapp subscribers failed, falling back to mock data:', error.message);
+    }
+  }
+  return mockWhatsappSubscribers;
+}
+
+export async function addWhatsappSubscriber(sub) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [result] = await pool.execute(
+        'INSERT INTO whatsapp_subscribers (phone, name, source) VALUES (?, ?, ?)',
+        [sub.phone, sub.name || '', sub.source || 'homepage']
+      );
+      return { id: result.insertId, ...sub, created_at: new Date().toISOString() };
+    } catch (error) {
+      console.error('Database insert whatsapp subscriber failed:', error);
+      throw new Error(`Database insert whatsapp subscriber failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot persist whatsapp subscriber');
+}
+
+export async function deleteWhatsappSubscriber(id) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      await pool.execute('DELETE FROM whatsapp_subscribers WHERE id = ?', [id]);
+      return true;
+    } catch (error) {
+      console.error('Database delete whatsapp subscriber failed:', error);
+      throw new Error(`Database delete whatsapp subscriber failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot delete whatsapp subscriber');
 }
 
 export async function fetchNotices() {
@@ -1216,6 +1270,16 @@ export async function seedDatabase() {
       )
     `);
 
+    await pool.execute(`
+      CREATE TABLE IF NOT EXISTS whatsapp_subscribers (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        phone VARCHAR(50) NOT NULL,
+        name VARCHAR(255) DEFAULT '',
+        source VARCHAR(50) DEFAULT 'homepage',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
     // Migrate older news tables (body column) to summary/full_story if needed
     const [newsCols] = await pool.execute(
       "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'news_items'"
@@ -1361,6 +1425,17 @@ export async function seedDatabase() {
         await pool.execute(
           'INSERT INTO policies (category_id, category_name, title, description, document_url, thumbnail_url, file_type, file_size, order_index, active, published_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
           [doc.category_id, doc.category_name, doc.title, doc.description, doc.document_url, doc.thumbnail_url, doc.file_type, doc.file_size, doc.order_index, doc.active, doc.published_at]
+        );
+      }
+    }
+
+    // Check if whatsapp_subscribers table is empty
+    const [waRows] = await pool.execute('SELECT COUNT(*) as count FROM whatsapp_subscribers');
+    if (waRows[0].count === 0) {
+      for (const sub of mockWhatsappSubscribers) {
+        await pool.execute(
+          'INSERT INTO whatsapp_subscribers (phone, name, source) VALUES (?, ?, ?)',
+          [sub.phone, sub.name, sub.source]
         );
       }
     }

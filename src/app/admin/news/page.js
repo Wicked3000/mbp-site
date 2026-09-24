@@ -261,7 +261,7 @@ export default function NewsPage() {
                             <span>{new Date(n.published_at).toLocaleDateString()}</span>
                           </span>
                         ) : (
-                          <span>—</span>
+                          <span></span>
                         )}
                       </td>
                       <td className="px-5 py-4 text-right space-x-2 whitespace-nowrap">

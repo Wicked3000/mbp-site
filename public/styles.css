@@ -806,40 +806,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* 5. Resource Library */
-.resource-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-}
-
-.resource-card {
-    background: white;
-    border: 1px solid #eee;
-    padding: 2rem 1.5rem;
-    border-radius: 12px;
-    text-align: center;
-    transition: all 0.3s ease;
-}
-
-.resource-card:hover {
-    border-color: var(--mbp-blue);
-    box-shadow: 0 10px 20px rgba(21, 101, 192, 0.1);
-}
-
-.resource-card > i {
-    width: 40px;
-    height: 40px;
-    color: var(--mbp-red);
-    margin-bottom: 1rem;
-    display: inline-block;
-}
-
-.resource-card h4 {
-    font-size: 1.1rem;
-    margin-bottom: 1.5rem;
-    min-height: 48px;
-}
-
 .download-btn {
     background: var(--mbp-blue);
     color: white;
@@ -2886,7 +2852,7 @@ body.menu-open .floating-social {
 }
 
 /* ============================================================
-   Homepage Body Redesign — stats band, district explorer,
+   Homepage Body Redesign: stats band, district explorer,
    FODE learning feature, E-Services hub, district profile modal
    ============================================================ */
 
@@ -3357,6 +3323,9 @@ body.menu-open .floating-social {
     flex-shrink: 0;
 }
 
+.fode-link-icon i + i {
+    margin-left: 6px;
+}
 .fode-link-icon i {
     width: 20px;
     height: 20px;
@@ -3421,6 +3390,167 @@ body.menu-open .floating-social {
     color: var(--mbp-blue);
     font-weight: 700;
     text-decoration: none;
+}
+
+/* --- VET Section --- */
+.vet-section {
+    position: relative;
+    border-radius: 22px;
+    padding: 3rem 2.5rem;
+    background: linear-gradient(135deg, #1c1207 0%, #2a1a0a 45%, #3d2410 100%);
+    overflow: hidden;
+    box-shadow: 0 30px 60px -25px rgba(0, 0, 0, 0.5);
+}
+
+.vet-section::before {
+    content: '';
+    position: absolute;
+    top: -120px;
+    right: -80px;
+    width: 380px;
+    height: 380px;
+    background: radial-gradient(circle, rgba(245, 127, 23, 0.22), transparent 70%);
+    pointer-events: none;
+}
+
+.vet-section::after {
+    content: '';
+    position: absolute;
+    bottom: -140px;
+    left: -60px;
+    width: 340px;
+    height: 340px;
+    background: radial-gradient(circle, rgba(251, 191, 36, 0.14), transparent 70%);
+    pointer-events: none;
+}
+
+.vet-blurb {
+    position: relative;
+    z-index: 1;
+}
+
+.vet-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(245, 127, 23, 0.18);
+    color: #fcd9a8;
+    border: 1px solid rgba(245, 127, 23, 0.35);
+    padding: 0.4rem 0.95rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.1rem;
+}
+
+.vet-badge svg {
+    width: 14px;
+    height: 14px;
+}
+
+.vet-blurb h2 {
+    color: #fff;
+    font-size: 2.1rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 0.9rem;
+}
+
+.vet-blurb > p {
+    color: #cdb9a0;
+    font-size: 0.98rem;
+    line-height: 1.7;
+    margin-bottom: 1.8rem;
+    max-width: 620px;
+}
+
+.vet-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.vet-card {
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025));
+    border: 1px solid rgba(245, 127, 23, 0.22);
+    border-radius: 16px;
+    padding: 1.6rem 1.4rem;
+    text-align: center;
+    transition: all 0.25s ease;
+}
+
+.vet-card:hover {
+    transform: translateY(-4px);
+    background: linear-gradient(160deg, rgba(245, 127, 23, 0.18), rgba(255, 255, 255, 0.06));
+    border-color: rgba(245, 127, 23, 0.6);
+    box-shadow: 0 14px 30px -12px rgba(245, 127, 23, 0.55);
+}
+
+.vet-card svg {
+    width: 44px;
+    height: 44px;
+    color: var(--mbp-gold);
+    margin-bottom: 1rem;
+}
+
+.vet-card h3 {
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+}
+
+.vet-card p {
+    color: #e3cfbc;
+    font-size: 0.85rem;
+    line-height: 1.55;
+}
+
+.vet-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 0.9rem;
+    padding: 0.85rem 1.6rem;
+    border-radius: 999px;
+    transition: all 0.25s ease;
+}
+
+.vet-btn.primary {
+    background: linear-gradient(135deg, var(--mbp-gold), #F57F17);
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(245, 127, 23, 0.35);
+}
+
+.vet-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(245, 127, 23, 0.5);
+    color: #fff;
+}
+
+.vet-btn.primary:hover svg {
+    transform: translateX(3px);
+}
+
+.vet-btn svg {
+    width: 17px;
+    height: 17px;
+}
+
+@media (max-width: 768px) {
+    .vet-grid {
+        grid-template-columns: 1fr;
+    }
+    .vet-section {
+        padding: 2rem 1.4rem;
+    }
+    .vet-blurb h2 {
+        font-size: 1.7rem;
+    }
 }
 
 /* --- E-Services & Citizen Hub --- */

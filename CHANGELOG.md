@@ -6,6 +6,38 @@ All notable changes to the Milne Bay Province – Division of Education website 
 
 ## Last Changes
 
+### 2026-09-24 — Added WhatsApp Subscriber management
+- Added `whatsapp_subscribers` MySQL table, mock-data fallback, and `/api/whatsapp-subscribe` (POST) and `/api/whatsapp-subscribers` (GET/DELETE) API routes for WhatsApp group/channel subscription management.
+- Added an admin **WhatsApp Subscribers** tab (`/admin/whatsapp`) with a list view showing phone, name, source, and subscription date, plus delete functionality and search/filter.
+- Updated `src/middleware.js` to protect `/api/whatsapp-subscribers` admin routes.
+- Added `mockWhatsappSubscribers` seed data and auto-seed logic in `src/lib/data.js` and `setup_db.sql`.
+- Updated `src/components/AdminHeader.js` with a new WhatsApp Subscribers nav item.
+
+### 2026-09-24 — Removed the Resource Library Highlights section from the homepage
+- Deleted the "Document & Resource Library" band (2026 Academic Calendar, PEB Circulars, Syllabus Updates, School Fee Structures download cards) and its `.resource-grid`/`.resource-card` CSS. The `.download-btn` class is retained because it is still used by the Policy and Calendar pages.
+
+### 2026-09-24 — Moved the Educational Pathways section above FODE and VET
+- The "Educational Pathways" pillars section (Early Childhood, Primary, Secondary, VET) now sits directly after "Explore Our Districts" and before the FODE Learning Portal feature and VET section, so the page opens with the educational journey before the specialized portals.
+
+### 2026-09-24 — Replaced the FODE Distance Learning service card with an Academic Calendar card
+- The E-Services & Citizen Hub grid no longer duplicates the FODE portal (already covered by the FODE Learning Portal feature band above). Replaced the "FODE Distance Learning" card with an "Academic Calendar" card (`calendar` icon, blue, links to `/calendar`) so each hub destination is unique.
+
+### 2026-09-24 — Fixed VET card icon rendering and gave Agriculture its own icon
+- Root cause: Lucide's `createIcons()` replaces each `<i data-lucide>` with an `<svg>`, so the original `.vet-card i` / `.vet-badge i` / `.vet-btn i` rules never matched the rendered SVGs — the icons stayed at default 24px, uncolored and misaligned. Retargeted the rules at `svg` (`.vet-card svg` 44px gold, `.vet-badge svg` 14px, `.vet-btn svg` 17px).
+- Replaced the Agriculture card's `tree` icon (more forestry than farming) with `sprout`, a dedicated crop/growth icon.
+
+### 2026-09-24 — Styled the VET section on the homepage
+- The VET section had no styling (bare text on the page). Added a full style system in `styles.css` matching the FODE section's quality but with its own warm amber vocational-training identity: dark gradient panel, "Vocational Technical Training" badge, 3 trade cards (Agriculture, Mechanical, Hospitality) with lift + gold hover glow, and a gold gradient "View VET Programs" pill CTA with sliding arrow. Responsive 3 → 1 columns.
+
+### 2026-09-24 — Removed the Centre Locations link from the FODE dashboard footer
+- Deleted the "Centre Locations" link (and its map-pin icon) from the homepage FODE dashboard footer; only the "Free for registered Milne Bay students" status text remains.
+
+### 2026-09-24 — Fixed the FODE Exam Results icon (it was not rendering)
+- The Exam Results row in the homepage FODE dashboard used `data-lucide="square-poll-vertical"`, which is a Font Awesome icon name and does not exist in Lucide — so it rendered as a blank box. Replaced it with the valid Lucide icon `trophy` (single icon, as intended).
+
+### 2026-09-24 — Added a map-pin icon to the Centre Locations footer link
+- Added a `<i data-lucide="map-pin">` icon before the "Centre Locations" link in the FODE dashboard footer (`.fode-dash-foot`) so the link is visually distinguishable alongside the "Free for registered Milne Bay students" status text.
+
 ### 2026-09-24 — Removed the Quick Access section from the homepage
 - Removed the Quick Access glass card (Explore / Quick Access / Popular services, one click away) and its 8 icon tiles along with all `.qa-*` grid/tile CSS. The new E-Services & Citizen Hub grid already covers those destinations (School Finder, Policy Documents, Exam Results, Parent Portal, etc.), so no functionality is lost.
 - Kept the generic `.qa-btn` CTA styling (still used by View All News and Download Full Plan) and updated the README + search index description of the home page.

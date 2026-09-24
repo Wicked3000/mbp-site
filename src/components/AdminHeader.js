@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { LayoutDashboard, Users, Mail, LogOut, ArrowLeft, Bell, Newspaper, Rss, Image, FileText, Wrench, BookOpen, LayoutTemplate, Sparkles } from 'lucide-react';
+import { LayoutDashboard, Users, Mail, LogOut, ArrowLeft, Bell, Newspaper, Rss, Image, FileText, Wrench, BookOpen, LayoutTemplate, Sparkles, MessageCircle } from 'lucide-react';
 
 export default function AdminHeader() {
   const pathname = usePathname();
@@ -29,6 +29,7 @@ export default function AdminHeader() {
 { name: 'Page Banners', href: '/admin/page-banners', icon: LayoutTemplate },
 { name: 'Welcome Message', href: '/admin/welcome', icon: Sparkles },
     { name: 'Contact Messages', href: '/admin/contacts', icon: Mail },
+    { name: 'WhatsApp Subscribers', href: '/admin/whatsapp', icon: MessageCircle },
     { name: 'News & Announcements', href: '/admin/news', icon: Newspaper },
     { name: 'Latest News Ticker', href: '/admin/latest-news', icon: Rss },
     { name: 'Official Notice Board', href: '/admin/notices', icon: Bell },

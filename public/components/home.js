@@ -66,86 +66,10 @@ window.HomeComponent = {
                     <div class="explorer-head">
                         <span class="explorer-kicker">Across All Districts</span>
                         <h2 class="section-title">Explore Our Districts</h2>
-                        <p class="section-subtitle">Every Milne Bay district is served by schools, FODE centres and learning outreach — from the mainland capital to the remote islands.</p>
+                        <p class="section-subtitle">Every Milne Bay district is served by schools, FODE centres and learning outreach from the mainland capital to the remote islands.</p>
                     </div>
                     <div class="explorer-grid">
                         ${HomeComponent.renderDistrictCards()}
-                    </div>
-                </section>
-
-                <!-- FODE Learning Portal Feature -->
-                <section class="fode-feature">
-                    <div class="fode-blurb">
-                        <span class="fode-badge"><i data-lucide="graduation-cap"></i> Flexible Open & Distance Education</span>
-                        <h2>Learn from Anywhere in Milne Bay</h2>
-                        <p>FODE lets students across all four districts continue secondary education and matriculation from home — with study packages, assignments and exam support reaching even the most remote islands.</p>
-                        <div class="fode-mini-grid">
-                            <div class="fode-mini">
-                                <i data-lucide="book-open"></i>
-                                <h4>Grades 9–12 Curriculum</h4>
-                                <p>National syllabus packages and study guides for every subject.</p>
-                            </div>
-                            <div class="fode-mini">
-                                <i data-lucide="tools"></i>
-                                <h4>Vocational Options</h4>
-                                <p>Trade skills and technical certification pathways.</p>
-                            </div>
-                        </div>
-                        <div class="fode-actions">
-                            <a href="/fode" data-link class="fode-btn primary"><span>Visit the FODE Page</span><i data-lucide="arrow-right"></i></a>
-                            <a href="/post" data-link class="fode-btn ghost"><span>View Selection Lists</span></a>
-                        </div>
-                    </div>
-                    <div class="fode-dashboard">
-                        <div class="fode-dash-head">
-                            <div>
-                                <span>Student & Teacher Portal</span>
-                                <h3>Digital Resource Center</h3>
-                            </div>
-                            <span class="fode-dash-dot"></span>
-                        </div>
-                        <a href="/post" data-link class="fode-link">
-                            <span class="fode-link-icon blue"><i data-lucide="file-text"></i></span>
-                            <span class="fode-link-text">
-                                <span class="fode-link-title">Course & Assignment Downloads</span>
-                                <span class="fode-link-sub">Grades 9 to 12 English, Science, Mathematics & Social Science</span>
-                            </span>
-                            <i data-lucide="chevron-right" class="fode-link-arrow"></i>
-                        </a>
-                        <a href="/exams" data-link class="fode-link">
-                            <span class="fode-link-icon green"><i data-lucide="square-poll-vertical"></i></span>
-                            <span class="fode-link-text">
-                                <span class="fode-link-title">FODE Examination Results</span>
-                                <span class="fode-link-sub">Check grade transcripts and certification status</span>
-                            </span>
-                            <i data-lucide="chevron-right" class="fode-link-arrow"></i>
-                        </a>
-                        <a href="/vet" data-link class="fode-link">
-                            <span class="fode-link-icon gold"><i data-lucide="wrench"></i></span>
-                            <span class="fode-link-text">
-                                <span class="fode-link-title">Vocational Technical Training (VET)</span>
-                                <span class="fode-link-sub">Trades, mechanical, agriculture & hospitality courses</span>
-                            </span>
-                            <i data-lucide="chevron-right" class="fode-link-arrow"></i>
-                        </a>
-                        <div class="fode-dash-foot">
-                            <span><i data-lucide="circle-check"></i> Free for registered Milne Bay students</span>
-                            <a href="/contact" data-link>Centre Locations</a>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- E-Services & Citizen Hub -->
-                <section class="services-hub">
-                    <div class="services-head">
-                        <div>
-                            <span class="explorer-kicker">Online Portals</span>
-                            <h2 class="section-title">E-Services & Citizen Hub</h2>
-                        </div>
-                        <p class="services-head-text">Access school records, policy documents and the online tools that keep our province learning.</p>
-                    </div>
-                    <div class="services-grid">
-                        ${HomeComponent.renderServiceCards()}
                     </div>
                 </section>
 
@@ -176,6 +100,96 @@ window.HomeComponent = {
                         </div>
                     </div>
                 </section>
+
+                <!-- FODE Learning Portal Feature -->
+                <section class="fode-feature">
+                    <div class="fode-blurb">
+                        <span class="fode-badge"><i data-lucide="graduation-cap"></i> Flexible Open & Distance Education</span>
+                        <h2>Learn from Anywhere in Milne Bay</h2>
+                        <p>FODE lets students across all four districts continue secondary education and matriculation from home with study packages, assignments and exam support reaching even the most remote islands.</p>
+                        <div class="fode-mini-grid">
+                            <div class="fode-mini">
+                                <i data-lucide="book-open"></i>
+                                <h4>Grades 9–12 Curriculum</h4>
+                                <p>National syllabus packages and study guides for every subject.</p>
+                            </div>
+                        </div>
+                        <div class="fode-actions">
+                            <a href="/fode" data-link class="fode-btn primary"><span>Visit the FODE Page</span><i data-lucide="arrow-right"></i></a>
+                            <a href="/post" data-link class="fode-btn ghost"><span>View Selection Lists</span></a>
+                        </div>
+                    </div>
+                    <div class="fode-dashboard">
+                        <div class="fode-dash-head">
+                            <div>
+                                <span>Student & Teacher Portal</span>
+                                <h3>Digital Resource Center</h3>
+                            </div>
+                            <span class="fode-dash-dot"></span>
+                        </div>
+                        <a href="/post" data-link class="fode-link">
+                            <span class="fode-link-icon blue"><i data-lucide="file-text"></i></span>
+                            <span class="fode-link-text">
+                                <span class="fode-link-title">Course & Assignment Downloads</span>
+                                <span class="fode-link-sub">Grades 9 to 12 English, Science, Mathematics & Social Science</span>
+                            </span>
+                            <i data-lucide="chevron-right" class="fode-link-arrow"></i>
+                        </a>
+                        <a href="/exams" data-link class="fode-link">
+                            <span class="fode-link-icon green"><i data-lucide="trophy"></i></span>
+                            <span class="fode-link-text">
+                                <span class="fode-link-title">FODE Examination Results</span>
+                                <span class="fode-link-sub">Check grade transcripts and certification status</span>
+                            </span>
+                            <i data-lucide="chevron-right" class="fode-link-arrow"></i>
+                        </a>
+                        <div class="fode-dash-foot">
+                            <span><i data-lucide="circle-check"></i> Free for registered Milne Bay students</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VET Section -->
+                <section class="vet-section">
+                    <div class="vet-blurb">
+                        <span class="vet-badge"><i data-lucide="wrench"></i> Vocational Technical Training</span>
+                        <h2>Milne Bay VET Courses</h2>
+                        <p>Trade skills and technical certification pathways for registered Milne Bay students.</p>
+                        <div class="vet-grid">
+<div class="vet-card">
+    <i data-lucide="sprout"></i>
+    <h3>Agriculture</h3>
+    <p>Crop cultivation, livestock & horticulture skills.</p>
+</div>
+                            <div class="vet-card">
+                                <i data-lucide="sparkles"></i>
+                                <h3>Mechanical</h3>
+                                <p>Engine repair, fabrication & automotive technology.</p>
+                            </div>
+                            <div class="vet-card">
+                                <i data-lucide="zap"></i>
+                                <h3>Hospitality</h3>
+                                <p>Cooking, food service & tourism operations.</p>
+                            </div>
+                        </div>
+                        <a href="/vet" data-link class="vet-btn primary">View VET Programs</a>
+                    </div>
+                </section>
+
+                <!-- E-Services & Citizen Hub -->
+                <section class="services-hub">
+                    <div class="services-head">
+                        <div>
+                            <span class="explorer-kicker">Online Portals</span>
+                            <h2 class="section-title">E-Services & Citizen Hub</h2>
+                        </div>
+                        <p class="services-head-text">Access school records, policy documents and the online tools that keep our province learning.</p>
+                    </div>
+                    <div class="services-grid">
+                        ${HomeComponent.renderServiceCards()}
+                    </div>
+                </section>
+
 
                 <!-- 2. Secure Staff & Teacher Portals -->
                 <section class="home-section glass-panel staff-hub-section">
@@ -238,32 +252,6 @@ window.HomeComponent = {
                     </div>
                 </section>
 
-                <!-- 5. Document & Resource Library -->
-                <section class="home-section resources-section">
-                    <h2 class="section-title">Resource Library Highlights</h2>
-                    <div class="resource-grid">
-                        <div class="resource-card">
-                            <i data-lucide="calendar"></i>
-                            <h4>2026 Academic Calendar</h4>
-                            <a href="assets/downloads/calendar_2026.pdf" download class="download-btn" style="text-decoration:none; display:inline-block; margin-top:10px;"><i data-lucide="download"></i> Download</a>
-                        </div>
-                        <div class="resource-card">
-                            <i data-lucide="file-text"></i>
-                            <h4>PEB Circulars</h4>
-                            <a href="assets/downloads/peb_circulars.pdf" download class="download-btn" style="text-decoration:none; display:inline-block; margin-top:10px;"><i data-lucide="download"></i> Download</a>
-                        </div>
-                        <div class="resource-card">
-                            <i data-lucide="book"></i>
-                            <h4>Syllabus Updates</h4>
-                            <a href="assets/downloads/syllabus_updates.pdf" download class="download-btn" style="text-decoration:none; display:inline-block; margin-top:10px;"><i data-lucide="download"></i> Download</a>
-                        </div>
-                        <div class="resource-card">
-                            <i data-lucide="dollar-sign"></i>
-                            <h4>School Fee Structures</h4>
-                            <a href="assets/downloads/school_fee_structures.pdf" download class="download-btn" style="text-decoration:none; display:inline-block; margin-top:10px;"><i data-lucide="download"></i> Download</a>
-                        </div>
-                    </div>
-                </section>
             </div>
 
             <!-- District Explorer Modal -->
@@ -306,7 +294,7 @@ window.HomeComponent = {
             badge: 'Provincial Capital',
             hq: 'Alotau Town',
             img: 'assets/about/img1.png',
-            desc: 'Home of the Division of Education headquarters and the province\'s largest cluster of schools — national high school, secondary schools and the central FODE facility for Milne Bay.',
+            desc: 'Home of the Division of Education headquarters and the province\'s largest cluster of schools, national high school, secondary schools and the central FODE facility for Milne Bay.',
             llgs: 'Alotau Urban, Huhu, Suau, Makamaka, Daga',
             schools: 'Largest cluster of schools in the province',
             fode: 'Central FODE centre in Alotau',
@@ -336,7 +324,7 @@ window.HomeComponent = {
             badge: 'Cultural Heritage',
             hq: 'Losuia & Bolubolu',
             img: 'assets/about/img3.jpg',
-            desc: 'The Trobriand Islands and Goodenough Island — famous for culture and craftsmanship. Schools and a dedicated FODE centre keep every village connected to education.',
+            desc: 'The Trobriand Islands and Goodenough Island, famous for culture and craftsmanship. Schools and a dedicated FODE centre keep every village connected to education.',
             llgs: 'Kiriwina Rural, Goodenough Island Rural',
             schools: 'Primary & community schools island-wide',
             fode: 'FODE centre at Losuia',
@@ -356,7 +344,7 @@ window.HomeComponent = {
             schools: 'Island classrooms from Samarai to Woodlark',
             fode: 'Correspondence & distance learning outreach',
             highlights: [
-                'Samarai heritage island — former provincial capital',
+                'Samarai heritage island, former provincial capital',
                 'Misima & Woodlark school networks',
                 'Sea-transported study materials'
             ]
@@ -387,14 +375,14 @@ window.HomeComponent = {
     },
 
     renderServiceCards() {
-        const services = [
-            { icon: 'graduation-cap', cls: 'blue', title: 'FODE Distance Learning', desc: 'Study packages, enrolment details and guides for students in all four districts.', href: '/fode', cta: 'Open FODE Portal' },
-            { icon: 'map-pin', cls: 'green', title: 'School Finder', desc: 'Locate every school in Milne Bay Province on the national EMIS school map.', href: 'https://gfb742e44b55c34-doeapps.adb.ap-sydney-1.oraclecloudapps.com/ords/r/emis/where-is-my-school/landing?session=616876509072831', external: true, cta: 'Open School Finder' },
-            { icon: 'file-text', cls: 'gold', title: 'Policy Documents', desc: 'PEB circulars, education policies and official directives from the Division.', href: '/policy', cta: 'Browse Documents' },
-            { icon: 'list-checks', cls: 'blue', title: 'Selection Lists', desc: 'Grade 9 and Grade 11 national examination selection lists, grouped by school.', href: '/post', cta: 'View Selection Lists' },
-            { icon: 'users', cls: 'green', title: 'Parent Portal', desc: 'School fees, term dates and guidance resources for parents and guardians.', href: '/parents', cta: 'Visit Parent Portal' },
-            { icon: 'award', cls: 'red', title: 'Exam Results', desc: 'National examination results and transcript status for students.', href: '/exams', cta: 'Check Results' }
-        ];
+const services = [
+    { icon: 'calendar', cls: 'blue', title: 'Academic Calendar', desc: 'Term dates, school holidays and key education events for Milne Bay Province.', href: '/calendar', cta: 'View Calendar' },
+    { icon: 'map-pin', cls: 'green', title: 'School Finder', desc: 'Locate every school in Milne Bay Province on the national EMIS school map.', href: 'https://gfb742e44b55c34-doeapps.adb.ap-sydney-1.oraclecloudapps.com/ords/r/emis/where-is-my-school/landing?session=616876509072831', external: true, cta: 'Open School Finder' },
+    { icon: 'file-text', cls: 'gold', title: 'Policy Documents', desc: 'PEB circulars, education policies and official directives from the Division.', href: '/policy', cta: 'Browse Documents' },
+    { icon: 'list-checks', cls: 'blue', title: 'Selection Lists', desc: 'Grade 9 and Grade 11 national examination selection lists, grouped by school.', href: '/post', cta: 'View Selection Lists' },
+    { icon: 'users', cls: 'green', title: 'Parent Portal', desc: 'School fees, term dates and guidance resources for parents and guardians.', href: '/parents', cta: 'Visit Parent Portal' },
+    { icon: 'award', cls: 'red', title: 'Exam Results', desc: 'National examination results and transcript status for students.', href: '/exams', cta: 'Check Results' }
+];
         return services.map((s) => `
             <div class="svc-card">
                 <span class="svc-icon ${s.cls}"><i data-lucide="${s.icon}"></i></span>

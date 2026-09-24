@@ -60,6 +60,14 @@ CREATE TABLE IF NOT EXISTS welcome_messages (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS whatsapp_subscribers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    phone VARCHAR(50) NOT NULL,
+    name VARCHAR(255) DEFAULT '',
+    source VARCHAR(50) DEFAULT 'homepage',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Clear existing data if any
 TRUNCATE TABLE students;
 
@@ -155,3 +163,8 @@ INSERT INTO welcome_messages (code, kicker, title, message, image_url, active) V
 Our vision is a well-educated and healthy population that is self reliant, wise in the use of its resources, and able to participate meaningfully in the social and economic development of our province and nation.
 
 We invite you to explore our site to learn about our schools, programs, news, and the many pathways we offer every child to succeed.', 'assets/about/img1.png', 1);
+
+-- WhatsApp subscribers
+INSERT INTO whatsapp_subscribers (phone, name, source) VALUES
+('+675 7123 4567', 'David Kila', 'homepage'),
+('+675 7234 5678', 'Mary Anne', 'homepage');

@@ -13,7 +13,7 @@ export function middleware(request) {
   }
 
   // Protect admin API routes (public read-only access to students, vet-students, fode-students, notices, news, latest news, banners and policies lists)
-  if (pathname.startsWith('/api/students') || pathname.startsWith('/api/vet-students') || pathname.startsWith('/api/fode-students') || pathname.startsWith('/api/contacts') || pathname.startsWith('/api/notices') || pathname.startsWith('/api/news') || pathname.startsWith('/api/latest-news') || pathname.startsWith('/api/banners') || pathname.startsWith('/api/page-banners') || pathname.startsWith('/api/welcome') || pathname.startsWith('/api/policies') || pathname.startsWith('/api/upload')) {
+  if (pathname.startsWith('/api/students') || pathname.startsWith('/api/vet-students') || pathname.startsWith('/api/fode-students') || pathname.startsWith('/api/contacts') || pathname.startsWith('/api/notices') || pathname.startsWith('/api/news') || pathname.startsWith('/api/latest-news') || pathname.startsWith('/api/banners') || pathname.startsWith('/api/page-banners') || pathname.startsWith('/api/welcome') || pathname.startsWith('/api/policies') || pathname.startsWith('/api/upload') || pathname.startsWith('/api/whatsapp-subscribers')) {
     const isPublicRead =
       (pathname.startsWith('/api/students') || pathname.startsWith('/api/vet-students') || pathname.startsWith('/api/fode-students') || pathname.startsWith('/api/notices') || pathname.startsWith('/api/news') || pathname.startsWith('/api/latest-news') || pathname.startsWith('/api/banners') || pathname.startsWith('/api/page-banners') || pathname.startsWith('/api/welcome') || pathname.startsWith('/api/policies')) && request.method === 'GET';
     if (!sessionCookie && !isPublicRead) {
