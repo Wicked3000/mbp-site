@@ -1,13 +1,14 @@
 window.AboutComponent = {
     async render() {
+        const banner = await window.PageBanners.get('about');
         return `
             <div class="about-page">
                 <!-- Banner Section -->
-                <div class="about-banner">
+                <div class="about-banner" style="background-image: url('${window.PageBanners.safeUrl(banner.image_url)}'); background-size: cover; background-position: center 25%;">
                     <div class="banner-overlay"></div>
                     <div class="banner-content">
-                        <h1>About Milne Bay Province</h1>
-                        <p>Our Land, Our People, Our Education</p>
+                        <h1>${banner.title}</h1>
+                        <p>${banner.subtitle}</p>
                     </div>
                 </div>
                 

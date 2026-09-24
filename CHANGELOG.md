@@ -6,6 +6,11 @@ All notable changes to the Milne Bay Province – Division of Education website 
 
 ## Last Changes
 
+### 2026-09-24 — Page Banner Manager for About/Basic/Post/VET/FODE
+- Added an admin **Page Banners** tab (`/admin/page-banners`) to customize the banner image, title and subtitle shown on the About, Basic Education, Post Primary, VET and FODE pages (with image upload, inline previews, and Open Page links).
+- Added a new `page_banners` MySQL table (auto-created and seeded idempotently, `INSERT IGNORE` per page key) plus `mockPageBanners` fallback in `src/lib/data.js`, and a `/api/page-banners` API (public GET read by `?page=`, admin PATCH).
+- Public pages now fetch their banner live via a new `public/components/pageBanner.js` helper (defaults preserved if unset); `setup_db.sql`, middleware, README and CHANGELOG updated.
+
 ### 2026-09-24 — Contact forms now require a phone number
 - The public contact form now has a mandatory phone number field (validated 7–20 chars) sent with each submission for building a WhatsApp-ready contact bank.
 - `/api/submit-contact` now requires and persists the phone number; the `contacts` table gained a `phone` column (with auto-migration for existing databases) and mock data includes phones.

@@ -46,7 +46,7 @@ The Next.js server rewrites all public routes (e.g. `/home`, `/about`) to `/site
 | Next.js 16 (`create-next-app`) | App shell for `/admin` and `/api` routes |
 | React 19 | Admin dashboard UI |
 | Vanilla HTML/CSS/JS | Public SPA shell, router, components |
-| MySQL (Railway) | Persistent data (news, notices, policies, students, contacts, banners) |
+| MySQL (Railway) | Persistent data (news, notices, policies, students, contacts, banners, page banners) |
 | `mysql2` | MySQL driver (with mock-data fallback) |
 | DOMPurify 3.0.6 | XSS-safe HTML sanitisation for SPA content |
 | Lucide Icons | SVG icon set |
@@ -134,8 +134,9 @@ window.MyComponent = {
 ### Pages & Components
 
 - **Home** (`home.js`) — Responsive hero slider (aspect-ratio based, images shown in full via `contain`), Quick Access grid, Educational Pathways, Staff Hub, animated stat counters, live Notice Board, Latest News with scrolling **news ticker**, Provincial Education Plans (scroll-in animations + floating cover), Resource Library downloads.
-- **About** (`about.js`) — Banner, 4-photo image gallery, Land & People with the **Milne Bay map** (click-to-zoom lightbox with zoom buttons + scroll/pinch), Gender Equity section.
+- **About** (`about.js`) — 4-photo image gallery, Land & People with the **Milne Bay map** (click-to-zoom lightbox with zoom buttons + scroll/pinch), Gender Equity section.
 - **Basic** (`basic.js`) — Elementary/Primary education info and enrolment tables.
+- **About / Basic / Post Primary / VET / FODE** — Page banners (image, title, subtitle) for all five pages are configurable from the admin **Page Banners** tab.
 - **Post Primary** (`post.js`) — Secondary pathways with Grade 9/11 selection lists (view/download, preview modal).
 - **VET** (`vet.js`) — Technical & vocational education content and the dynamic 2024 VET centre selection list (managed in admin).
 - **FODE** (`fode.js`) — Flexible Open & Distance Education content and the dynamic 2024 FODE selection list (managed in admin).
@@ -163,7 +164,7 @@ The gold **Search** pill button in the nav bar opens a fullscreen overlay. `publ
 
 ### API Routes
 
-Public GET endpoints (no auth): `students`, `notices`, `news`, `latest-news`, `banners`, `policies`, `contacts` (read-only). All mutations require a session.
+Public GET endpoints (no auth): `students`, `notices`, `news`, `latest-news`, `banners`, `page-banners`, `policies`, `contacts` (read-only). All mutations require a session.
 
 | Endpoint | Description |
 |---|---|
@@ -173,6 +174,7 @@ Public GET endpoints (no auth): `students`, `notices`, `news`, `latest-news`, `b
 | `/api/notices` | Notice Board entries |
 | `/api/policies` | Policy documents + categories |
 | `/api/banners` | Configurable news page banner management |
+| `/api/page-banners` | Configurable banners (image/title/subtitle) for the About, Basic, Post Primary, VET and FODE pages |
 | `/api/students` | Selection-list students (view/download) |
 | `/api/vet-students` | VET centre selection-list candidates (view/download) |
 | `/api/fode-students` | FODE intake selection-list candidates (view/download) |
@@ -182,7 +184,7 @@ Public GET endpoints (no auth): `students`, `notices`, `news`, `latest-news`, `b
 
 ### Admin Pages
 
-`/admin` is a React dashboard with pages for **dashboard, students, vet-students, fode-students, news, latest-news, notices, policies, banners, and contacts**. Bulk CSV upload and student export are supported.
+`/admin` is a React dashboard with pages for **dashboard, students, vet-students, fode-students, page-banners, news, latest-news, notices, policies, banners, and contacts**. Bulk CSV upload and student export are supported.
 
 ### Authentication
 

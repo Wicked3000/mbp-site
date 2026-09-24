@@ -40,6 +40,15 @@ CREATE TABLE IF NOT EXISTS fode_students (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS page_banners (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    page_key VARCHAR(50) NOT NULL UNIQUE,
+    title VARCHAR(255) NOT NULL DEFAULT '',
+    subtitle TEXT,
+    image_url VARCHAR(500) NOT NULL DEFAULT '',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Clear existing data if any
 TRUNCATE TABLE students;
 
@@ -119,3 +128,11 @@ INSERT INTO fode_students (candidate_name, primary_school, destination_school, s
 ('Stanley Melanie', 'Pabe', 'FODE Intake 2026', 'Selected', 'M'),
 ('Tuiwala Daniel', 'Pabe', 'FODE Intake 2026', 'Selected', 'M'),
 ('Tioni Traceyl', 'Pabe', 'FODE Intake 2026', 'Selected', 'F');
+
+-- Page banners for the About, Basic, Post Primary, VET and FODE pages
+INSERT INTO page_banners (page_key, title, subtitle, image_url) VALUES
+('about', 'About Milne Bay Province', 'Our Land, Our People, Our Education', 'assets/about/banner.png'),
+('basic', 'Basic Education', 'Foundations for the Future of Milne Bay', 'assets/basic/banner.png'),
+('post', 'Post Primary Education', 'Secondary & High School Pathways in Milne Bay Province', 'assets/post/banner.png'),
+('vet', 'Vocational Education', 'Skills Oriented Pathways in Milne Bay Province', 'assets/vet/banner.png'),
+('fode', 'Flexible Open & Distance Education', 'Alternative Pathways to Academic Success in Milne Bay', 'assets/fode/banner.png');

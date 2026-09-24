@@ -182,6 +182,44 @@ const mockNewsBanners = [
   },
 ];
 
+const mockPageBanners = [
+  {
+    id: 1,
+    page_key: 'about',
+    title: 'About Milne Bay Province',
+    subtitle: 'Our Land, Our People, Our Education',
+    image_url: 'assets/about/banner.png'
+  },
+  {
+    id: 2,
+    page_key: 'basic',
+    title: 'Basic Education',
+    subtitle: 'Foundations for the Future of Milne Bay',
+    image_url: 'assets/basic/banner.png'
+  },
+  {
+    id: 3,
+    page_key: 'post',
+    title: 'Post Primary Education',
+    subtitle: 'Secondary & High School Pathways in Milne Bay Province',
+    image_url: 'assets/post/banner.png'
+  },
+  {
+    id: 4,
+    page_key: 'vet',
+    title: 'Vocational Education',
+    subtitle: 'Skills Oriented Pathways in Milne Bay Province',
+    image_url: 'assets/vet/banner.png'
+  },
+  {
+    id: 5,
+    page_key: 'fode',
+    title: 'Flexible Open & Distance Education',
+    subtitle: 'Alternative Pathways to Academic Success in Milne Bay',
+    image_url: 'assets/fode/banner.png'
+  },
+];
+
 const mockPolicyCategories = [
   {
     id: 1,
@@ -812,6 +850,60 @@ export async function deleteNewsBanner(id) {
   throw new Error('Database not available - cannot delete news banner');
 }
 
+// --- Page Banner Management (About, Basic, Post Primary, VET, FODE) ---
+
+export async function fetchPageBanners() {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [rows] = await pool.execute(
+        'SELECT * FROM page_banners ORDER BY id ASC'
+      );
+      return rows;
+    } catch (error) {
+      console.error('Database fetch page banners failed, falling back to mock data:', error.message);
+    }
+  }
+  return [...mockPageBanners];
+}
+
+export async function getPageBanner(page) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [rows] = await pool.execute(
+        'SELECT * FROM page_banners WHERE page_key = ? LIMIT 1',
+        [page]
+      );
+      if (rows.length > 0) return rows[0];
+    } catch (error) {
+      console.error(`Database fetch page banner "${page}" failed, falling back to mock data:`, error.message);
+    }
+  }
+  return mockPageBanners.find((b) => b.page_key === page) || null;
+}
+
+export async function updatePageBanner(id, banner) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [result] = await pool.execute(
+        'UPDATE page_banners SET title = ?, subtitle = ?, image_url = ? WHERE id = ?',
+        [banner.title || '', banner.subtitle || '', banner.image_url || '', id]
+      );
+      if (result.affectedRows === 0) throw new Error('Page banner not found');
+      return { id, ...banner };
+    } catch (error) {
+      console.error('Database update page banner failed:', error);
+      throw new Error(`Database update page banner failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot update page banner');
+}
+
 // --- Policy Management ---
 
 export async function fetchPolicyCategories() {
@@ -1035,6 +1127,17 @@ export async function seedDatabase() {
     `);
 
     await pool.execute(`
+      CREATE TABLE IF NOT EXISTS page_banners (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        page_key VARCHAR(50) NOT NULL UNIQUE,
+        title VARCHAR(255) NOT NULL DEFAULT '',
+        subtitle TEXT,
+        image_url VARCHAR(500) NOT NULL DEFAULT '',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    await pool.execute(`
       CREATE TABLE IF NOT EXISTS policies (
         id INT AUTO_INCREMENT PRIMARY KEY,
         category_id INT NOT NULL,
@@ -1174,6 +1277,14 @@ export async function seedDatabase() {
           [banner.image_url, banner.title, banner.subtitle, banner.order_index, banner.active]
         );
       }
+    }
+
+    // Ensure the five page banners (About, Basic, Post Primary, VET, FODE) exist
+    for (const banner of mockPageBanners) {
+      await pool.execute(
+        'INSERT IGNORE INTO page_banners (page_key, title, subtitle, image_url) VALUES (?, ?, ?, ?)',
+        [banner.page_key, banner.title || '', banner.subtitle || '', banner.image_url || '']
+      );
     }
 
     // Check if policies table is empty

@@ -25,13 +25,14 @@ window.FodeComponent = {
             `).join('');
         };
 
+        const banner = await window.PageBanners.get('fode');
         return `
             <div class="about-page">
-                <div class="about-banner" style="background-image: url('assets/fode/banner.png'); background-size: cover; background-position: center 25%;">
+                <div class="about-banner" style="background-image: url('${window.PageBanners.safeUrl(banner.image_url)}'); background-size: cover; background-position: center 25%;">
                     <div class="banner-overlay"></div>
                     <div class="banner-content">
-                        <h1>Flexible Open & Distance Education</h1>
-                        <p>Alternative Pathways to Academic Success in Milne Bay</p>
+                        <h1>${banner.title}</h1>
+                        <p>${banner.subtitle}</p>
                     </div>
                 </div>
 
