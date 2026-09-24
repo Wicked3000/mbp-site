@@ -545,9 +545,41 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .welcome-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
     align-self: flex-start;
     margin-top: 1.5rem;
-    font-weight: 700;
+    background: linear-gradient(135deg, var(--mbp-gold), #F57F17);
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    padding: 0.85rem 1.8rem;
+    border-radius: 999px;
+    box-shadow: 0 4px 14px rgba(245, 127, 23, 0.35);
+    transition: all 0.25s ease;
+}
+
+.welcome-btn i {
+    transition: transform 0.25s ease;
+}
+
+.welcome-btn:hover {
+    background: linear-gradient(135deg, #F57F17, var(--mbp-gold));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(245, 127, 23, 0.5);
+}
+
+.welcome-btn:hover i {
+    transform: translateX(4px);
+}
+
+.welcome-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(245, 127, 23, 0.35);
 }
 
 @media (max-width: 900px) {

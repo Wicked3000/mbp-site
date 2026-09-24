@@ -215,7 +215,7 @@ window.HomeComponent = {
                         ${w.kicker ? `<span class="welcome-kicker">${escapeHtml(w.kicker)}</span>` : ''}
                         ${w.title ? `<h2 class="welcome-title">${escapeHtml(w.title)}</h2>` : ''}
                         <div class="welcome-message">${paragraphs}</div>
-                        <a href="/about" data-link class="qa-btn blue welcome-btn"><i data-lucide="arrow-right"></i><span>Learn More About Us</span></a>
+                        <a href="/about" data-link class="welcome-btn"><span>Learn More About Us</span><i data-lucide="arrow-right"></i></a>
                     </div>
                 </div>
             </section>`;

@@ -6,6 +6,9 @@ All notable changes to the Milne Bay Province – Division of Education website 
 
 ## Last Changes
 
+### 2026-09-24 — Redesigned the Welcome Message "Learn More" button
+- Replaced the generic Quick-Access-style button with a dedicated `.welcome-btn`: gold gradient pill (matching the site's search pill), bold white label, arrow icon that slides on hover, plus lift + glow hover effect.
+
 ### 2026-09-24 — Fix Quick Access overlapping the Welcome Message
 - Removed the negative `margin-top` on `.quick-access-section` (previously used to overlap the hero slider) so it no longer collides with the welcome card, and added bottom spacing to the welcome section.
 
