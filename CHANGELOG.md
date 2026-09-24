@@ -6,7 +6,8 @@ All notable changes to the Milne Bay Province – Division of Education website 
 
 ## Last Changes
 
-### 2026-09-24 — Fixed WhatsApp form checkbox and dropdown styling
+### 2026-09-24 — Changed WhatsApp checkbox to tick icon
+- Replaced the CSS-drawn checkmark (border-rotation) on Notification Topics checkboxes with a clean SVG tick icon embedded as a data URI in the `wa-checkbox-custom::after` pseudo-element, rendered white on the solid emerald green (#25D366) background
 - Restored the missing `.wa-checkbox-custom` span on the first topic checkbox (FODE Updates) so it displays the green emerald checkmark when checked
 - Rewrote checkbox CSS: larger 20px square, cleaner sibling toggle without background/padding on the label wrapper, improved hover state on the custom box, and a more prominent checkmark
 
