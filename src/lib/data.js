@@ -56,6 +56,28 @@ const mockStudents = [
   { id: 40, candidate_name: 'Grace Wesley', primary_school: 'Wesley Primary School', grade: 11, destination_school: 'Wesley Secondary School', status: 'Selected', gender: 'F' },
 ];
 
+const mockVetStudents = [
+  { id: 1, candidate_name: 'Binan Rian', primary_school: 'Goilanai', destination_school: 'Kwato VET Centre', status: 'Selected', gender: 'M' },
+  { id: 2, candidate_name: 'Ezekiel Abiah', primary_school: 'Alotau', destination_school: 'Kwato VET Centre', status: 'Selected', gender: 'F' },
+  { id: 3, candidate_name: 'Morris Joel', primary_school: 'Alotau', destination_school: 'Kwato VET Centre', status: 'Selected', gender: 'M' },
+  { id: 4, candidate_name: 'Nelson Nelson', primary_school: 'Alotau', destination_school: 'Kwato VET Centre', status: 'Selected', gender: 'M' },
+  { id: 5, candidate_name: 'Rupi Judeith', primary_school: 'Alotau', destination_school: 'Kwato VET Centre', status: 'Selected', gender: 'F' },
+  { id: 6, candidate_name: 'Haro Lewardy', primary_school: 'Alotau', destination_school: 'Kwato VET Centre', status: 'Selected', gender: 'M' },
+  { id: 7, candidate_name: 'Napora Isaac', primary_school: 'Kuiaro', destination_school: 'Kwato VET Centre', status: 'Selected', gender: 'M' },
+  { id: 8, candidate_name: 'Newton Roselyn Jenny', primary_school: 'Rabe', destination_school: 'Kwato VET Centre', status: 'Selected', gender: 'F' },
+  { id: 9, candidate_name: 'Jemmy Cyril', primary_school: 'Gwarume', destination_school: 'Kwato VET Centre', status: 'Selected', gender: 'M' },
+  { id: 10, candidate_name: 'Georey Glenda', primary_school: 'Gwarume', destination_school: 'Kwato VET Centre', status: 'Selected', gender: 'F' },
+  { id: 11, candidate_name: 'Bunag Rodney', primary_school: 'Gwarume', destination_school: 'Kwato VET Centre', status: 'Selected', gender: 'M' },
+  { id: 12, candidate_name: 'Anderson Numasuba', primary_school: 'Gwarume', destination_school: 'Kwato VET Centre', status: 'Selected', gender: 'M' },
+  { id: 13, candidate_name: 'Walua Davids', primary_school: 'Gwarume', destination_school: 'Kwato VET Centre', status: 'Selected', gender: 'M' },
+  { id: 14, candidate_name: 'Inaru Danny', primary_school: 'Ululoga', destination_school: 'Kwato VET Centre', status: 'Selected', gender: 'M' },
+  { id: 15, candidate_name: 'Jemmy Sharlot', primary_school: 'Ululoga', destination_school: 'Kwato VET Centre', status: 'Selected', gender: 'F' },
+  { id: 16, candidate_name: 'Walua Churoll', primary_school: 'Ululoga', destination_school: 'Kwato VET Centre', status: 'Selected', gender: 'M' },
+  { id: 17, candidate_name: 'Tauris Michael', primary_school: 'Rabaraba', destination_school: 'Kwato VET Centre', status: 'Selected', gender: 'M' },
+  { id: 18, candidate_name: 'Nikel Willie', primary_school: 'Rabaraba', destination_school: 'Kwato VET Centre', status: 'Selected', gender: 'M' },
+  { id: 19, candidate_name: 'Momen Miriam', primary_school: 'Rabaraba', destination_school: 'Kwato VET Centre', status: 'Selected', gender: 'F' },
+];
+
 const mockContacts = [
   { id: 1, name: 'David Kila', email: 'david.kila@gmail.com', message: 'Inquiring about Grade 9 selection list verification dates for Cameron Secondary.', created_at: new Date('2026-09-15T10:30:00Z').toISOString() },
   { id: 2, name: 'Mary Anne', email: 'm.anne@education.gov.pg', message: 'Requesting updated teacher posting circular for Woodlark Junior High.', created_at: new Date('2026-09-16T14:15:00Z').toISOString() },
@@ -310,6 +332,59 @@ export async function deleteStudent(id) {
     }
   }
   throw new Error('Database not available - cannot delete student');
+}
+
+export async function fetchVetStudents(school = '') {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      let query = 'SELECT * FROM vet_students WHERE 1=1';
+      const params = [];
+      if (school) {
+        query += ' AND destination_school = ?';
+        params.push(school);
+      }
+      const [rows] = await pool.execute(query + ' ORDER BY id ASC', params);
+      if (rows.length > 0) return rows;
+    } catch (error) {
+      console.error('Database fetch vet students failed, falling back to mock data:', error.message);
+    }
+  }
+  return mockVetStudents.filter(s => !school || s.destination_school.toLowerCase().includes(school.toLowerCase()));
+}
+
+export async function addVetStudent(student) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [result] = await pool.execute(
+        'INSERT INTO vet_students (candidate_name, primary_school, destination_school, status, gender) VALUES (?, ?, ?, ?, ?)',
+        [student.candidate_name, student.primary_school, student.destination_school, student.status || 'Selected', student.gender || 'M']
+      );
+      return { ...student, id: result.insertId };
+    } catch (error) {
+      console.error('Database insert vet student failed:', error);
+      throw new Error(`Database insert vet student failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot persist VET student');
+}
+
+export async function deleteVetStudent(id) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      await pool.execute('DELETE FROM vet_students WHERE id = ?', [id]);
+      return true;
+    } catch (error) {
+      console.error('Database delete vet student failed:', error);
+      throw new Error(`Database delete vet student failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot delete VET student');
 }
 
 export async function fetchContacts() {
@@ -797,6 +872,18 @@ export async function seedDatabase() {
     `);
 
     await pool.execute(`
+      CREATE TABLE IF NOT EXISTS vet_students (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        candidate_name VARCHAR(255) NOT NULL,
+        primary_school VARCHAR(255) NOT NULL,
+        destination_school VARCHAR(255) NOT NULL,
+        status VARCHAR(50) DEFAULT 'Selected',
+        gender VARCHAR(10) DEFAULT 'M',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    await pool.execute(`
       CREATE TABLE IF NOT EXISTS admins (
         id INT AUTO_INCREMENT PRIMARY KEY,
         username VARCHAR(100) NOT NULL UNIQUE,
@@ -908,6 +995,17 @@ export async function seedDatabase() {
         await pool.execute(
           'INSERT INTO contacts (name, email, message, created_at) VALUES (?, ?, ?, ?)',
           [contact.name, contact.email, contact.message, contact.created_at]
+        );
+      }
+    }
+
+    // Check if vet_students table is empty
+    const [vetStudentRows] = await pool.execute('SELECT COUNT(*) as count FROM vet_students');
+    if (vetStudentRows[0].count === 0) {
+      for (const student of mockVetStudents) {
+        await pool.execute(
+          'INSERT INTO vet_students (candidate_name, primary_school, destination_school, status, gender) VALUES (?, ?, ?, ?, ?)',
+          [student.candidate_name, student.primary_school, student.destination_school, student.status, student.gender]
         );
       }
     }

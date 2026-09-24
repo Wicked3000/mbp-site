@@ -6,6 +6,12 @@ All notable changes to the Milne Bay Province – Division of Education website 
 
 ## Last Changes
 
+### 2026-09-24 — Dynamic VET selection list with admin management
+- The VET page (`/vet`) "2024 VET Selection List" section is now dynamic: centres and candidates are fetched live from the back-end and can be viewed (inline accordion) or downloaded.
+- Added `/api/vet-students` API (public GET read, admin POST/DELETE) and a new `vet_students` MySQL table (auto-seeded with the Kwato VET 2024 list, mock-data fallback included).
+- Added an admin management page at `/admin/vet-students` (add / delete / bulk CSV upload / export .TXT) with a new "VET Selection List" item in the admin sidebar.
+- Added `vet_students` table + seed data to `setup_db.sql`.
+
 ### 2026-09-24 — Documentation & changelog rule
 - Rewrote `README.md` to document the current architecture (public SPA + Next.js admin/API + Railway MySQL with mock fallback) and added a mandatory Changelog Rule.
 - Added `CHANGELOG.md` with a running history of recent changes.

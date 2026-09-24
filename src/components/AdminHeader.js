@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { LayoutDashboard, Users, Mail, LogOut, ArrowLeft, Bell, Newspaper, Rss, Image, FileText } from 'lucide-react';
+import { LayoutDashboard, Users, Mail, LogOut, ArrowLeft, Bell, Newspaper, Rss, Image, FileText, Wrench } from 'lucide-react';
 
 export default function AdminHeader() {
   const pathname = usePathname();
@@ -24,6 +24,7 @@ export default function AdminHeader() {
   const navItems = [
     { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
     { name: 'Student Selection Lists', href: '/admin/students', icon: Users },
+    { name: 'VET Selection List', href: '/admin/vet-students', icon: Wrench },
     { name: 'Contact Messages', href: '/admin/contacts', icon: Mail },
     { name: 'News & Announcements', href: '/admin/news', icon: Newspaper },
     { name: 'Latest News Ticker', href: '/admin/latest-news', icon: Rss },

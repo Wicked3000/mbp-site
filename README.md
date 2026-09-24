@@ -137,7 +137,7 @@ window.MyComponent = {
 - **About** (`about.js`) — Banner, 4-photo image gallery, Land & People with the **Milne Bay map** (click-to-zoom lightbox with zoom buttons + scroll/pinch), Gender Equity section.
 - **Basic** (`basic.js`) — Elementary/Primary education info and enrolment tables.
 - **Post Primary** (`post.js`) — Secondary pathways with Grade 9/11 selection lists (view/download, preview modal).
-- **VET** (`vet.js`) — Technical & vocational education content.
+- **VET** (`vet.js`) — Technical & vocational education content and the dynamic 2024 VET centre selection list (managed in admin).
 - **FODE** (`fode.js`) — Flexible Open & Distance Education content and selection list.
 - **News** (`news.js`) — News slider, breaking ticker, latest articles, and full article views (`/news/:id`).
 - **Contact** (`contact.js`) — Contact details and a working contact form (posts to `/api/contacts`).
@@ -174,13 +174,14 @@ Public GET endpoints (no auth): `students`, `notices`, `news`, `latest-news`, `b
 | `/api/policies` | Policy documents + categories |
 | `/api/banners` | Configurable news page banner management |
 | `/api/students` | Selection-list students (view/download) |
+| `/api/vet-students` | VET centre selection-list candidates (view/download) |
 | `/api/contacts` | Contact submissions |
 | `/api/submit-contact` | Public contact form submission |
 | `/api/upload` | Admin file uploads (e.g. policy PDFs) |
 
 ### Admin Pages
 
-`/admin` is a React dashboard with pages for **dashboard, students, news, latest-news, notices, policies, banners, and contacts**. Bulk CSV upload and student export are supported.
+`/admin` is a React dashboard with pages for **dashboard, students, vet-students, news, latest-news, notices, policies, banners, and contacts**. Bulk CSV upload and student export are supported.
 
 ### Authentication
 

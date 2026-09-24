@@ -1,5 +1,30 @@
 window.VetComponent = {
     async render() {
+        // VET centres managed from the admin back-end
+        const vetCentres = [
+            "Kwato VET Centre"
+        ];
+
+        const renderSchoolList = (schools) => {
+            return schools.map(school => `
+                <div class="selection-list-item">
+                    <div class="selection-item-info">
+                        <i data-lucide="file-text"></i>
+                        <span class="selection-item-name">${school}</span>
+                    </div>
+                    <div class="selection-item-actions">
+                        <button class="btn-action view" data-action="view" data-school="${school}">
+                            <i data-lucide="eye"></i> View List
+                        </button>
+                        <button class="btn-action download" data-action="download" data-school="${school}">
+                            <i data-lucide="download"></i> Download
+                        </button>
+                    </div>
+                </div>
+                <div class="selection-list-body" data-school="${school}" hidden><div class="selection-list-empty">Loading selection list...</div></div>
+            `).join('');
+        };
+
         return `
             <div class="about-page">
                 <div class="about-banner" style="background-image: url('assets/vet/banner.png'); background-size: cover; background-position: center 25%;">
@@ -80,141 +105,132 @@ window.VetComponent = {
                         <div class="section-body text-content">
                             <p>The official selection list for vocational training centres in Milne Bay Province. You can view or download the selection lists for individual centres below.</p>
                             <div class="selection-list-container">
-                                <div class="selection-list-item">
-                                    <div class="selection-item-info">
-                                        <i data-lucide="file-text"></i>
-                                        <span class="selection-item-name">Kwato VET Centre</span>
-                                    </div>
-                                    <div class="selection-item-actions">
-                                        <button class="btn-action view" data-action="view" data-school="Kwato VET Centre">
-                                            <i data-lucide="eye"></i> View List
-                                        </button>
-                                        <button class="btn-action download" data-action="download" data-school="Kwato VET Centre">
-                                            <i data-lucide="download"></i> Download
-                                        </button>
-                                    </div>
-                                </div>
+                                ${renderSchoolList(vetCentres)}
                             </div>
                         </div>
                     </section>
-                </div>
-
-                <!-- PDF Preview Modal -->
-                <div class="pdf-modal" id="pdf-view-modal">
-                    <div class="pdf-modal-content">
-                        <div class="pdf-modal-header">
-                            <h3 id="modal-title">Selection List Preview</h3>
-                            <button class="pdf-modal-close" id="modal-close-btn">&times;</button>
-                        </div>
-                        <div class="pdf-modal-body">
-                            <div class="pdf-preview-doc">
-                                <div class="pdf-watermark">PREVIEW</div>
-                                <div class="pdf-preview-header" style="text-align: center; margin-bottom: 2rem;">
-                                    <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin: 0; text-transform: uppercase;">Milne Bay Administration</h3>
-                                    <p style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); margin: 2px 0 0 0; text-transform: uppercase;">Office of Chairman - PEB</p>
-                                    <p style="font-size: 0.85rem; font-weight: 700; color: var(--mbp-blue-dark); margin: 0; text-transform: uppercase; border-bottom: 2px solid var(--text-primary); padding-bottom: 0.75rem;">Division of Education</p>
-                                    <h4 id="preview-school-name" style="margin-top: 1rem; color: var(--text-primary); font-size: 1.4rem; font-weight: 800;">2024 KWATO VET</h4>
-                                    <p id="preview-subtitle" style="font-size: 0.85rem; color: var(--text-secondary); font-style: italic; font-weight: 500; border-bottom: 1px dashed #ccc; padding-bottom: 1rem;">Endorsed: Mr. Roma Tuidam - Chairman (PEB) | Date: 1/12/23</p>
-                                </div>
-                                <table class="pdf-preview-table">
-                                    <thead>
-                                        <tr>
-                                            <th>No.</th>
-                                            <th>Primary School</th>
-                                            <th>Candidate Name</th>
-                                            <th>Gender</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="preview-students-body">
-                                        <!-- Dynamic student rows -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         `;
     },
 
     afterRender() {
-        const modal = document.getElementById('pdf-view-modal');
-        const previewStudentsBody = document.getElementById('preview-students-body');
-        const closeBtn = document.getElementById('modal-close-btn');
+        // Fetch VET student data from the API
+        const fetchVetStudents = async (school) => {
+            try {
+                const response = await fetch(`/api/vet-students?school=${encodeURIComponent(school)}`);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error("Error fetching VET students:", error);
+                return [];
+            }
+        };
 
-        // Exact candidate data from the user-provided 2024 Kwato TVET image
-        const kwatoStudents = [
-            { no: 1, primary: "GOILANAI", name: "BINAN RIAN", gender: "M" },
-            { no: 2, primary: "ALOTAU", name: "EZEKIEL ABIAH", gender: "F" },
-            { no: 3, primary: "ALOTAU", name: "MORRIS JOEL", gender: "M" },
-            { no: 4, primary: "ALOTAU", name: "NELSON NELSON", gender: "M" },
-            { no: 5, primary: "ALOTAU", name: "RUPI JUDEITH", gender: "F" },
-            { no: 6, primary: "ALOTAU", name: "HARO LEWARDY", gender: "M" },
-            { no: 7, primary: "KUIARO", name: "NAPORA ISAAC", gender: "M" },
-            { no: 8, primary: "RABE", name: "NEWTON ROSELYN JENNY", gender: "F" },
-            { no: 9, primary: "GWARUME", name: "JEMMY CYRIL", gender: "M" },
-            { no: 10, primary: "GWARUME", name: "GEOREY GLENDA", gender: "F" },
-            { no: 11, primary: "GWARUME", name: "BUNAG RODNEY", gender: "M" },
-            { no: 12, primary: "GWARUME", name: "ANDERSON NUMASUBA", gender: "M" },
-            { no: 13, primary: "GWARUME", name: "WALUA DAVIDS", gender: "M" },
-            { no: 14, primary: "ULULOGA", name: "INARU DANNY", gender: "M" },
-            { no: 15, primary: "ULULOGA", name: "JEMMY SHARLOT", gender: "F" },
-            { no: 16, primary: "ULULOGA", name: "WALUA CHUROLL", gender: "M" },
-            { no: 17, primary: "RABARABA", name: "TAURIS MICHAEL", gender: "M" },
-            { no: 18, primary: "RABARABA", name: "NIKEL WILLIE", gender: "M" },
-            { no: 19, primary: "RABARABA", name: "MOMEN MIRIAM", gender: "F" }
-        ];
+        const escapeHtml = (str) => String(str ?? '').replace(/[&<>"']/g, c => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        }[c]));
 
+        const renderInlineLists = async () => {
+            const bodies = document.querySelectorAll('.selection-list-body');
+            for (const el of bodies) {
+                const school = el.getAttribute('data-school');
+                const students = await fetchVetStudents(school);
+                el.setAttribute('data-loaded', 'true');
+                if (students.length === 0) {
+                    el.innerHTML = `<p class="selection-list-empty">No students found for this selection list yet.</p>`;
+                } else {
+                    el.innerHTML = `
+                        <div class="table-container">
+                            <table class="data-table selection-inline-table">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Primary School</th>
+                                        <th>Candidate Name</th>
+                                        <th>Gender</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${students.map((s, idx) => `
+                                        <tr>
+                                            <td>${idx + 1}</td>
+                                            <td>${escapeHtml(s.primary_school || s.prev || '')}</td>
+                                            <td><strong>${escapeHtml(s.candidate_name || s.name || '')}</strong></td>
+                                            <td style="font-weight: 600;">${escapeHtml(s.gender || 'M')}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>`;
+                }
+            }
+        };
+
+        renderInlineLists();
+
+        // Event listener for action buttons
         document.querySelectorAll('[data-action]').forEach(button => {
-            button.addEventListener('click', (e) => {
+            button.addEventListener('click', async (e) => {
                 const action = button.getAttribute('data-action');
-                
-                if (action === 'view') {
-                    // Populate candidate rows into preview table
-                    previewStudentsBody.innerHTML = kwatoStudents.map(s => `
-                        <tr>
-                            <td>${s.no}</td>
-                            <td>${s.primary}</td>
-                            <td><strong>${s.name}</strong></td>
-                            <td>${s.gender}</td>
-                        </tr>
-                    `).join('');
+                const school = button.getAttribute('data-school');
 
-                    modal.classList.add('active');
+                const students = await fetchVetStudents(school);
+
+                if (action === 'view') {
+                    // Toggle the inline selection list table (single-open accordion)
+                    let target = null;
+                    let wasHidden = true;
+                    document.querySelectorAll('.selection-list-body').forEach(el => {
+                        if (el.getAttribute('data-school') === school) {
+                            wasHidden = el.hidden;
+                            target = el;
+                        } else {
+                            el.hidden = true;
+                        }
+                    });
+                    if (target) {
+                        target.hidden = !wasHidden;
+                        if (!target.hidden) {
+                            setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+                        }
+                    }
                 } else if (action === 'download') {
-                    // Generate formatted selection list text file for Kwato VET
+                    // Trigger download of selection list as text file
                     let fileContent = `MILNE BAY PROVINCE DIVISION OF EDUCATION\n`;
                     fileContent += `MILNE BAY ADMINISTRATION - OFFICE OF CHAIRMAN PEB\n`;
-                    fileContent += `=================================================\n`;
-                    fileContent += `OFFICIAL 2024 SELECTION LIST - KWATO VET\n`;
-                    fileContent += `Endorsed: Mr. Roma Tuidam - Chairman (PEB) | Date: 01/12/2023\n\n`;
-                    fileContent += `No. | Primary School | Candidate Name | Gender\n`;
-                    fileContent += `-----------------------------------------------\n`;
-                    kwatoStudents.forEach(s => {
-                        fileContent += `${String(s.no).padEnd(3)} | ${s.primary.padEnd(14)} | ${s.name.padEnd(22)} | ${s.gender}\n`;
-                    });
-                    fileContent += `\nEnd of Selection List.\n`;
+                    fileContent += `===============================================\n`;
+                    fileContent += `OFFICIAL 2024 VET SELECTION LIST\n`;
+                    fileContent += `===============================================\n\n`;
+                    fileContent += `Centre: ${school}\n\n`;
+                    fileContent += `No. | Primary School   | Candidate Name          | Gender\n`;
+                    fileContent += `----------------------------------------------------------\n`;
+
+                    if (students.length === 0) {
+                        fileContent += `No students found.\n`;
+                    } else {
+                        students.forEach((s, idx) => {
+                            const prev = (s.primary_school || s.prev || '').padEnd(16);
+                            const name = (s.candidate_name || s.name || '').padEnd(24);
+                            fileContent += `${String(idx + 1).padEnd(3)} | ${prev} | ${name} | ${s.gender || 'M'}\n`;
+                        });
+                    }
+
+                    fileContent += `\nGenerated: ${new Date().toLocaleDateString()}\n`;
+                    fileContent += `End of List.\n`;
 
                     const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
                     const url = URL.createObjectURL(blob);
                     const link = document.createElement('a');
                     link.href = url;
-                    link.download = `Kwato_VET_2024_Selection_List.txt`;
+                    link.download = `${school.replace(/\s+/g, '_')}_2024_Selection_List.txt`;
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
                     URL.revokeObjectURL(url);
                 }
             });
-        });
-
-        // Close modal handlers
-        const closeModal = () => modal.classList.remove('active');
-        closeBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
-            }
         });
     }
 };
