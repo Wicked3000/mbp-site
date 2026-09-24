@@ -477,6 +477,97 @@ h1, h2, h3, h4, h5, h6 {
     gap: 5rem;
 }
 
+/* Welcome Message Section */
+.welcome-section {
+    max-width: 1200px;
+    margin: 3rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.welcome-card {
+    display: flex;
+    align-items: stretch;
+    gap: 2.5rem;
+    padding: 2.5rem;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.welcome-media {
+    flex: 0 0 320px;
+    border-radius: 16px;
+    overflow: hidden;
+    min-height: 250px;
+}
+
+.welcome-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.welcome-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+}
+
+.welcome-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #b8860b;
+    margin-bottom: 0.6rem;
+}
+
+.welcome-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--mbp-blue-dark);
+    margin-bottom: 1rem;
+}
+
+.welcome-message p {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    font-size: 1.02rem;
+}
+
+.welcome-message p:last-child {
+    margin-bottom: 0;
+}
+
+.welcome-btn {
+    align-self: flex-start;
+    margin-top: 1.5rem;
+    font-weight: 700;
+}
+
+@media (max-width: 900px) {
+    .welcome-card {
+        flex-direction: column;
+        padding: 1.5rem;
+        gap: 1.5rem;
+    }
+    .welcome-media {
+        flex: none;
+        width: 100%;
+        min-height: 220px;
+    }
+    .welcome-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
 .home-section {
     position: relative;
 }

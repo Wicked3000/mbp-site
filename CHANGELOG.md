@@ -6,6 +6,11 @@ All notable changes to the Milne Bay Province – Division of Education website 
 
 ## Last Changes
 
+### 2026-09-24 — Homepage Welcome Message section
+- Added a **Welcome Message** card to the public homepage between the hero slider and Quick Access grid, driven by a new `/api/welcome` endpoint and a `welcome_messages` MySQL table (auto-seeded, mock fallback included).
+- Added an admin **Welcome Message** tab (`/admin/welcome`) to edit the kicker, heading, body text (paragraph-aware), image (upload/URL) and show/hide toggle.
+- Added `.welcome-section` styles (two-column glass card, responsive layout); `setup_db.sql`, middleware, README and CHANGELOG updated.
+
 ### 2026-09-24 — Page Banner Manager for About/Basic/Post/VET/FODE
 - Added an admin **Page Banners** tab (`/admin/page-banners`) to customize the banner image, title and subtitle shown on the About, Basic Education, Post Primary, VET and FODE pages (with image upload, inline previews, and Open Page links).
 - Added a new `page_banners` MySQL table (auto-created and seeded idempotently, `INSERT IGNORE` per page key) plus `mockPageBanners` fallback in `src/lib/data.js`, and a `/api/page-banners` API (public GET read by `?page=`, admin PATCH).

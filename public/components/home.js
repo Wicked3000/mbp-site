@@ -2,6 +2,7 @@ window.HomeComponent = {
     async render() {
         const noticesHtml = await HomeComponent.fetchNoticesHtml();
         const newsHtml = await HomeComponent.fetchNewsHtml();
+        const welcomeHtml = await HomeComponent.fetchWelcomeHtml();
         return `
             <div class="hero-slider-container">
                 <div class="hero-slide active" style="background-image: url('assets/slider/mbp-img1.png');">
@@ -32,6 +33,8 @@ window.HomeComponent = {
                     <div class="dot" data-slide="2"></div>
                 </div>
             </div>
+
+            ${welcomeHtml}
 
             <!-- Quick Access Section -->
             <div class="quick-access-section">
@@ -186,6 +189,56 @@ window.HomeComponent = {
                 </section>
             </div>
         `;
+    },
+
+    async fetchWelcomeHtml() {
+        const escapeHtml = (str) =>
+            String(str == null ? '' : str).replace(/[&<>"']/g, (c) => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[c]));
+
+        const build = (w) => {
+            if (!w || Number(w.active) === 0 || !(w.title || w.message)) return '';
+            const image = w.image_url
+                ? `<div class="welcome-media"><img src="${escapeHtml(w.image_url)}" alt="${escapeHtml(w.title || 'Welcome to Milne Bay Province Division of Education')}" /></div>`
+                : '';
+            const paragraphs = String(w.message || '')
+                .split(/\r?\n/)
+                .filter((line) => line.trim())
+                .map((line) => `<p>${escapeHtml(line)}</p>`)
+                .join('');
+            return `
+            <section class="welcome-section">
+                <div class="welcome-card glass-panel">
+                    ${image}
+                    <div class="welcome-text">
+                        ${w.kicker ? `<span class="welcome-kicker">${escapeHtml(w.kicker)}</span>` : ''}
+                        ${w.title ? `<h2 class="welcome-title">${escapeHtml(w.title)}</h2>` : ''}
+                        <div class="welcome-message">${paragraphs}</div>
+                        <a href="/about" data-link class="qa-btn blue welcome-btn"><i data-lucide="arrow-right"></i><span>Learn More About Us</span></a>
+                    </div>
+                </div>
+            </section>`;
+        };
+
+        try {
+            const res = await fetch('/api/welcome');
+            if (res.ok) {
+                const data = await res.json();
+                if (data && data.title) return build(data);
+            }
+        } catch (error) {
+            console.warn('Welcome message: falling back to static content.', error);
+        }
+
+        const fallback = {
+            kicker: 'Milne Bay Province Division of Education',
+            title: 'Welcome to Our Province',
+            message: 'Warm greetings from the Milne Bay Province Division of Education. We serve more than 48,000 students across 345 schools, from island communities to the mainland.\n\nOur vision is a well-educated and healthy population that is self reliant, wise in the use of its resources, and able to participate meaningfully in the development of our province and nation.\n\nPlease explore our site to learn about our schools, programs, news, and the many pathways we offer every child to succeed.',
+            image_url: 'assets/about/img1.png',
+            active: 1
+        };
+        return build(fallback);
     },
 
     async fetchNewsHtml() {

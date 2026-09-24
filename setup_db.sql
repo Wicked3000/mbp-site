@@ -49,6 +49,17 @@ CREATE TABLE IF NOT EXISTS page_banners (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS welcome_messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    code VARCHAR(50) NOT NULL UNIQUE,
+    kicker VARCHAR(255) NOT NULL DEFAULT '',
+    title VARCHAR(255) NOT NULL DEFAULT '',
+    message TEXT,
+    image_url VARCHAR(500) NOT NULL DEFAULT '',
+    active TINYINT(1) NOT NULL DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Clear existing data if any
 TRUNCATE TABLE students;
 
@@ -136,3 +147,11 @@ INSERT INTO page_banners (page_key, title, subtitle, image_url) VALUES
 ('post', 'Post Primary Education', 'Secondary & High School Pathways in Milne Bay Province', 'assets/post/banner.png'),
 ('vet', 'Vocational Education', 'Skills Oriented Pathways in Milne Bay Province', 'assets/vet/banner.png'),
 ('fode', 'Flexible Open & Distance Education', 'Alternative Pathways to Academic Success in Milne Bay', 'assets/fode/banner.png');
+
+-- Homepage welcome message
+INSERT INTO welcome_messages (code, kicker, title, message, image_url, active) VALUES
+('welcome', 'Milne Bay Province Division of Education', 'Welcome to Our Province', 'Warm greetings from the Milne Bay Province Division of Education. We are proud to serve more than 48,000 students across 345 schools, from our island communities to the mainland.
+
+Our vision is a well-educated and healthy population that is self reliant, wise in the use of its resources, and able to participate meaningfully in the social and economic development of our province and nation.
+
+We invite you to explore our site to learn about our schools, programs, news, and the many pathways we offer every child to succeed.', 'assets/about/img1.png', 1);

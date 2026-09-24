@@ -220,6 +220,16 @@ const mockPageBanners = [
   },
 ];
 
+const mockWelcomeMessage = {
+  id: 1,
+  code: 'welcome',
+  kicker: 'Milne Bay Province Division of Education',
+  title: 'Welcome to Our Province',
+  message: 'Warm greetings from the Milne Bay Province Division of Education. We are proud to serve more than 48,000 students across 345 schools, from our island communities to the mainland.\n\nOur vision is a well-educated and healthy population that is self reliant, wise in the use of its resources, and able to participate meaningfully in the social and economic development of our province and nation.\n\nWe invite you to explore our site to learn about our schools, programs, news, and the many pathways we offer every child to succeed.',
+  image_url: 'assets/about/img1.png',
+  active: 1
+};
+
 const mockPolicyCategories = [
   {
     id: 1,
@@ -904,6 +914,44 @@ export async function updatePageBanner(id, banner) {
   throw new Error('Database not available - cannot update page banner');
 }
 
+// --- Welcome Message ---
+
+export async function getWelcomeMessage() {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [rows] = await pool.execute(
+        'SELECT * FROM welcome_messages WHERE code = ? LIMIT 1',
+        ['welcome']
+      );
+      if (rows.length > 0) return rows[0];
+    } catch (error) {
+      console.error('Database fetch welcome message failed, falling back to mock data:', error.message);
+    }
+  }
+  return { ...mockWelcomeMessage };
+}
+
+export async function updateWelcomeMessage(id, msg) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [result] = await pool.execute(
+        'UPDATE welcome_messages SET kicker = ?, title = ?, message = ?, image_url = ?, active = ? WHERE id = ?',
+        [msg.kicker || '', msg.title || '', msg.message || '', msg.image_url || '', msg.active ? 1 : 0, id]
+      );
+      if (result.affectedRows === 0) throw new Error('Welcome message not found');
+      return { id, ...msg };
+    } catch (error) {
+      console.error('Database update welcome message failed:', error);
+      throw new Error(`Database update welcome message failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot update welcome message');
+}
+
 // --- Policy Management ---
 
 export async function fetchPolicyCategories() {
@@ -1138,6 +1186,19 @@ export async function seedDatabase() {
     `);
 
     await pool.execute(`
+      CREATE TABLE IF NOT EXISTS welcome_messages (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        code VARCHAR(50) NOT NULL UNIQUE,
+        kicker VARCHAR(255) NOT NULL DEFAULT '',
+        title VARCHAR(255) NOT NULL DEFAULT '',
+        message TEXT,
+        image_url VARCHAR(500) NOT NULL DEFAULT '',
+        active TINYINT(1) NOT NULL DEFAULT 1,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    await pool.execute(`
       CREATE TABLE IF NOT EXISTS policies (
         id INT AUTO_INCREMENT PRIMARY KEY,
         category_id INT NOT NULL,
@@ -1286,6 +1347,12 @@ export async function seedDatabase() {
         [banner.page_key, banner.title || '', banner.subtitle || '', banner.image_url || '']
       );
     }
+
+    // Ensure the welcome message row exists
+    await pool.execute(
+      'INSERT IGNORE INTO welcome_messages (code, kicker, title, message, image_url, active) VALUES (?, ?, ?, ?, ?, ?)',
+      [mockWelcomeMessage.code, mockWelcomeMessage.kicker || '', mockWelcomeMessage.title || '', mockWelcomeMessage.message || '', mockWelcomeMessage.image_url || '', mockWelcomeMessage.active ?? 1]
+    );
 
     // Check if policies table is empty
     const [policyRows] = await pool.execute('SELECT COUNT(*) as count FROM policies');
