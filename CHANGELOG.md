@@ -1,0 +1,61 @@
+# CHANGELOG
+
+All notable changes to the Milne Bay Province – Division of Education website are documented here, newest first. See the [Changelog Rule](./README.md#changelog-rule).
+
+---
+
+## Last Changes
+
+### 2026-09-24 — Documentation & changelog rule
+- Rewrote `README.md` to document the current architecture (public SPA + Next.js admin/API + Railway MySQL with mock fallback) and added a mandatory Changelog Rule.
+- Added `CHANGELOG.md` with a running history of recent changes.
+- Added the "document last changes" rule to `AGENTS.md`.
+
+### 2026-09-24 — Working internal site search
+- Added `public/search.js` providing `window.SiteSearch`: a static index of all 14 pages plus live news, notices, and policy documents.
+- Wired the fullscreen search overlay (`#site-search-input`) to debounced live results, Enter-to-search, ranked results with page/news/notice/policy tags, click-to-navigate (closes overlay), and a no-results message.
+- Added search results styles (`#search-results`, `.search-result-item`, etc.).
+
+### 2026-09-24 — Search restyled as a gold pill button
+- The nav-bar Search item is now a distinct gold-gradient pill button with white icon/text and a hover glow, separated from the flat page links.
+
+### 2026-09-24 — Nav bar polish
+- Nav items now have a refined hover (pill background, lift, animated gradient underline) and an **active-page highlight** driven by `window.updateActiveNav()` (hooked into the router).
+
+### 2026-09-24 — About page image gallery
+- Replaced the 4 placeholder slots on the About page with real photos (`img1.png`, `img2.jpg`, `img3.jpg`, `img4.jpg`); gallery now also displays on mobile (was hidden).
+
+### 2026-09-24 — About map interaction
+- The Milne Bay map now has a hover hint ("Click to view full map") and opens a fullscreen lightbox with zoom in/out/reset buttons plus scroll-wheel and pinch zoom (Escape / backdrop / ✕ to close).
+
+### 2026-09-24 — Hero slider images & responsiveness
+- Slider switched from `background-size: cover` to `contain` with aspect-ratio-based heights (mobile 16/10, tablet 2/1, desktop 211/100) so banner images display fully on any device — no more half-cropped images.
+- Replaced all three slider images (now PNGs: `mbp-img1.png`, `mbp-img2.png`, `mbp-img3.png`).
+
+### 2026-09-24 — Plans section animations
+- Provincial Education Plans thumbnail now animates on scroll-into-view (fade + rise), gently floats, and has a hover lift with gold border; all disabled under `prefers-reduced-motion`.
+
+### 2026-09-24 — Mobile Latest News fixes
+- News ticker stacks label-above-marquee on mobile; news cards get tighter padding, shorter thumbnails, and viewport-constrained sizing.
+
+### 2026-09-24 — Policy files via upload
+- Admin policy form now uses file uploads instead of URLs (`/api/upload` + `/api/policies`).
+
+### 2026-09-24 — Security fixes, admin policies, stub pages
+- Hardened headers, added admin policies UI, seed content for remaining stub pages (`policy`, `calendar`, `jobs`, `exams`, `parents`, `elearning`).
+
+### 2026-09-23 — News banner management
+- Added configurable news-page banner management in the admin dashboard.
+
+### 2026-09-22 — Selection list fixes
+- Fixed all audit findings and Grade 11 selection list issues on the Post Primary page.
+
+### 2026-09-20 — Database error passthrough
+- API now returns actual `mysql2` error messages to the admin UI instead of generic fallbacks.
+
+### 2026-09-19 — Railway MySQL integration
+- Added Railway MySQL connection with **auto-seed** on first connect, per-call connection retry (no cached failures), and **mock-data fallback** so the site functions without a database.
+- Moved SPA rewrites from middleware to `next.config.mjs`; middleware now handles auth only.
+
+### 2026-09-17 — Student administration
+- Added Grade 9 / Grade 11 selection list support, bulk CSV student upload, student export, and unified admin button styles (mock-data only at that time).

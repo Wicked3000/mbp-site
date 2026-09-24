@@ -1,7 +1,7 @@
 ﻿# Milne Bay Province – Division of Education Website
 
 > Official website for the **Milne Bay Province Division of Education**, Papua New Guinea.
-> A modern Single-Page Application (SPA) providing public access to educational information, selection lists, news, staff portals, and more.
+> A web portal providing public educational information, news, policies, selection lists, staff portals, and an admin back-end.
 
 ---
 
@@ -10,19 +10,18 @@
 - [Overview](#overview)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
-- [Routing](#routing)
-- [Pages & Components](#pages--components)
-  - [Home](#home)
-  - [About](#about)
-  - [Basic Education](#basic-education)
-  - [Post Primary](#post-primary)
-  - [VET](#vet)
-  - [FODE](#fode)
-  - [News](#news)
-  - [Contact](#contact)
-  - [Stub Pages](#stub-pages)
-- [Styling](#styling)
+- [Frontend (Public SPA)](#frontend-public-spa)
+  - [Routing](#routing)
+  - [Pages & Components](#pages--components)
+  - [Site Search](#site-search)
+  - [Styling](#styling)
+- [Backend (Admin & API)](#backend-admin--api)
+  - [API Routes](#api-routes)
+  - [Admin Pages](#admin-pages)
+  - [Authentication](#authentication)
+  - [Database](#database)
 - [Security](#security)
+- [Changelog Rule](#changelog-rule)
 - [Deployment](#deployment)
 - [Local Development](#local-development)
 - [Contact Information](#contact-information)
@@ -31,17 +30,12 @@
 
 ## Overview
 
-This is a **vanilla HTML/CSS/JavaScript SPA** built without any frontend framework. It uses a custom client-side router that lazy-loads page components on demand. The site presents educational data, policies, student selection lists, news, and staff resources for the Milne Bay Province education division.
+The site has **two layers**:
 
-**Key characteristics:**
+1. **Public SPA** — A vanilla HTML/CSS/JS single-page application served from `public/`. A custom client-side router lazy-loads page components on demand.
+2. **Next.js back-end** — A **Next.js 16 / React 19** app in `src/` powering the admin dashboard (`/admin`) and REST API (`/api`), backed by MySQL with graceful fallback to mock data.
 
-- Zero build tools or bundlers required
-- Client-side routing via the History API (`pushState`)
-- Components are loaded as plain `<script>` tags on first visit (lazy loading)
-- HTML is sanitised with **DOMPurify** before injection to prevent XSS
-- Icons provided by **Lucide**
-- Fonts: **Inter** and **Outfit** (Google Fonts)
-- Deployed on **Vercel** with SPA rewrite rules
+The Next.js server rewrites all public routes (e.g. `/home`, `/about`) to `/site.html`, where the SPA's own router takes over.
 
 ---
 
@@ -49,13 +43,15 @@ This is a **vanilla HTML/CSS/JavaScript SPA** built without any frontend framewo
 
 | Technology | Purpose |
 |---|---|
-| HTML5 | Application shell (`index.html`) |
-| Vanilla CSS | All styling (`styles.css`, `slider.css`) |
-| Vanilla JavaScript | Router, components, and interactivity |
-| DOMPurify 3.0.6 | XSS-safe HTML sanitisation |
+| Next.js 16 (`create-next-app`) | App shell for `/admin` and `/api` routes |
+| React 19 | Admin dashboard UI |
+| Vanilla HTML/CSS/JS | Public SPA shell, router, components |
+| MySQL (Railway) | Persistent data (news, notices, policies, students, contacts, banners) |
+| `mysql2` | MySQL driver (with mock-data fallback) |
+| DOMPurify 3.0.6 | XSS-safe HTML sanitisation for SPA content |
 | Lucide Icons | SVG icon set |
 | Inter / Outfit (Google Fonts) | Typography |
-| Vercel | Hosting and SPA routing |
+| Vercel | Hosting (GitHub auto-deploy integration) |
 
 ---
 
@@ -63,76 +59,68 @@ This is a **vanilla HTML/CSS/JavaScript SPA** built without any frontend framewo
 
 ```
 mbp-site/
-├── index.html          # Application shell — header, footer, router bootstrap
-├── router.js           # Client-side SPA router
-├── styles.css          # Main stylesheet (design system, all component styles)
-├── slider.css          # Hero slider / carousel styles
-├── vercel.json         # Vercel deployment config (SPA rewrites)
-├── assets/
-│   ├── logo/           # MBP logo images
-│   ├── slider/         # Hero slider images (island.png, school.png, culture.png)
-│   ├── about/          # About page assets (milne_bay_map.jpg)
-│   ├── basic/          # Basic Education page banner
-│   ├── post/           # Post Primary page banner
-│   ├── vet/            # VET page banner
-│   ├── fode/           # FODE page banner
-│   └── plans/          # Provincial Education Plan cover image
-└── components/
-    ├── home.js         # Home page component
-    ├── about.js        # About page component
-    ├── basic.js        # Basic Education component
-    ├── post.js         # Post Primary component
-    ├── vet.js          # VET component
-    ├── fode.js         # FODE component
-    ├── news.js         # News and Announcements component
-    ├── contact.js      # Contact page component
-    ├── policy.js       # Policy Documents (stub)
-    ├── calendar.js     # Academic Calendar (stub)
-    ├── jobs.js         # Job Vacancies (stub)
-    ├── exams.js        # Exam Results (stub)
-    ├── parents.js      # Parent Portal (stub)
-    └── elearning.js    # E-Learning Portal (stub)
+├── package.json            # Next.js 16 app (npm run dev / build / start)
+├── next.config.mjs         # SPA rewrites (public routes -> /site.html) + security headers
+├── src/
+│   ├── middleware.js       # Auth guard for /admin and protected /api routes
+│   ├── app/                # Next.js routes
+│   │   ├── layout.js       # Root layout (admin)
+│   │   ├── globals.css
+│   │   ├── api/            # REST endpoints (banners, news, notices, policies, ...)
+│   │   └── admin/          # Admin dashboard pages
+│   └── lib/
+│       ├── database.js     # MySQL pool (Railway) + auto-seed
+│       └── data.js         # Data access, mock-data fallback helpers
+├── public/
+│   ├── site.html           # SPA shell (header, footer, search overlay, router bootstrap)
+│   ├── router.js           # Client-side SPA router
+│   ├── search.js           # Site-wide internal search index + engine
+│   ├── styles.css          # Main stylesheet (design system, all components)
+│   ├── slider.css          # Hero slider / news ticker styles
+│   ├── assets/             # Served images (slider, about, plans, downloads, ...)
+│   └── components/         # Lazy-loaded page components (home.js, about.js, ...)
+├── assets/                 # Source asset originals (a separate working copy)
+├── vercel.json             # Legacy SPA rewrites (kept for compatibility)
+└── setup_db.sql            # MySQL schema seed script
 ```
 
 ---
 
-## Routing
+## Frontend (Public SPA)
 
-The router is defined in `router.js` as a `Router` class, bootstrapped on `DOMContentLoaded`.
+The application shell is `public/site.html` (`<base href="/">`). It loads:
 
-**Route table:**
+- `public/router.js` — the `Router` class (History API + lazy component loading)
+- `public/search.js` — the `SiteSearch` global used by the search overlay
 
-| URL Path | Component | File |
-|---|---|---|
-| `/` | `HomeComponent` | `home.js` |
-| `/home` | `HomeComponent` | `home.js` |
-| `/about` | `AboutComponent` | `about.js` |
-| `/basic` | `BasicComponent` | `basic.js` |
-| `/post` | `PostComponent` | `post.js` |
-| `/vet` | `VetComponent` | `vet.js` |
-| `/fode` | `FodeComponent` | `fode.js` |
-| `/news` | `NewsComponent` | `news.js` |
-| `/contact` | `ContactComponent` | `contact.js` |
-| `/policy` | `PolicyComponent` | `policy.js` |
-| `/calendar` | `CalendarComponent` | `calendar.js` |
-| `/jobs` | `JobsComponent` | `jobs.js` |
-| `/exams` | `ExamsComponent` | `exams.js` |
-| `/parents` | `ParentsComponent` | `parents.js` |
-| `/elearning` | `ElearningComponent` | `elearning.js` |
+### Routing
+
+The public routes live in `public/router.js` and are matched by `next.config.mjs` rewrites in the browser:
+
+| URL Path | Component File |
+|---|---|
+| `/`, `/home` | `components/home.js` |
+| `/about` | `components/about.js` |
+| `/basic` | `components/basic.js` |
+| `/post` | `components/post.js` |
+| `/vet` | `components/vet.js` |
+| `/fode` | `components/fode.js` |
+| `/news`, `/news/:id` | `components/news.js` |
+| `/contact` | `components/contact.js` |
+| `/policy` | `components/policy.js` |
+| `/calendar` | `components/calendar.js` |
+| `/jobs` | `components/jobs.js` |
+| `/exams` | `components/exams.js` |
+| `/parents` | `components/parents.js` |
+| `/elearning` | `components/elearning.js` |
 
 **How it works:**
 
 1. Intercepts all `[data-link]` anchor clicks and calls `history.pushState`.
-2. Lazily loads the component script if not already in memory.
-3. Calls `component.render()` to get the HTML string.
-4. Sanitises output with DOMPurify (allows `<style>` tags and `data-lucide` attributes).
-5. Injects into `<main id="app-content">`.
-6. Calls `component.afterRender()` for page-specific JavaScript (sliders, counters, etc.).
-7. Handles URL hash fragments with `scrollIntoView`.
-
----
-
-## Pages & Components
+2. Lazily injects the component `<script>` on first visit (`window.<Component>`).
+3. Calls `component.render()` for the HTML string, sanitises it with **DOMPurify** (allows `<style>` and `data-lucide`), and injects into `<main id="app-content">`.
+4. Calls `component.afterRender()` for page JavaScript (sliders, counters, lightbox, ticker).
+5. Updates the nav bar's active-page highlight and resolves URL hashes.
 
 All components follow this interface:
 
@@ -143,185 +131,108 @@ window.MyComponent = {
 };
 ```
 
----
+### Pages & Components
 
-### Home
+- **Home** (`home.js`) — Responsive hero slider (aspect-ratio based, images shown in full via `contain`), Quick Access grid, Educational Pathways, Staff Hub, animated stat counters, live Notice Board, Latest News with scrolling **news ticker**, Provincial Education Plans (scroll-in animations + floating cover), Resource Library downloads.
+- **About** (`about.js`) — Banner, 4-photo image gallery, Land & People with the **Milne Bay map** (click-to-zoom lightbox with zoom buttons + scroll/pinch), Gender Equity section.
+- **Basic** (`basic.js`) — Elementary/Primary education info and enrolment tables.
+- **Post Primary** (`post.js`) — Secondary pathways with Grade 9/11 selection lists (view/download, preview modal).
+- **VET** (`vet.js`) — Technical & vocational education content.
+- **FODE** (`fode.js`) — Flexible Open & Distance Education content and selection list.
+- **News** (`news.js`) — News slider, breaking ticker, latest articles, and full article views (`/news/:id`).
+- **Contact** (`contact.js`) — Contact details and a working contact form (posts to `/api/contacts`).
+- **Policy** (`policy.js`) — Categorised policy documents from the database.
+- **Calendar / Jobs / Exams / Parents / E-Learning** — Content pages driven by configuration/data.
 
-**Route:** `/home` | **File:** `components/home.js`
+### Site Search
 
-The main landing page. Contains:
+The gold **Search** pill button in the nav bar opens a fullscreen overlay. `public/search.js` provides `window.SiteSearch`:
 
-- **Hero Slider** – 3-slide auto-advancing image carousel (5 s interval) with prev/next buttons and dot indicators.
-- **Quick Access Grid** – 8 shortcut buttons: School Finder (external), Policy Documents, Calendar, Job Vacancies, News, Exam Results, Parent Portal, E-Learning.
-- **Educational Pathways** – 4 pillar cards: Early Childhood, Primary, Secondary, VET.
-- **Staff Hub** – Links to eRODSS Portal, School Grant Acquittal, and MyPaySlip (external NDoE apps).
-- **Live Statistics** – Animated counters on scroll: 345+ Active Schools, 48,500+ Students, 1,850+ Teachers.
-- **Official Notice Board** – 3 current notices (Term 3 fees, Teacher Postings 2026, Weather Alert).
-- **Latest News** – 3 news cards with dates and summaries.
-- **Provincial Education Plans** – Cover image with PDF download button.
-- **Resource Library** – 4 downloadable resources: Academic Calendar, PEB Circulars, Syllabus Updates, School Fee Structures.
+- A static index of all 14 pages (title + keywords).
+- Live content merged at runtime from `/api/news`, `/api/notices`, and `/api/policies`.
+- Ranked, debounced search (title hits weigh more). Results render as clickable, tagged items that navigate via the SPA router and close the overlay.
 
----
+### Styling
 
-### About
-
-**Route:** `/about` | **File:** `components/about.js`
-
-- **Banner** – Full-width page header.
-- **Image Gallery** – 4 placeholder image slots.
-- **Land and People** – Map image plus geographic/demographic text: location, land area (16,200 km²), 150+ islands, population (~210,000), 48 languages.
-- **Gender Equity in Education** – Discussion of enrolment disparity and the Gender Equity in Education Policy (DoE, 2003).
+- **`styles.css`** — CSS design system using custom properties (`--mbp-blue`, `--mbp-green`, `--mbp-gold`, `--mbp-red`, `--glass-*`). Covers glassmorphism header, footer, cards, tables, modals, lightbox, search results, and responsive breakpoints (`≤1024px`, `≤900px`, `≤768px`).
+- **`slider.css`** — Hero slider layout and news ticker keyframes.
 
 ---
 
-### Basic Education
+## Backend (Admin & API)
 
-**Route:** `/basic` | **File:** `components/basic.js`
+### API Routes
 
-- **Elementary Education** – Prep, E1, E2 (ages 6+, community language). Projected enrolment table (2007–2016).
-- **Primary Education** – Grades 3–8 (ages 9–14), bilingual in lower primary. Projected enrolment table (2007–2016).
-- **Planning & Policy** – Compulsory education targets and school learning improvement plans.
+Public GET endpoints (no auth): `students`, `notices`, `news`, `latest-news`, `banners`, `policies`, `contacts` (read-only). All mutations require a session.
 
----
+| Endpoint | Description |
+|---|---|
+| `/api/login` | Admin login (sets `mbp_admin_session` cookie) |
+| `/api/news` | List/create/update/delete news articles |
+| `/api/latest-news` | Ticker items |
+| `/api/notices` | Notice Board entries |
+| `/api/policies` | Policy documents + categories |
+| `/api/banners` | Configurable news page banner management |
+| `/api/students` | Selection-list students (view/download) |
+| `/api/contacts` | Contact submissions |
+| `/api/submit-contact` | Public contact form submission |
+| `/api/upload` | Admin file uploads (e.g. policy PDFs) |
 
-### Post Primary
+### Admin Pages
 
-**Route:** `/post` | **File:** `components/post.js`
+`/admin` is a React dashboard with pages for **dashboard, students, news, latest-news, notices, policies, banners, and contacts**. Bulk CSV upload and student export are supported.
 
-- **Overview** – Description of secondary and high school pathways.
-- **Grade 9 Selection List** – Interactive list for 13 schools with **View** (modal preview) and **Download** (`.txt` file) actions.
-- **Grade 11 Selection List** – Interactive list for 8 schools with the same view/download functionality.
-- **PDF Preview Modal** – Displays student data (No., Primary School, Candidate Name, Gender) with a preview watermark.
+### Authentication
 
-**Grade 9 Schools:** Cameron Secondary, Cape Vogel High, Duau High, Holy Name Secondary, Hagita Secondary, Kiriwina High, Kuiaro High, Misima High, Santa Maria Secondary, Suau High, Wesley Secondary, Woodlark Junior, Yeleyamba Junior High.
+`src/middleware.js` guards every `/admin/*` and protected `/api/*` route with the `mbp_admin_session` cookie. Public read-only GETs of the list endpoints remain open. Unauthenticated admin access redirects to `/admin`.
 
-**Grade 11 Schools:** Cameron Secondary, Duau High, Holy Name Secondary, Hagita Secondary, Kiriwina High, Misima High, Santa Maria Secondary, Wesley Secondary.
+### Database
 
----
-
-### VET
-
-**Route:** `/vet` | **File:** `components/vet.js`
-
-- **Technical Vocational Education** – Overview for post-Grade 8 students. Projected enrolment table (Year 1 & Year 2, 2007–2016).
-- **VET Centres** – Lists vocational centres in the province.
-- **Plan & Strategy** – Expansion priorities and devolution of management.
-
----
-
-### FODE
-
-**Route:** `/fode` | **File:** `components/fode.js`
-
-Flexible Open & Distance Education (Grades 9–12):
-
-- **FODE Overview** – Distance education through study centres. Projected enrolment table (Grades 9–12, 2007–2016).
-- **Plan & Strategy** – Policy on centre expansion and transition rates.
-- **2024 FODE Selection List** – "FODE Intake 2026" with View and Download actions. Preview modal shows 16 students from LELOHOA and PABE primary schools.
-
----
-
-### News
-
-**Route:** `/news` | **File:** `components/news.js`
-
-- **Hero Slider** – 3-slide news-themed carousel.
-- **Breaking News Ticker** – Horizontally scrolling banner with current announcements.
-- **Latest News Articles** – Grid of news cards with category labels, dates, thumbnails, and links.
-
----
-
-### Contact
-
-**Route:** `/contact` | **File:** `components/contact.js`
-
-Two-column layout:
-
-- **Contact Details:** Phone, Email, Postal Address.
-- **Contact Form** – Name, Email, Message. Shows a browser alert on submission (no backend yet).
-
-**Contact details:**
-- Phone: (+675) 6410603 / (+675) 6411305
-- Email: support@mbp.education.gov.pg
-- Address: Free Mail Bag, Alotau, Milne Bay Province, PNG
-
----
-
-### Stub Pages
-
-The following pages are registered in the router with placeholder content pending development:
-
-| Page | Route | File |
-|---|---|---|
-| Policy Documents | `/policy` | `components/policy.js` |
-| Academic Calendar | `/calendar` | `components/calendar.js` |
-| Job Vacancies | `/jobs` | `components/jobs.js` |
-| Exam Results | `/exams` | `components/exams.js` |
-| Parent Portal | `/parents` | `components/parents.js` |
-| E-Learning | `/elearning` | `components/elearning.js` |
-
----
-
-## Styling
-
-- **`styles.css`** – Main design system using CSS custom properties for colour tokens (`--mbp-blue-dark`, `--mbp-green`, `--mbp-gold`, etc.). Covers all components including the glassmorphism header, footer, cards, tables, modals, and responsive breakpoints.
-- **`slider.css`** – Styles for the hero image slider and news ticker animation.
-
-**Design highlights:**
-- Glassmorphism header with backdrop blur
-- Animated background glow blobs (green, blue, gold)
-- Floating social media buttons (Facebook, LinkedIn, WhatsApp)
-- Mobile-responsive hamburger navigation
-- Fullscreen search overlay (Escape or click-outside to close)
+`src/lib/database.js` connects to **MySQL on Railway** (env: `MYSQL_URL`/`DB_PASS` etc.). On first connection it auto-seeds the schema. Every call re-validates the pool (failures are not cached). If the database is unreachable, `src/lib/data.js` falls back to bundled **mock data** so the site never goes down. DB write/read errors are surfaced to the admin UI as the real error messages.
 
 ---
 
 ## Security
 
-All component HTML strings are passed through **DOMPurify** before DOM injection:
+- SPA HTML is sanitised with **DOMPurify** before injection (XSS defence).
+- Admin/API routes require the session cookie (set via `/api/login`).
+- `next.config.mjs` adds `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, and `Strict-Transport-Security` headers.
+- No secrets are committed; database credentials come from environment variables.
 
-```js
-this.appContent.innerHTML = DOMPurify.sanitize(html, {
-    ADD_TAGS: ['style'],       // Allow <style> tags inside components
-    ADD_ATTR: ['data-lucide']  // Allow Lucide icon attributes
-});
-```
+---
 
-This prevents XSS attacks if any user-generated or external content is ever introduced.
+## Changelog Rule
+
+> **Rule:** Whenever code, assets, or configuration change, add an entry to `CHANGELOG.md` under **Last Changes** (newest first). The entry must contain the commit message summary, the date, and a one-line description of what changed. This keeps the changelog authoritative for "what changed last".
+
+See [CHANGELOG.md](./CHANGELOG.md) for the running log.
 
 ---
 
 ## Deployment
 
-The site is deployed on **Vercel**. The `vercel.json` configures a catch-all rewrite so all routes serve `index.html`, enabling the client-side router on direct URL access or page refresh:
+The site is hosted on **Vercel**. Pushing to `main` on GitHub triggers an automatic Vercel production deploy (GitHub integration) — no manual step needed after `git push origin main`.
 
-```json
-{
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
-}
-```
+- GitHub repository: https://github.com/Wicked3000/mbp-site
+- Production URL is managed in the Vercel dashboard (project: `mbp-site`).
 
-**GitHub Repository:** https://github.com/Wicked3000/mbp-site
+To deploy manually with the CLI (requires login once): `npx vercel --prod`.
 
 ---
 
 ## Local Development
 
-No build tools needed. Serve the project root with any static file server:
-
 ```bash
-# Using npx serve (recommended)
-npx serve . --listen 3000
-
-# Using Python
-python -m http.server 3000
+npm install
+npm run dev       # http://localhost:3000
 ```
 
-Then open http://localhost:3000 in your browser.
+Requirements:
 
-> Do NOT open index.html directly via file:// — the router requires an HTTP server.
+- **Node.js** (v22+ recommended; uses standard Web APIs).
+- (Optional) **XAMPP** if you want a local MySQL — Apache on ports 80/443, MySQL on 3306. The app falls back to mock data without a database.
+
+> Do NOT open `site.html` via `file://` — the router requires an HTTP server (use the Next.js dev server).
 
 ---
 
