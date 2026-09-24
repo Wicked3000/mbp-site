@@ -6,6 +6,11 @@ All notable changes to the Milne Bay Province – Division of Education website 
 
 ## Last Changes
 
+### 2026-09-24 — Redesigned the Quick Access section
+- Rebuilt the homepage Quick Access as a glass card (rounded, soft shadow, white gradient) with a kicker + title + subtitle header.
+- Each of the 8 services is now a white tile with a circular gradient icon chip (rotating blue/gold/green/red accents) and a bold label; hover lifts the tile and scales the chip.
+- Responsive: 4 columns on desktop, 2 on tablets/small screens, 1 on phones. The beige flat box and square buttons were removed; the generic `.qa-btn` CTA styling (View All News / Download Plan) is preserved.
+
 ### 2026-09-24 — Redesigned the Welcome Message "Learn More" button
 - Replaced the generic Quick-Access-style button with a dedicated `.welcome-btn`: gold gradient pill (matching the site's search pill), bold white label, arrow icon that slides on hover, plus lift + glow hover effect.
 
