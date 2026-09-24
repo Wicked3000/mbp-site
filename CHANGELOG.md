@@ -6,6 +6,10 @@ All notable changes to the Milne Bay Province – Division of Education website 
 
 ## Last Changes
 
+### 2026-09-24 — Fixed WhatsApp form dropdown and checkbox visibility
+- Added `wa-select` CSS for the District dropdown with dark theme options (white text on #0a192f, selected option in green)
+- Fixed checkbox topic labels: changed from `flex-direction: column` to `align-items: flex-start` for proper layout
+
 ### 2026-09-24 — Made WhatsApp community section full width
 - The WhatsApp Community Subscription card now spans the full viewport width (with side margins) matching the rest of the homepage sections, instead of being centered at max 800px.
 
