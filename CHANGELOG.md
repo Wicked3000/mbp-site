@@ -6,6 +6,10 @@ All notable changes to the Milne Bay Province – Division of Education website 
 
 ## Last Changes
 
+### 2026-09-24 — Fixed WhatsApp form checkbox and dropdown styling
+- Restored the missing `.wa-checkbox-custom` span on the first topic checkbox (FODE Updates) so it displays the green emerald checkmark when checked
+- Rewrote checkbox CSS: larger 20px square, cleaner sibling toggle without background/padding on the label wrapper, improved hover state on the custom box, and a more prominent checkmark
+
 ### 2026-09-24 — Fixed WhatsApp form dropdown and checkbox visibility
 - Added `wa-select` CSS for the District dropdown with dark theme options (white text on #0a192f, selected option in green)
 - Fixed checkbox topic labels: changed from `flex-direction: column` to `align-items: flex-start` for proper layout
