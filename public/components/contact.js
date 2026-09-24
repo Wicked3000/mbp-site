@@ -35,6 +35,9 @@ window.ContactComponent = {
                                     <input type="email" id="contactEmail" placeholder="Enter Your Email *" required>
                                 </div>
                                 <div class="form-group">
+                                    <input type="tel" id="contactPhone" placeholder="Enter Your Phone Number (e.g. +675 1234 5678) *" required>
+                                </div>
+                                <div class="form-group">
                                     <textarea id="contactMsg" placeholder="Enter Your Message *" required></textarea>
                                 </div>
                                 <button type="submit" class="btn-send" id="btnSubmit">Send Us <i data-lucide="arrow-right"></i></button>
@@ -57,7 +60,17 @@ window.ContactComponent = {
                 
                 const name = document.getElementById('contactName').value;
                 const email = document.getElementById('contactEmail').value;
+                const phone = document.getElementById('contactPhone').value.trim();
                 const message = document.getElementById('contactMsg').value;
+
+                const validPhone = /^[0-9+\-() ]{7,20}$/.test(phone) && (phone.match(/[0-9]/g) || []).length >= 7;
+                if (!validPhone) {
+                    formMessage.style.display = 'block';
+                    formMessage.style.backgroundColor = '#f8d7da';
+                    formMessage.style.color = '#721c24';
+                    formMessage.textContent = 'Please enter a valid phone number (at least 7 digits).';
+                    return;
+                }
                 
                 btnSubmit.disabled = true;
                 btnSubmit.innerHTML = 'Sending... <i data-lucide="loader" class="spin"></i>';
@@ -69,7 +82,7 @@ window.ContactComponent = {
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ name, email, message })
+                        body: JSON.stringify({ name, email, phone, message })
                     });
                     
                     const result = await response.json();

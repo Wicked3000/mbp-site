@@ -6,6 +6,11 @@ All notable changes to the Milne Bay Province – Division of Education website 
 
 ## Last Changes
 
+### 2026-09-24 — Contact forms now require a phone number
+- The public contact form now has a mandatory phone number field (validated 7–20 chars) sent with each submission for building a WhatsApp-ready contact bank.
+- `/api/submit-contact` now requires and persists the phone number; the `contacts` table gained a `phone` column (with auto-migration for existing databases) and mock data includes phones.
+- Admin Contact Messages now show a Phone Number column (searchable), a one-click WhatsApp chat action, and a phone/WhatsApp link in the message detail view.
+
 ### 2026-09-24 — Contact page overlay restyle
 - Changed the contact page background overlay gradient to `linear-gradient(346deg, rgb(47 54 65 / 85%), rgb(61 30 30 / 80%))`.
 

@@ -140,7 +140,7 @@ window.MyComponent = {
 - **VET** (`vet.js`) — Technical & vocational education content and the dynamic 2024 VET centre selection list (managed in admin).
 - **FODE** (`fode.js`) — Flexible Open & Distance Education content and the dynamic 2024 FODE selection list (managed in admin).
 - **News** (`news.js`) — News slider, breaking ticker, latest articles, and full article views (`/news/:id`).
-- **Contact** (`contact.js`) — Contact details and a working contact form (posts to `/api/contacts`).
+- **Contact** (`contact.js`) — Contact details and a working contact form (posts to `/api/contacts`). The form requires a phone number so the Division can build a WhatsApp-ready contact bank.
 - **Policy** (`policy.js`) — Categorised policy documents from the database.
 - **Calendar / Jobs / Exams / Parents / E-Learning** — Content pages driven by configuration/data.
 
@@ -177,7 +177,7 @@ Public GET endpoints (no auth): `students`, `notices`, `news`, `latest-news`, `b
 | `/api/vet-students` | VET centre selection-list candidates (view/download) |
 | `/api/fode-students` | FODE intake selection-list candidates (view/download) |
 | `/api/contacts` | Contact submissions |
-| `/api/submit-contact` | Public contact form submission |
+| `/api/submit-contact` | Public contact form submission (name, email, phone, message) |
 | `/api/upload` | Admin file uploads (e.g. policy PDFs) |
 
 ### Admin Pages

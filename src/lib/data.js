@@ -98,8 +98,8 @@ const mockFodeStudents = [
 ];
 
 const mockContacts = [
-  { id: 1, name: 'David Kila', email: 'david.kila@gmail.com', message: 'Inquiring about Grade 9 selection list verification dates for Cameron Secondary.', created_at: new Date('2026-09-15T10:30:00Z').toISOString() },
-  { id: 2, name: 'Mary Anne', email: 'm.anne@education.gov.pg', message: 'Requesting updated teacher posting circular for Woodlark Junior High.', created_at: new Date('2026-09-16T14:15:00Z').toISOString() },
+  { id: 1, name: 'David Kila', email: 'david.kila@gmail.com', phone: '+675 7123 4567', message: 'Inquiring about Grade 9 selection list verification dates for Cameron Secondary.', created_at: new Date('2026-09-15T10:30:00Z').toISOString() },
+  { id: 2, name: 'Mary Anne', email: 'm.anne@education.gov.pg', phone: '+675 7234 5678', message: 'Requesting updated teacher posting circular for Woodlark Junior High.', created_at: new Date('2026-09-16T14:15:00Z').toISOString() },
 ];
 
 const mockNotices = [
@@ -479,8 +479,8 @@ export async function addContact(contact) {
     try {
       const pool = getPool();
       const [result] = await pool.execute(
-        'INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)',
-        [contact.name, contact.email, contact.message]
+        'INSERT INTO contacts (name, email, phone, message) VALUES (?, ?, ?, ?)',
+        [contact.name, contact.email, contact.phone || '', contact.message]
       );
       return { ...contact, id: result.insertId, created_at: new Date().toISOString() };
     } catch (error) {
@@ -938,10 +938,24 @@ export async function seedDatabase() {
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL,
+        phone VARCHAR(50) DEFAULT '',
         message TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
+
+    // Migrate existing contacts tables to add the phone column if needed
+    try {
+      const [contactCols] = await pool.execute(
+        "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'contacts'"
+      );
+      const contactColNames = contactCols.map((c) => c.COLUMN_NAME);
+      if (!contactColNames.includes('phone')) {
+        await pool.execute('ALTER TABLE contacts ADD COLUMN phone VARCHAR(50) DEFAULT \'\' AFTER email');
+      }
+    } catch (error) {
+      console.error('Contacts table migration warning:', error.message);
+    }
 
     await pool.execute(`
       CREATE TABLE IF NOT EXISTS vet_students (
@@ -1077,8 +1091,8 @@ export async function seedDatabase() {
     if (contactRows[0].count === 0) {
       for (const contact of mockContacts) {
         await pool.execute(
-          'INSERT INTO contacts (name, email, message, created_at) VALUES (?, ?, ?, ?)',
-          [contact.name, contact.email, contact.message, contact.created_at]
+          'INSERT INTO contacts (name, email, phone, message, created_at) VALUES (?, ?, ?, ?, ?)',
+          [contact.name, contact.email, contact.phone || '', contact.message, contact.created_at]
         );
       }
     }

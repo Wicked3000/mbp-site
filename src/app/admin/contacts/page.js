@@ -11,8 +11,15 @@ import {
   Calendar, 
   User, 
   MessageSquare,
-  RefreshCw
+  RefreshCw,
+  Phone,
+  MessageCircle
 } from 'lucide-react';
+
+const waLink = (phone) => {
+  const digits = (phone || '').replace(/[^0-9]/g, '');
+  return `https://wa.me/${digits}`;
+};
 
 export default function ContactsPage() {
   const [contacts, setContacts] = useState([]);
@@ -75,6 +82,7 @@ export default function ContactsPage() {
     return (
       c.name.toLowerCase().includes(q) ||
       c.email.toLowerCase().includes(q) ||
+      (c.phone || '').toLowerCase().includes(q) ||
       c.message.toLowerCase().includes(q)
     );
   });
@@ -130,6 +138,7 @@ export default function ContactsPage() {
                   <th className="px-5 py-3.5">#</th>
                   <th className="px-5 py-3.5">Sender Name</th>
                   <th className="px-5 py-3.5">Email Address</th>
+                  <th className="px-5 py-3.5">Phone Number</th>
                   <th className="px-5 py-3.5">Message Content</th>
                   <th className="px-5 py-3.5">Date Received</th>
                   <th className="px-5 py-3.5 text-right">Actions</th>
@@ -138,13 +147,13 @@ export default function ContactsPage() {
               <tbody className="divide-y divide-slate-800/60">
                 {loading ? (
                   <tr>
-                    <td colSpan="6" className="px-5 py-8 text-center text-slate-500">
+                    <td colSpan="7" className="px-5 py-8 text-center text-slate-500">
                       Loading contact messages...
                     </td>
                   </tr>
                 ) : filteredContacts.length === 0 ? (
                   <tr>
-                    <td colSpan="6" className="px-5 py-8 text-center text-slate-500">
+                    <td colSpan="7" className="px-5 py-8 text-center text-slate-500">
                       No contact messages found.
                     </td>
                   </tr>
@@ -157,6 +166,9 @@ export default function ContactsPage() {
                       </td>
                       <td className="px-5 py-4 text-amber-300/90 font-mono text-xs">
                         {c.email}
+                      </td>
+                      <td className="px-5 py-4 font-mono text-xs text-emerald-300/90">
+                        {c.phone || '—'}
                       </td>
                       <td className="px-5 py-4 text-slate-300 max-w-xs truncate">
                         {c.message}
@@ -172,6 +184,16 @@ export default function ContactsPage() {
                           <Eye className="w-3.5 h-3.5" />
                           <span>View</span>
                         </button>
+                        <a
+                          href={waLink(c.phone)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`px-2.5 py-1.5 rounded text-xs font-medium inline-flex items-center space-x-1 ${c.phone ? 'bg-green-500/15 hover:bg-green-500/30 text-green-300 border border-green-500/30' : 'opacity-40 pointer-events-none bg-slate-500/15 text-slate-400 border border-slate-500/30'}`}
+                          title="Open WhatsApp chat"
+                        >
+                          <MessageCircle className="w-3.5 h-3.5" />
+                          <span>WhatsApp</span>
+                        </a>
                         <button
                           onClick={() => handleDelete(c.id)}
                           className="btn-danger p-1.5 inline-flex items-center space-x-1"
@@ -228,6 +250,15 @@ export default function ContactsPage() {
                 >
                   {selectedContact.email}
                 </a>
+                <a
+                  href={waLink(selectedContact.phone)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-emerald-400 hover:underline text-xs font-mono block mt-1 flex items-center space-x-1"
+                >
+                  <Phone className="w-3.5 h-3.5" />
+                  <span>{selectedContact.phone || 'No phone number'}</span>
+                </a>
               </div>
 
               <div>
@@ -245,13 +276,24 @@ export default function ContactsPage() {
                   <Trash2 className="w-3.5 h-3.5" />
                   <span>Delete Message</span>
                 </button>
-                <a
-                  href={`mailto:${selectedContact.email}?subject=RE: Milne Bay Education Inquiry`}
-                  className="btn-gold text-xs px-4 py-2 flex items-center space-x-1.5"
-                >
-                  <Mail className="w-3.5 h-3.5" />
-                  <span>Reply via Email</span>
-                </a>
+                <div className="flex items-center space-x-2">
+                  <a
+                    href={waLink(selectedContact.phone)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`text-xs px-4 py-2 flex items-center space-x-1.5 rounded-lg ${selectedContact.phone ? 'bg-green-500/15 hover:bg-green-500/30 text-green-300 border border-green-500/30' : 'opacity-40 pointer-events-none bg-slate-500/15 text-slate-400 border border-slate-500/30'}`}
+                  >
+                    <MessageCircle className="w-3.5 h-3.5" />
+                    <span>WhatsApp</span>
+                  </a>
+                  <a
+                    href={`mailto:${selectedContact.email}?subject=RE: Milne Bay Education Inquiry`}
+                    className="btn-gold text-xs px-4 py-2 flex items-center space-x-1.5"
+                  >
+                    <Mail className="w-3.5 h-3.5" />
+                    <span>Reply via Email</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
