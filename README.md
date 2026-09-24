@@ -133,7 +133,7 @@ window.MyComponent = {
 
 ### Pages & Components
 
-- **Home** (`home.js`) — Responsive hero slider (aspect-ratio based, images shown in full via `contain`), **Welcome Message card** (editable in admin), Quick Access grid, Educational Pathways, Staff Hub, animated stat counters, live Notice Board, Latest News with scrolling **news ticker**, Provincial Education Plans (scroll-in animations + floating cover), Resource Library downloads.
+- **Home** (`home.js`) — Responsive hero slider (aspect-ratio based, images shown in full via `contain`), floating **Key Statistics band** (animated counters), **Welcome Message card** (editable in admin), **Explore Our Districts** cards with a profile modal, **FODE Learning Portal** feature, **E-Services & Citizen Hub** grid, Educational Pathways, Staff Hub, live Notice Board, Latest News with scrolling **news ticker**, Provincial Education Plans (scroll-in animations + floating cover), Resource Library downloads.
 - **About** (`about.js`) — 4-photo image gallery, Land & People with the **Milne Bay map** (click-to-zoom lightbox with zoom buttons + scroll/pinch), Gender Equity section.
 - **Basic** (`basic.js`) — Elementary/Primary education info and enrolment tables.
 - **About / Basic / Post Primary / VET / FODE** — Page banners (image, title, subtitle) for all five pages are configurable from the admin **Page Banners** tab.

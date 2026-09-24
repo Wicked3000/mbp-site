@@ -60,25 +60,6 @@ window.HomeComponent = {
 
             ${welcomeHtml}
 
-            <!-- Quick Access Section -->
-            <section class="quick-access-section">
-                <div class="qa-header">
-                    <span class="qa-kicker">Explore</span>
-                    <h3 class="qa-title">Quick Access</h3>
-                    <p class="qa-subtitle">Popular services, one click away</p>
-                </div>
-                <div class="quick-access-grid">
-                    <a href="https://gfb742e44b55c34-doeapps.adb.ap-sydney-1.oraclecloudapps.com/ords/r/emis/where-is-my-school/landing?session=616876509072831" target="_blank" class="qa-item acc-blue"><span class="qa-chip"><i data-lucide="search"></i></span><span class="qa-label">School Finder</span></a>
-                    <a href="/policy" data-link class="qa-item acc-gold"><span class="qa-chip"><i data-lucide="file-text"></i></span><span class="qa-label">Policy Documents</span></a>
-                    <a href="/calendar" data-link class="qa-item acc-green"><span class="qa-chip"><i data-lucide="calendar"></i></span><span class="qa-label">Calendar</span></a>
-                    <a href="/jobs" data-link class="qa-item acc-red"><span class="qa-chip"><i data-lucide="briefcase"></i></span><span class="qa-label">Job Vacancies</span></a>
-                    <a href="/news" data-link class="qa-item acc-blue"><span class="qa-chip"><i data-lucide="newspaper"></i></span><span class="qa-label">News</span></a>
-                    <a href="/exams" data-link class="qa-item acc-gold"><span class="qa-chip"><i data-lucide="award"></i></span><span class="qa-label">Exam Results</span></a>
-                    <a href="/parents" data-link class="qa-item acc-green"><span class="qa-chip"><i data-lucide="users"></i></span><span class="qa-label">Parent Portal</span></a>
-                    <a href="/elearning" data-link class="qa-item acc-red"><span class="qa-chip"><i data-lucide="laptop"></i></span><span class="qa-label">E-Learning</span></a>
-                </div>
-            </section>
-
             <div class="home-content-wrapper">
                 <!-- 0. Districts at a Glance -->
                 <section class="explorer-section">

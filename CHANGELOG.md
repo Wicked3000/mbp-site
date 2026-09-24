@@ -6,6 +6,10 @@ All notable changes to the Milne Bay Province – Division of Education website 
 
 ## Last Changes
 
+### 2026-09-24 — Removed the Quick Access section from the homepage
+- Removed the Quick Access glass card (Explore / Quick Access / Popular services, one click away) and its 8 icon tiles along with all `.qa-*` grid/tile CSS. The new E-Services & Citizen Hub grid already covers those destinations (School Finder, Policy Documents, Exam Results, Parent Portal, etc.), so no functionality is lost.
+- Kept the generic `.qa-btn` CTA styling (still used by View All News and Download Full Plan) and updated the README + search index description of the home page.
+
 ### 2026-09-24 — Rebuilt the homepage body with provincial-portal sections
 - Added a **Key Statistics band** that floats over the hero slider: 4 animated counters (345 Active Schools, 48,500 Enrolled Students, 1,850 Teachers, 100% FODE Outreach) with per-card accent icons (the old separate stats section was removed; the counter animation now runs on the band with `+`/`%` suffix support). Slider dots were raised so the overlapping band never covers them.
 - Added an **Explore Our Districts** section: 4 white profile cards (Alotau, Esa'ala, Kiriwina/Goodenough, Samarai/Murua) with photo headers, badges, education facts and a **View District Profile** button opening a new backdrop-blur modal (HQ, LLGs, schools coverage, FODE outreach, highlights). Responsive 4 → 2 → 1 columns.

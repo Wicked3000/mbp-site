@@ -1,6 +1,6 @@
 window.SiteSearch = (() => {
     const PAGE_INDEX = [
-        { path: '/home', title: 'Home', tag: 'Page', keywords: 'home welcome discover milne bay education province division schools quick access finder staff hub statistics' },
+        { path: '/home', title: 'Home', tag: 'Page', keywords: 'home welcome discover milne bay education province division schools staff hub statistics districts fode services' },
         { path: '/about', title: 'About Milne Bay Province', tag: 'Page', keywords: 'about land people population demographics gender equity education milne bay png islands cultures languages schools' },
         { path: '/basic', title: 'Basic Education', tag: 'Page', keywords: 'basic education primary elementary ece early childhood registration fees schools grades parents' },
         { path: '/post', title: 'Post Primary Education', tag: 'Page', keywords: 'post primary secondary high school national high grades 11 12 selection fees' },
