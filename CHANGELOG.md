@@ -6,6 +6,9 @@ All notable changes to the Milne Bay Province – Division of Education website 
 
 ## Last Changes
 
+### 2026-09-24 — Fix Quick Access overlapping the Welcome Message
+- Removed the negative `margin-top` on `.quick-access-section` (previously used to overlap the hero slider) so it no longer collides with the welcome card, and added bottom spacing to the welcome section.
+
 ### 2026-09-24 — Homepage Welcome Message section
 - Added a **Welcome Message** card to the public homepage between the hero slider and Quick Access grid, driven by a new `/api/welcome` endpoint and a `welcome_messages` MySQL table (auto-seeded, mock fallback included).
 - Added an admin **Welcome Message** tab (`/admin/welcome`) to edit the kicker, heading, body text (paragraph-aware), image (upload/URL) and show/hide toggle.
