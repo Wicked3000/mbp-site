@@ -6,6 +6,9 @@ All notable changes to the Milne Bay Province – Division of Education website 
 
 ## Last Changes
 
+### 2026-09-24 — Made WhatsApp community section full width
+- The WhatsApp Community Subscription card now spans the full viewport width (with side margins) matching the rest of the homepage sections, instead of being centered at max 800px.
+
 ### 2026-09-24 — Added WhatsApp community subscription section to homepage
 - Added a **WhatsApp Community Subscription** section to the public homepage featuring a subscription form (Name, Phone with PNG formatting, District, Notification Topics checkboxes) with real-time carrier detection (Digicel/Telikom/Vodafone PNG), live status indicator, and wa.me fallback confirmation. Fetches from `/api/whatsapp-subscribe`.
 
