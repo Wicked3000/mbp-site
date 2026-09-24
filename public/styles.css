@@ -229,22 +229,34 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .search-nav-link {
-    margin-left: 0.25rem;
+    margin-left: 0.5rem;
+    background: linear-gradient(135deg, var(--mbp-gold), #F57F17);
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.25rem;
+    border-radius: 999px;
+    box-shadow: 0 4px 14px rgba(245, 127, 23, 0.35);
 }
 
 .search-nav-link::after {
-    background: linear-gradient(90deg, var(--mbp-gold), #F57F17);
+    display: none;
+}
+
+.search-nav-link i.desktop-icon {
+    color: #fff;
 }
 
 .search-nav-link:hover,
 .search-nav-link.active {
-    color: #8a6d00;
-    background: rgba(251, 192, 45, 0.14);
+    color: #fff;
+    background: linear-gradient(135deg, #F57F17, var(--mbp-gold));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(245, 127, 23, 0.45);
 }
 
 .search-nav-link:hover i.desktop-icon,
 .search-nav-link.active i.desktop-icon {
-    color: var(--mbp-gold);
+    color: #fff;
     transform: scale(1.15);
 }
 
