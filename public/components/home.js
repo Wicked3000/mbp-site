@@ -252,6 +252,29 @@ window.HomeComponent = {
                     </div>
                 </section>
 
+                <!-- WhatsApp Newsletter Section -->
+                <section class="home-section whatsapp-newsletter-section">
+                    <div class="wa-letter-card glass-panel">
+                        <div class="wa-letter-head">
+                            <div class="wa-letter-icon-wrap">
+                                <i data-lucide="message-circle" class="wa-letter-icon"></i>
+                            </div>
+                            <div class="wa-letter-title-wrap">
+                                <h2>Stay Connected via WhatsApp</h2>
+                                <p class="section-subtitle">Get real-time updates on school announcements, exam results, and education news delivered straight to your phone.</p>
+                            </div>
+                        </div>
+                        <div class="wa-letter-body">
+                            <div id="wa-subscriber-list" class="wa-subscriber-list">
+                                <p class="wa-loading">Loading subscribers...</p>
+                            </div>
+                            <div class="wa-actions">
+                                <a href="/contact" data-link class="qa-btn gold"><i data-lucide="phone"></i><span>Subscribe via Contact Form</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
             </div>
 
             <!-- District Explorer Modal -->
@@ -762,6 +785,32 @@ const services = [
             } else {
                 plansSection.classList.add('in-view');
             }
+        }
+
+        // --- WhatsApp Subscriber List ---
+        const waList = document.getElementById('wa-subscriber-list');
+        if (waList) {
+            (async () => {
+                try {
+                    const res = await fetch('/api/whatsapp-subscribers');
+                    if (!res.ok) throw new Error('Fetch failed');
+                    const data = await res.json();
+                    if (Array.isArray(data) && data.length > 0) {
+                        const items = data.slice(0, 6).map(s => `
+                            <div class="wa-sub-item">
+                                <span class="wa-sub-phone"><i data-lucide="phone"></i> ${s.phone || '—'}</span>
+                                ${s.name ? `<span class="wa-sub-name"><i data-lucide="user"></i> ${s.name}</span>` : ''}
+                            </div>
+                        `).join('');
+                        waList.innerHTML = `<div class="wa-sub-items">${items}</div>`;
+                    } else {
+                        waList.innerHTML = '<p class="wa-empty">No subscribers yet. Be the first to join!</p>';
+                    }
+                } catch (error) {
+                    waList.innerHTML = '<p class="wa-empty">Unable to load subscriber list.</p>';
+                }
+                if (window.lucide) lucide.createIcons();
+            })();
         }
     }
 };
