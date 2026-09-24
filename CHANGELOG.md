@@ -6,8 +6,8 @@ All notable changes to the Milne Bay Province – Division of Education website 
 
 ## Last Changes
 
-### 2026-09-24 — Added WhatsApp newsletter section to homepage
-- Added a **WhatsApp Newsletter** section to the public homepage displaying recent WhatsApp subscribers (up to 6) with phone numbers and names, plus a CTA linking to the contact form for new subscriptions. Fetches live data from `/api/whatsapp-subscribers` with mock-data fallback.
+### 2026-09-24 — Added WhatsApp community subscription section to homepage
+- Added a **WhatsApp Community Subscription** section to the public homepage featuring a subscription form (Name, Phone with PNG formatting, District, Notification Topics checkboxes) with real-time carrier detection (Digicel/Telikom/Vodafone PNG), live status indicator, and wa.me fallback confirmation. Fetches from `/api/whatsapp-subscribe`.
 
 ### 2026-09-24 — Added WhatsApp Subscriber management
 - Added `whatsapp_subscribers` MySQL table, mock-data fallback, and `/api/whatsapp-subscribe` (POST) and `/api/whatsapp-subscribers` (GET/DELETE) API routes for WhatsApp group/channel subscription management.

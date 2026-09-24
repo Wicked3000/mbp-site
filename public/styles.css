@@ -3553,124 +3553,339 @@ body.menu-open .floating-social {
     }
 }
 
-/* --- WhatsApp Newsletter Section --- */
-.whatsapp-newsletter-section {
-    padding: 2rem 0;
-}
-
-.wa-letter-card {
-    border-radius: 22px;
+/* WhatsApp Community Subscription Section */
+.whatsapp-newsletter-section { padding: 2.5rem 0; }
+.wa-community-card {
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 24px;
     overflow: hidden;
-    border: 1px solid rgba(0, 185, 122, 0.25);
-    box-shadow: 0 20px 50px -20px rgba(0, 185, 122, 0.15);
-    background: linear-gradient(135deg, #0a192f 0%, #0d47a1 100%);
+    border: 1px solid rgba(37, 211, 102, 0.25);
+    box-shadow: 0 25px 60px -20px rgba(0, 25, 47, 0.6), 0 0 0 1px rgba(37, 211, 102, 0.1);
+    background: linear-gradient(145deg, #0a192f 0%, #0d47a1 100%);
+    position: relative;
 }
-
-.wa-letter-head {
+.wa-community-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 30% 30%, rgba(37, 211, 102, 0.08), transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(37, 211, 102, 0.06), transparent 50%);
+    pointer-events: none;
+    opacity: 0.6;
+}
+.wa-community-head {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 1.5rem;
     padding: 2rem 2.5rem 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    z-index: 1;
 }
-
-.wa-letter-icon-wrap {
-    flex-shrink: 0;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #25D366, #128C7E);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
+.wa-community-icon {
+    width: 36px;
+    height: 36px;
+    color: #25D366;
+    margin-right: 0.75rem;
 }
-
-.wa-letter-icon {
-    width: 32px;
-    height: 32px;
-    color: #fff;
-}
-
-.wa-letter-title-wrap h2 {
+.wa-community-title-wrap h2 {
     color: #fff;
     font-size: 1.8rem;
     font-weight: 800;
     margin-bottom: 0.4rem;
 }
-
-.wa-letter-title-wrap .section-subtitle {
+.wa-community-title-wrap .section-subtitle {
     color: rgba(255, 255, 255, 0.65);
     font-size: 0.9rem;
     margin: 0;
 }
-
-.wa-letter-body {
-    padding: 1.5rem 2.5rem 2rem;
-}
-
-.wa-subscriber-list {
-    margin-bottom: 1.5rem;
-}
-
-.wa-sub-items {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.wa-sub-item {
+.wa-live-badge {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 0.65rem 1rem;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    gap: 0.5rem;
+    background: rgba(37, 211, 102, 0.15);
+    border: 1px solid rgba(37, 211, 102, 0.4);
+    border-radius: 999px;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.78rem;
+    color: #25D366;
+    font-weight: 600;
+}
+.wa-pulse-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #25D366;
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6);
+    animation: wa-pulse 1.5s ease-in-out infinite;
+}
+@keyframes wa-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6); }
+    70% { box-shadow: 0 0 0 8px rgba(37, 211, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+.wa-community-body { padding: 2rem 2.5rem 2.5rem; position: relative; z-index: 1; }
+.wa-subscribe-form { display: flex; flex-direction: column; gap: 1.5rem; }
+.wa-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+@media (max-width: 768px) {
+    .wa-form-row { grid-template-columns: 1fr; }
+}
+.wa-form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+.wa-label {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.82rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+.wa-required { color: #f87171; }
+.wa-input {
+    padding: 0.8rem 1rem;
     border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 0.9rem;
     transition: all 0.2s ease;
 }
-
-.wa-sub-item:hover {
-    background: rgba(37, 211, 102, 0.1);
-    border-color: rgba(37, 211, 102, 0.3);
+.wa-input:focus {
+    outline: none;
+    border-color: rgba(37, 211, 102, 0.4);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 2px rgba(37, 211, 102, 0.15);
 }
-
-.wa-sub-phone,
-.wa-sub-name {
+.wa-phone-input-wrap {
+    display: flex;
+    gap: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.04);
+}
+.wa-prefix-tag {
+    background: rgba(37, 211, 102, 0.2);
+    color: #25D366;
+    font-weight: 800;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.95rem;
+}
+.wa-phone-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: #fff;
+    padding: 0.8rem 1rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+}
+.wa-phone-input:focus {
+    outline: none;
+    box-shadow: none;
+    background: transparent;
+}
+.wa-carrier-badge { margin-top: 0.5rem; }
+.wa-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.wa-badge svg { width: 13px; height: 13px; }
+.wa-badge-unknown {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.wa-phone-hint {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+}
+.wa-topics-fieldset {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 14px;
+    padding: 1.25rem;
+    background: rgba(255, 255, 255, 0.03);
+}
+.wa-topics-fieldset legend {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+.wa-topics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+@media (max-width: 768px) {
+    .wa-topics-grid { grid-template-columns: 1fr; }
+}
+.wa-topic-checkbox {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    cursor: pointer;
+    user-select: none;
+    padding: 0.5rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: all 0.2s ease;
+    position: relative;
+}
+.wa-topic-checkbox:hover {
+    background: rgba(37, 211, 102, 0.05);
+    border-color: rgba(37, 211, 102, 0.2);
+}
+.wa-topic-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+.wa-checkbox-custom {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+.wa-topic-checkbox input:checked + .wa-checkbox-custom {
+    border-color: #25D366;
+    background: linear-gradient(135deg, #25D366, #00C59E);
+    color: #fff;
+}
+.wa-topic-checkbox input:checked + .wa-checkbox-custom::after {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 6px;
+    border: solid currentColor;
+    border-width: 0 2px 2px;
+    transform: rotate(45deg);
+}
+.wa-topic-label {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.85rem;
+    font-weight: 600;
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.8);
 }
-
-.wa-sub-phone svg {
-    width: 15px;
-    height: 15px;
-    color: #25D366;
-}
-
-.wa-sub-name svg {
-    width: 14px;
-    height: 14px;
+.wa-topic-desc {
     color: rgba(255, 255, 255, 0.5);
+    font-size: 0.72rem;
+    line-height: 1.4;
 }
-
-.wa-loading,
-.wa-empty {
+.wa-form-actions { display: flex; justify-content: center; }
+.wa-btn-primary, .wa-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 0.85rem 2rem;
+    border-radius: 999px;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+}
+.wa-btn-primary {
+    background: linear-gradient(135deg, #25D366, #00C59E);
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
+}
+.wa-btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(37, 211, 102, 0.5);
+}
+.wa-btn-primary:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+.wa-btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.wa-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+.wa-btn-secondary i, .wa-btn-primary i { width: 17px; height: 17px; }
+.wa-disclaimer {
     color: rgba(255, 255, 255, 0.5);
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     text-align: center;
-    padding: 1rem;
+    margin-top: 0.5rem;
 }
-
-.wa-actions {
+.wa-disclaimer a {
+    color: #25D366;
+    text-decoration: none;
+}
+.wa-disclaimer a:hover { text-decoration: underline; }
+.wa-success-message, .wa-error-message {
+    text-align: center;
+    padding: 2rem;
+}
+.wa-success-icon, .wa-error-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
     display: flex;
+    align-items: center;
     justify-content: center;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 32px;
 }
-
+.wa-success-icon {
+    background: linear-gradient(135deg, #25D366, #00C59E);
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+}
+.wa-error-icon {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+.wa-success-message h3, .wa-error-message h3 {
+    color: #fff;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+.wa-success-message p, .wa-error-message p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+@media (max-width: 768px) {
+    .wa-community-head { padding: 1.5rem 1.5rem 1rem; }
+    .wa-community-body { padding: 1.5rem; }
+    .wa-community-title-wrap h2 { font-size: 1.4rem; }
+    .wa-btn-primary, .wa-btn-secondary { padding: 0.7rem 1.5rem; font-size: 0.85rem; }
+}
 @media (max-width: 768px) {
     .wa-letter-head {
         flex-direction: column;

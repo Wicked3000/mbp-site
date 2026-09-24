@@ -252,24 +252,109 @@ window.HomeComponent = {
                     </div>
                 </section>
 
-                <!-- WhatsApp Newsletter Section -->
-                <section class="home-section whatsapp-newsletter-section">
-                    <div class="wa-letter-card glass-panel">
-                        <div class="wa-letter-head">
-                            <div class="wa-letter-icon-wrap">
-                                <i data-lucide="message-circle" class="wa-letter-icon"></i>
+                <!-- WhatsApp Community Subscription Section -->
+                <section class="home-section whatsapp-community-section">
+                    <div class="wa-community-card glass-panel">
+                        <div class="wa-community-head">
+                            <div class="wa-community-icon-wrap">
+                                <i data-lucide="message-circle" class="wa-community-icon"></i>
                             </div>
-                            <div class="wa-letter-title-wrap">
-                                <h2>Stay Connected via WhatsApp</h2>
-                                <p class="section-subtitle">Get real-time updates on school announcements, exam results, and education news delivered straight to your phone.</p>
+                            <div class="wa-community-title-wrap">
+                                <h2>Join Our WhatsApp Community</h2>
+                                <p class="section-subtitle">Subscribe to official Division of Education channels for instant updates on exams, FODE, circulars, and more.</p>
+                            </div>
+                            <div class="wa-live-badge">
+                                <span class="wa-pulse-dot"></span>
+                                <span>PNG Education Network Live</span>
                             </div>
                         </div>
-                        <div class="wa-letter-body">
-                            <div id="wa-subscriber-list" class="wa-subscriber-list">
-                                <p class="wa-loading">Loading subscribers...</p>
+                        <div class="wa-community-body">
+                            <form id="wa-subscribe-form" class="wa-subscribe-form" novalidate>
+                                <div class="wa-form-row">
+                                    <div class="wa-form-group">
+                                        <label for="wa-name" class="wa-label">Full Name <span class="wa-required">*</span></label>
+                                        <input type="text" id="wa-name" name="name" class="wa-input" placeholder="John Doe" required autocomplete="name">
+                                    </div>
+                                    <div class="wa-form-group">
+                                        <label for="wa-district" class="wa-label">District <span class="wa-required">*</span></label>
+                                        <select id="wa-district" name="district" class="wa-input wa-select" required>
+                                            <option value="">Select your district</option>
+                                            <option value="alotau">Alotau</option>
+                                            <option value="esala">Esa'ala</option>
+                                            <option value="kiriwina">Kiriwina/Goodenough</option>
+                                            <option value="samarai">Samarai/Murua</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="wa-form-group">
+                                    <label for="wa-phone" class="wa-label">Phone Number <span class="wa-required">*</span></label>
+                                    <div class="wa-phone-input-wrap">
+                                        <span class="wa-prefix-tag">+675</span>
+                                        <input type="tel" id="wa-phone" name="phone" class="wa-input wa-phone-input" placeholder="7123 4567" required autocomplete="tel" maxlength="13" inputmode="numeric">
+                                    </div>
+                                    <div class="wa-carrier-badge" id="wa-carrier-badge" aria-live="polite"></div>
+                                    <p class="wa-phone-hint">PNG format: 7X XX XXXX (auto-spaced)</p>
+                                </div>
+                                <fieldset class="wa-topics-fieldset">
+                                    <legend class="wa-label">Notification Topics <span class="wa-required">*</span></legend>
+                                    <div class="wa-topics-grid">
+                                        <label class="wa-topic-checkbox">
+                                            <input type="checkbox" name="topics" value="fode" checked>
+                                            <span class="wa-checkbox-custom"></span>
+                                            <span class="wa-topic-label">FODE Updates</span>
+                                            <span class="wa-topic-desc">Course materials, assignments, exam schedules</span>
+                                        </label>
+                                        <label class="wa-topic-checkbox">
+                                            <input type="checkbox" name="topics" value="exams" checked>
+                                            <span class="wa-checkbox-custom"></span>
+                                            <span class="wa-topic-label">Exam Results</span>
+                                            <span class="wa-topic-desc">Grade 8, 10, 12 results & selection lists</span>
+                                        </label>
+                                        <label class="wa-topic-checkbox">
+                                            <input type="checkbox" name="topics" value="circulars" checked>
+                                            <span class="wa-checkbox-custom"></span>
+                                            <span class="wa-topic-label">PEB Circulars</span>
+                                            <span class="wa-topic-desc">Official directives & policy announcements</span>
+                                        </label>
+                                        <label class="wa-topic-checkbox">
+                                            <input type="checkbox" name="topics" value="vacancies">
+                                            <span class="wa-checkbox-custom"></span>
+                                            <span class="wa-topic-label">Teacher Vacancies</span>
+                                            <span class="wa-topic-desc">Postings, transfers & recruitment notices</span>
+                                        </label>
+                                        <label class="wa-topic-checkbox">
+                                            <input type="checkbox" name="topics" value="scholarships">
+                                            <span class="wa-checkbox-custom"></span>
+                                            <span class="wa-topic-label">Scholarships</span>
+                                            <span class="wa-topic-desc">TESAS, HECAS & overseas opportunities</span>
+                                        </label>
+                                        <label class="wa-topic-checkbox">
+                                            <input type="checkbox" name="topics" value="emergency">
+                                            <span class="wa-checkbox-custom"></span>
+                                            <span class="wa-topic-label">Emergency Alerts</span>
+                                            <span class="wa-topic-desc">Weather warnings & school closures</span>
+                                        </label>
+                                    </div>
+                                </fieldset>
+                                <div class="wa-form-actions">
+                                    <button type="submit" class="wa-btn-primary" id="wa-submit-btn">
+                                        <span class="wa-btn-text"><i data-lucide="send"></i> Subscribe to WhatsApp</span>
+                                        <span class="wa-btn-loading" style="display:none;"><i data-lucide="loader" class="spin"></i> Subscribing...</span>
+                                    </button>
+                                </div>
+                                <p class="wa-disclaimer">By subscribing, you consent to receive WhatsApp messages from Milne Bay Province Division of Education. <a href="/policy" data-link>Privacy Policy</a></p>
+                            </form>
+                            <div id="wa-success-message" class="wa-success-message" style="display:none;" role="alert">
+                                <div class="wa-success-icon"><i data-lucide="check-circle"></i></div>
+                                <h3>Successfully Subscribed!</h3>
+                                <p>You'll receive a WhatsApp message shortly with channel join links.</p>
+                                <a href="https://wa.me/+6756410603?text=I%20just%20subscribed%20to%20MBP%20Education%20WhatsApp%20updates" target="_blank" rel="noopener" class="wa-btn-secondary"><i data-lucide="message-circle"></i> Open WhatsApp Now</a>
                             </div>
-                            <div class="wa-actions">
-                                <a href="/contact" data-link class="qa-btn gold"><i data-lucide="phone"></i><span>Subscribe via Contact Form</span></a>
+                            <div id="wa-error-message" class="wa-error-message" style="display:none;" role="alert">
+                                <div class="wa-error-icon"><i data-lucide="alert-circle"></i></div>
+                                <h3>Subscription Failed</h3>
+                                <p id="wa-error-text"></p>
+                                <button type="button" class="wa-btn-secondary" id="wa-retry-btn"><i data-lucide="rotate-ccw"></i> Try Again</button>
                             </div>
                         </div>
                     </div>
@@ -787,30 +872,119 @@ const services = [
             }
         }
 
-        // --- WhatsApp Subscriber List ---
-        const waList = document.getElementById('wa-subscriber-list');
-        if (waList) {
-            (async () => {
-                try {
-                    const res = await fetch('/api/whatsapp-subscribers');
-                    if (!res.ok) throw new Error('Fetch failed');
-                    const data = await res.json();
-                    if (Array.isArray(data) && data.length > 0) {
-                        const items = data.slice(0, 6).map(s => `
-                            <div class="wa-sub-item">
-                                <span class="wa-sub-phone"><i data-lucide="phone"></i> ${s.phone || '—'}</span>
-                                ${s.name ? `<span class="wa-sub-name"><i data-lucide="user"></i> ${s.name}</span>` : ''}
-                            </div>
-                        `).join('');
-                        waList.innerHTML = `<div class="wa-sub-items">${items}</div>`;
-                    } else {
-                        waList.innerHTML = '<p class="wa-empty">No subscribers yet. Be the first to join!</p>';
-                    }
-                } catch (error) {
-                    waList.innerHTML = '<p class="wa-empty">Unable to load subscriber list.</p>';
+        // --- WhatsApp Community Subscription Form ---
+        const waForm = document.getElementById('wa-subscribe-form');
+        const waPhoneInput = document.getElementById('wa-phone');
+        const waCarrierBadge = document.getElementById('wa-carrier-badge');
+        const waSuccessMessage = document.getElementById('wa-success-message');
+        const waErrorMessage = document.getElementById('wa-error-message');
+        const waErrorText = document.getElementById('wa-error-text');
+        const waRetryBtn = document.getElementById('wa-retry-btn');
+        const waSubmitBtn = document.getElementById('wa-submit-btn');
+        const waBtnText = waSubmitBtn?.querySelector('.wa-btn-text');
+        const waBtnLoading = waSubmitBtn?.querySelector('.wa-btn-loading');
+
+        const CARRIERS = {
+            digicel: { prefixes: ['70','71','72','73','74','79'], label: 'Digicel PNG', color: '#FF6B00' },
+            telikom: { prefixes: ['75','76','78'], label: 'Telikom PNG', color: '#0066CC' },
+            vodafone: { prefixes: ['67','68','69'], label: 'Vodafone PNG', color: '#E60000' }
+        };
+
+        function detectCarrier(phone) {
+            const cleaned = phone.replace(/\D/g, '');
+            if (cleaned.length < 2) return null;
+            const prefix = cleaned.substring(0, 2);
+            for (const [key, carrier] of Object.entries(CARRIERS)) {
+                if (carrier.prefixes.includes(prefix)) return carrier;
+            }
+            return null;
+        }
+
+        function formatPhoneInput(value) {
+            const cleaned = value.replace(/\D/g, '');
+            if (cleaned.length <= 2) return cleaned;
+            if (cleaned.length <= 4) return cleaned.substring(0, 2) + ' ' + cleaned.substring(2);
+            return cleaned.substring(0, 2) + ' ' + cleaned.substring(2, 6) + ' ' + cleaned.substring(6, 8);
+        }
+
+        if (waPhoneInput) {
+            waPhoneInput.addEventListener('input', (e) => {
+                const formatted = formatPhoneInput(e.target.value);
+                e.target.value = formatted;
+                const carrier = detectCarrier(formatted);
+                if (carrier) {
+                    waCarrierBadge.innerHTML = `<span class="wa-badge" style="background:${carrier.color}20; color:${carrier.color}; border-color:${carrier.color}40;"><i data-lucide="smartphone"></i> ${carrier.label} detected</span>`;
+                } else if (formatted.replace(/\D/g, '').length >= 2) {
+                    waCarrierBadge.innerHTML = `<span class="wa-badge wa-badge-unknown"><i data-lucide="help-circle"></i> Unknown carrier</span>`;
+                } else {
+                    waCarrierBadge.innerHTML = '';
                 }
                 if (window.lucide) lucide.createIcons();
-            })();
+            });
         }
+
+        function showState(state) {
+            if (waForm) waForm.style.display = state === 'form' ? 'block' : 'none';
+            if (waSuccessMessage) waSuccessMessage.style.display = state === 'success' ? 'block' : 'none';
+            if (waErrorMessage) waErrorMessage.style.display = state === 'error' ? 'block' : 'none';
+        }
+
+        function setLoading(loading) {
+            if (waSubmitBtn) waSubmitBtn.disabled = loading;
+            if (waBtnText) waBtnText.style.display = loading ? 'none' : 'inline-flex';
+            if (waBtnLoading) waBtnLoading.style.display = loading ? 'inline-flex' : 'none';
+        }
+
+        if (waForm) {
+            waForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(waForm);
+                const phone = formData.get('phone').replace(/\D/g, '');
+                if (phone.length !== 8) {
+                    waErrorText.textContent = 'Please enter a valid 8-digit PNG phone number.';
+                    showState('error');
+                    return;
+                }
+                const topics = formData.getAll('topics');
+                if (topics.length === 0) {
+                    waErrorText.textContent = 'Please select at least one notification topic.';
+                    showState('error');
+                    return;
+                }
+                setLoading(true);
+                try {
+                    const res = await fetch('/api/whatsapp-subscribe', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            name: formData.get('name'),
+                            phone: '+675 ' + phone.substring(0,2) + ' ' + phone.substring(2,6) + ' ' + phone.substring(6),
+                            district: formData.get('district'),
+                            topics: topics,
+                            source: 'homepage-community'
+                        })
+                    });
+                    const result = await res.json();
+                    if (res.ok) {
+                        showState('success');
+                        waForm.reset();
+                        waCarrierBadge.innerHTML = '';
+                    } else {
+                        throw new Error(result.error || 'Subscription failed');
+                    }
+                } catch (error) {
+                    waErrorText.textContent = error.message;
+                    showState('error');
+                } finally {
+                    setLoading(false);
+                }
+            });
+        }
+
+        if (waRetryBtn) {
+            waRetryBtn.addEventListener('click', () => showState('form'));
+        }
+
+        if (window.lucide) lucide.createIcons();
     }
 };
