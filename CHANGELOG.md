@@ -6,6 +6,10 @@ All notable changes to the Milne Bay Province – Division of Education website 
 
 ## Last Changes
 
+### 2026-09-24 — Made the Quick Access section full width
+- The Quick Access glass card now spans the full viewport width (with 1.25rem side margins and a 22px radius) instead of being capped at 1060px.
+- The 8 icon tiles now sit in a single 8-column row on wide desktops (grid capped at 1200px and centered), dropping to 4 columns at ≤1100px and 2 columns below 768px, so the whole band on phones remains a compact 2×4 grid.
+
 ### 2026-09-24 — Redesigned the Quick Access section
 - Rebuilt the homepage Quick Access as a glass card (rounded, soft shadow, white gradient) with a kicker + title + subtitle header.
 - Each of the 8 services is now a white tile with a circular gradient icon chip (rotating blue/gold/green/red accents) and a bold label; hover lifts the tile and scales the chip.
