@@ -6,6 +6,12 @@ All notable changes to the Milne Bay Province – Division of Education website 
 
 ## Last Changes
 
+### 2026-09-24 — Rebuilt the homepage body with provincial-portal sections
+- Added a **Key Statistics band** that floats over the hero slider: 4 animated counters (345 Active Schools, 48,500 Enrolled Students, 1,850 Teachers, 100% FODE Outreach) with per-card accent icons (the old separate stats section was removed; the counter animation now runs on the band with `+`/`%` suffix support). Slider dots were raised so the overlapping band never covers them.
+- Added an **Explore Our Districts** section: 4 white profile cards (Alotau, Esa'ala, Kiriwina/Goodenough, Samarai/Murua) with photo headers, badges, education facts and a **View District Profile** button opening a new backdrop-blur modal (HQ, LLGs, schools coverage, FODE outreach, highlights). Responsive 4 → 2 → 1 columns.
+- Added a **FODE Learning Portal** feature band (dark navy gradient): FODE pitch, two mini feature cards, gold/ghost CTAs to `/fode` and `/post`, plus a white "Digital Resource Center" dashboard card linking to Course & Assignment Downloads (`/post`), Exam Results (`/exams`) and VET (`/vet`).
+- Added an **E-Services & Citizen Hub** grid: 6 service cards (FODE Portal, EMIS School Finder, Policy Documents, Selection Lists, Parent Portal, Exam Results) with gradient icon squares and hover lift. Responsive 3 → 2 → 1 columns.
+
 ### 2026-09-24 — Made the Quick Access section full width
 - The Quick Access glass card now spans the full viewport width (with 1.25rem side margins and a 22px radius) instead of being capped at 1060px.
 - The 8 icon tiles now sit in a single 8-column row on wide desktops (grid capped at 1200px and centered), dropping to 4 columns at ≤1100px and 2 columns below 768px, so the whole band on phones remains a compact 2×4 grid.

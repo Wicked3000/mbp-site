@@ -34,6 +34,30 @@ window.HomeComponent = {
                 </div>
             </div>
 
+            <!-- Key Provincial Education Statistics -->
+            <section class="stats-band">
+                <div class="stat-card b-blue">
+                    <div class="stat-icon"><i data-lucide="building-2"></i></div>
+                    <div class="stat-number" data-target="345">0</div>
+                    <div class="stat-label">Active Schools</div>
+                </div>
+                <div class="stat-card b-green">
+                    <div class="stat-icon"><i data-lucide="users-2"></i></div>
+                    <div class="stat-number" data-target="48500">0</div>
+                    <div class="stat-label">Enrolled Students</div>
+                </div>
+                <div class="stat-card b-gold">
+                    <div class="stat-icon"><i data-lucide="user-check"></i></div>
+                    <div class="stat-number" data-target="1850">0</div>
+                    <div class="stat-label">Registered Teachers</div>
+                </div>
+                <div class="stat-card b-red">
+                    <div class="stat-icon"><i data-lucide="graduation-cap"></i></div>
+                    <div class="stat-number" data-target="100" data-suffix="%">0</div>
+                    <div class="stat-label">FODE Outreach</div>
+                </div>
+            </section>
+
             ${welcomeHtml}
 
             <!-- Quick Access Section -->
@@ -56,6 +80,94 @@ window.HomeComponent = {
             </section>
 
             <div class="home-content-wrapper">
+                <!-- 0. Districts at a Glance -->
+                <section class="explorer-section">
+                    <div class="explorer-head">
+                        <span class="explorer-kicker">Across All Districts</span>
+                        <h2 class="section-title">Explore Our Districts</h2>
+                        <p class="section-subtitle">Every Milne Bay district is served by schools, FODE centres and learning outreach — from the mainland capital to the remote islands.</p>
+                    </div>
+                    <div class="explorer-grid">
+                        ${HomeComponent.renderDistrictCards()}
+                    </div>
+                </section>
+
+                <!-- FODE Learning Portal Feature -->
+                <section class="fode-feature">
+                    <div class="fode-blurb">
+                        <span class="fode-badge"><i data-lucide="graduation-cap"></i> Flexible Open & Distance Education</span>
+                        <h2>Learn from Anywhere in Milne Bay</h2>
+                        <p>FODE lets students across all four districts continue secondary education and matriculation from home — with study packages, assignments and exam support reaching even the most remote islands.</p>
+                        <div class="fode-mini-grid">
+                            <div class="fode-mini">
+                                <i data-lucide="book-open"></i>
+                                <h4>Grades 9–12 Curriculum</h4>
+                                <p>National syllabus packages and study guides for every subject.</p>
+                            </div>
+                            <div class="fode-mini">
+                                <i data-lucide="tools"></i>
+                                <h4>Vocational Options</h4>
+                                <p>Trade skills and technical certification pathways.</p>
+                            </div>
+                        </div>
+                        <div class="fode-actions">
+                            <a href="/fode" data-link class="fode-btn primary"><span>Visit the FODE Page</span><i data-lucide="arrow-right"></i></a>
+                            <a href="/post" data-link class="fode-btn ghost"><span>View Selection Lists</span></a>
+                        </div>
+                    </div>
+                    <div class="fode-dashboard">
+                        <div class="fode-dash-head">
+                            <div>
+                                <span>Student & Teacher Portal</span>
+                                <h3>Digital Resource Center</h3>
+                            </div>
+                            <span class="fode-dash-dot"></span>
+                        </div>
+                        <a href="/post" data-link class="fode-link">
+                            <span class="fode-link-icon blue"><i data-lucide="file-text"></i></span>
+                            <span class="fode-link-text">
+                                <span class="fode-link-title">Course & Assignment Downloads</span>
+                                <span class="fode-link-sub">Grades 9 to 12 English, Science, Mathematics & Social Science</span>
+                            </span>
+                            <i data-lucide="chevron-right" class="fode-link-arrow"></i>
+                        </a>
+                        <a href="/exams" data-link class="fode-link">
+                            <span class="fode-link-icon green"><i data-lucide="square-poll-vertical"></i></span>
+                            <span class="fode-link-text">
+                                <span class="fode-link-title">FODE Examination Results</span>
+                                <span class="fode-link-sub">Check grade transcripts and certification status</span>
+                            </span>
+                            <i data-lucide="chevron-right" class="fode-link-arrow"></i>
+                        </a>
+                        <a href="/vet" data-link class="fode-link">
+                            <span class="fode-link-icon gold"><i data-lucide="wrench"></i></span>
+                            <span class="fode-link-text">
+                                <span class="fode-link-title">Vocational Technical Training (VET)</span>
+                                <span class="fode-link-sub">Trades, mechanical, agriculture & hospitality courses</span>
+                            </span>
+                            <i data-lucide="chevron-right" class="fode-link-arrow"></i>
+                        </a>
+                        <div class="fode-dash-foot">
+                            <span><i data-lucide="circle-check"></i> Free for registered Milne Bay students</span>
+                            <a href="/contact" data-link>Centre Locations</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- E-Services & Citizen Hub -->
+                <section class="services-hub">
+                    <div class="services-head">
+                        <div>
+                            <span class="explorer-kicker">Online Portals</span>
+                            <h2 class="section-title">E-Services & Citizen Hub</h2>
+                        </div>
+                        <p class="services-head-text">Access school records, policy documents and the online tools that keep our province learning.</p>
+                    </div>
+                    <div class="services-grid">
+                        ${HomeComponent.renderServiceCards()}
+                    </div>
+                </section>
+
                 <!-- 1. Foundational Educational Pillars -->
                 <section class="home-section">
                     <h2 class="section-title">Educational Pathways</h2>
@@ -94,25 +206,6 @@ window.HomeComponent = {
                             <a href="http://apps.education.gov.pg:8081/ords/f?p=141:HOME:2806478635712:::::" target="_blank" rel="noopener" class="staff-btn"><i data-lucide="file-spreadsheet"></i> School Grant Acquittal</a>
                             <a href="http://apps.education.gov.pg:8081/ords/f?p=144:LOGIN_DESKTOP:7583393779533:::::" target="_blank" rel="noopener" class="staff-btn"><i data-lucide="credit-card"></i> MyPaySlip</a>
                         </div>
-                    </div>
-                </section>
-
-                <!-- 4. Live Statistics -->
-                <section class="home-section stats-section">
-                    <div class="stat-card">
-                        <div class="stat-icon"><i data-lucide="building-2"></i></div>
-                        <div class="stat-number" data-target="345">0</div>
-                        <div class="stat-label">Active Schools</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i data-lucide="users-2"></i></div>
-                        <div class="stat-number" data-target="48500">0</div>
-                        <div class="stat-label">Enrolled Students</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i data-lucide="user-check"></i></div>
-                        <div class="stat-number" data-target="1850">0</div>
-                        <div class="stat-label">Registered Teachers</div>
                     </div>
                 </section>
 
@@ -191,7 +284,143 @@ window.HomeComponent = {
                     </div>
                 </section>
             </div>
+
+            <!-- District Explorer Modal -->
+            <div class="district-modal" id="district-modal">
+                <div class="district-modal-card">
+                    <button class="district-modal-close" id="district-modal-close" type="button" aria-label="Close"><i data-lucide="x"></i></button>
+                    <div class="district-modal-hero">
+                        <img id="dm-img" src="" alt="">
+                        <div class="district-modal-hero-mask"></div>
+                        <div class="district-modal-hero-info">
+                            <span id="dm-badge" class="district-card-badge"></span>
+                            <h3 id="dm-title"></h3>
+                        </div>
+                    </div>
+                    <div class="district-modal-body">
+                        <div class="dm-meta">
+                            <div><span>District HQ</span><strong id="dm-hq"></strong></div>
+                            <div><span>LLG Areas</span><strong id="dm-llgs"></strong></div>
+                        </div>
+                        <div class="dm-facts">
+                            <div class="dm-fact"><i data-lucide="school"></i><div><span>Schools Coverage</span><p id="dm-schools"></p></div></div>
+                            <div class="dm-fact"><i data-lucide="laptop"></i><div><span>FODE & Outreach</span><p id="dm-fode"></p></div></div>
+                        </div>
+                        <h4>Overview & Education Focus</h4>
+                        <p id="dm-desc" class="dm-desc"></p>
+                        <h4>Key Highlights</h4>
+                        <ul id="dm-highlights" class="dm-highlights"></ul>
+                    </div>
+                    <div class="district-modal-foot">
+                        <a href="/about" data-link class="fode-btn primary"><span>Learn More About MBP Education</span><i data-lucide="arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
         `;
+    },
+
+    districtData: [
+        {
+            title: 'Alotau District',
+            badge: 'Provincial Capital',
+            hq: 'Alotau Town',
+            img: 'assets/about/img1.png',
+            desc: 'Home of the Division of Education headquarters and the province\'s largest cluster of schools — national high school, secondary schools and the central FODE facility for Milne Bay.',
+            llgs: 'Alotau Urban, Huhu, Suau, Makamaka, Daga',
+            schools: 'Largest cluster of schools in the province',
+            fode: 'Central FODE centre in Alotau',
+            highlights: [
+                'Provincial Division of Education headquarters',
+                'National high school and secondary options',
+                'Largest teacher workforce in the province'
+            ]
+        },
+        {
+            title: 'Esa\'ala District',
+            badge: 'Island District',
+            hq: 'Normanby Island',
+            img: 'assets/about/img2.jpg',
+            desc: 'The D\'Entrecasteaux islands of Normanby, Fergusson and Dobu. Community schools and FODE study groups bring learning to scattered coastal and mountain villages.',
+            llgs: 'Dobu, Duau, West Fergusson',
+            schools: 'Community & primary schools on three main islands',
+            fode: 'FODE study groups with visiting teachers',
+            highlights: [
+                'Community schools across Normanby & Fergusson',
+                'Visiting-teacher FODE study groups',
+                'Teacher housing support for island postings'
+            ]
+        },
+        {
+            title: 'Kiriwina / Goodenough',
+            badge: 'Cultural Heritage',
+            hq: 'Losuia & Bolubolu',
+            img: 'assets/about/img3.jpg',
+            desc: 'The Trobriand Islands and Goodenough Island — famous for culture and craftsmanship. Schools and a dedicated FODE centre keep every village connected to education.',
+            llgs: 'Kiriwina Rural, Goodenough Island Rural',
+            schools: 'Primary & community schools island-wide',
+            fode: 'FODE centre at Losuia',
+            highlights: [
+                'FODE campus at Losuia for the Trobriand Islands',
+                'Heritage-led classroom programs',
+                'Secondary options on both islands'
+            ]
+        },
+        {
+            title: 'Samarai / Murua',
+            badge: 'Maritime Archipelago',
+            hq: 'Samarai & Woodlark',
+            img: 'assets/about/img4.jpg',
+            desc: 'Woodlark, Misima and the Louisiade Archipelago. Distance education and correspondence packages are the classroom lifeline across thousands of kilometres of ocean.',
+            llgs: 'Bwanabwana, Louisiade, Yaleyamba, Murua',
+            schools: 'Island classrooms from Samarai to Woodlark',
+            fode: 'Correspondence & distance learning outreach',
+            highlights: [
+                'Samarai heritage island — former provincial capital',
+                'Misima & Woodlark school networks',
+                'Sea-transported study materials'
+            ]
+        }
+    ],
+
+    renderDistrictCards() {
+        return this.districtData.map((d, i) => `
+            <div class="district-card" data-district="${i}" role="button" tabindex="0" aria-label="View ${d.title} education profile">
+                <div class="district-card-media">
+                    <img src="${d.img}" alt="${d.title}" loading="lazy">
+                    <div class="district-card-overlay"></div>
+                    <span class="district-card-badge">${d.badge}</span>
+                </div>
+                <div class="district-card-body">
+                    <h3>${d.title}</h3>
+                    <p class="district-card-loc"><i data-lucide="map-pin"></i> ${d.hq}</p>
+                    <p class="district-card-desc">${d.desc}</p>
+                    <div class="district-card-facts">
+                        <span><i data-lucide="school"></i> ${d.schools}</span>
+                        <span><i data-lucide="laptop"></i> ${d.fode}</span>
+                    </div>
+                </div>
+                <div class="district-card-foot">
+                    <button type="button" class="district-card-btn">View District Profile <i data-lucide="arrow-right"></i></button>
+                </div>
+            </div>`).join('');
+    },
+
+    renderServiceCards() {
+        const services = [
+            { icon: 'graduation-cap', cls: 'blue', title: 'FODE Distance Learning', desc: 'Study packages, enrolment details and guides for students in all four districts.', href: '/fode', cta: 'Open FODE Portal' },
+            { icon: 'map-pin', cls: 'green', title: 'School Finder', desc: 'Locate every school in Milne Bay Province on the national EMIS school map.', href: 'https://gfb742e44b55c34-doeapps.adb.ap-sydney-1.oraclecloudapps.com/ords/r/emis/where-is-my-school/landing?session=616876509072831', external: true, cta: 'Open School Finder' },
+            { icon: 'file-text', cls: 'gold', title: 'Policy Documents', desc: 'PEB circulars, education policies and official directives from the Division.', href: '/policy', cta: 'Browse Documents' },
+            { icon: 'list-checks', cls: 'blue', title: 'Selection Lists', desc: 'Grade 9 and Grade 11 national examination selection lists, grouped by school.', href: '/post', cta: 'View Selection Lists' },
+            { icon: 'users', cls: 'green', title: 'Parent Portal', desc: 'School fees, term dates and guidance resources for parents and guardians.', href: '/parents', cta: 'Visit Parent Portal' },
+            { icon: 'award', cls: 'red', title: 'Exam Results', desc: 'National examination results and transcript status for students.', href: '/exams', cta: 'Check Results' }
+        ];
+        return services.map((s) => `
+            <div class="svc-card">
+                <span class="svc-icon ${s.cls}"><i data-lucide="${s.icon}"></i></span>
+                <h3>${s.title}</h3>
+                <p>${s.desc}</p>
+                <a href="${s.href}" ${s.external ? 'target="_blank" rel="noopener' : 'data-link'}" class="svc-link">${s.cta} <i data-lucide="arrow-right"></i></a>
+            </div>`).join('');
     },
 
     async fetchWelcomeHtml() {
@@ -447,12 +676,13 @@ window.HomeComponent = {
 
 
         // --- Statistics Counter Logic ---
-        const statNumbers = document.querySelectorAll('.stat-number');
+        const statNumbers = document.querySelectorAll('.stats-band .stat-number');
         let animated = false;
 
         const animateStats = () => {
             statNumbers.forEach(stat => {
                 const target = +stat.getAttribute('data-target');
+                const suffix = stat.getAttribute('data-suffix') || '+';
                 const duration = 2000; 
                 const increment = target / (duration / 16); 
                 let current = 0;
@@ -463,24 +693,80 @@ window.HomeComponent = {
                         stat.innerText = Math.ceil(current).toLocaleString();
                         requestAnimationFrame(updateCounter);
                     } else {
-                        stat.innerText = target.toLocaleString() + "+";
+                        stat.innerText = target.toLocaleString() + suffix;
                     }
                 };
                 updateCounter();
             });
         };
 
-        const statsSection = document.querySelector('.stats-section');
-        if (statsSection && window.IntersectionObserver) {
+        const statsBand = document.querySelector('.stats-band');
+        if (statsBand && window.IntersectionObserver) {
             const observer = new IntersectionObserver((entries) => {
                 if (entries[0].isIntersecting && !animated) {
                     animated = true;
                     animateStats();
                 }
-            }, { threshold: 0.5 });
-            observer.observe(statsSection);
-        } else if(statsSection) {
+            }, { threshold: 0.3 });
+            observer.observe(statsBand);
+        } else if (statsBand) {
             animateStats(); // Fallback if IntersectionObserver not supported
+        }
+
+        // --- District Explorer Modal ---
+        const explorerGrid = document.querySelector('.explorer-grid');
+        const districtModal = document.getElementById('district-modal');
+        if (explorerGrid && districtModal) {
+            const openDistrict = (index) => {
+                const d = HomeComponent.districtData[index];
+                if (!d) return;
+                document.getElementById('dm-img').src = d.img;
+                document.getElementById('dm-img').alt = d.title;
+                document.getElementById('dm-title').textContent = d.title;
+                document.getElementById('dm-badge').textContent = d.badge;
+                document.getElementById('dm-hq').textContent = d.hq;
+                document.getElementById('dm-llgs').textContent = d.llgs;
+                document.getElementById('dm-schools').textContent = d.schools;
+                document.getElementById('dm-fode').textContent = d.fode;
+                document.getElementById('dm-desc').textContent = d.desc;
+                const highlightsList = document.getElementById('dm-highlights');
+                highlightsList.innerHTML = '';
+                d.highlights.forEach((h) => {
+                    const li = document.createElement('li');
+                    li.textContent = h;
+                    highlightsList.appendChild(li);
+                });
+                districtModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            };
+            const closeDistrict = () => {
+                districtModal.classList.remove('active');
+                document.body.style.overflow = '';
+            };
+
+            explorerGrid.addEventListener('click', (e) => {
+                const card = e.target.closest('.district-card');
+                if (card) {
+                    e.preventDefault();
+                    openDistrict(+card.getAttribute('data-district'));
+                }
+            });
+            explorerGrid.addEventListener('keydown', (e) => {
+                const card = e.target.closest('.district-card');
+                if (card && (e.key === 'Enter' || e.key === ' ')) {
+                    e.preventDefault();
+                    openDistrict(+card.getAttribute('data-district'));
+                }
+            });
+
+            const dmCloseBtn = document.getElementById('district-modal-close');
+            if (dmCloseBtn) dmCloseBtn.addEventListener('click', closeDistrict);
+            districtModal.addEventListener('click', (e) => {
+                if (e.target === districtModal) closeDistrict();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && districtModal.classList.contains('active')) closeDistrict();
+            });
         }
 
         // --- News Ticker Logic ---

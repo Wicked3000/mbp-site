@@ -97,7 +97,7 @@
 
 .slider-dots {
     position: absolute;
-    bottom: 3rem;
+    bottom: 4.25rem;
     left: 50%;
     transform: translateX(-50%);
     display: flex;

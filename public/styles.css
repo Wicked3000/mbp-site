@@ -3028,3 +3028,946 @@ body.menu-open .floating-social {
     border: 1px dashed #ccc;
     border-radius: 10px;
 }
+
+/* ============================================================
+   Homepage Body Redesign — stats band, district explorer,
+   FODE learning feature, E-Services hub, district profile modal
+   ============================================================ */
+
+/* --- Key Statistics Band (floats over the hero slider) --- */
+.stats-band {
+    position: relative;
+    z-index: 20;
+    max-width: 1200px;
+    margin: -2.5rem auto 0;
+    padding: 2.25rem 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    background: linear-gradient(180deg, #ffffff, #f5f9fd);
+    border: 1px solid rgba(13, 71, 161, 0.1);
+    border-radius: 18px;
+    box-shadow: 0 14px 34px rgba(13, 71, 161, 0.15);
+}
+
+.stats-band .stat-card {
+    padding: 0.5rem;
+}
+
+.stats-band .stat-number {
+    font-size: 2.6rem;
+    margin-bottom: 0.3rem;
+}
+
+.stats-band .stat-label {
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+}
+
+.stats-band .b-blue .stat-icon { background: rgba(21, 101, 192, 0.12); color: var(--mbp-blue); }
+.stats-band .b-green .stat-icon { background: rgba(46, 125, 50, 0.12); color: var(--mbp-green-dark); }
+.stats-band .b-gold .stat-icon { background: rgba(251, 192, 45, 0.18); color: #b8860b; }
+.stats-band .b-red .stat-icon { background: rgba(211, 47, 47, 0.12); color: var(--mbp-red); }
+
+/* --- District Explorer --- */
+.explorer-section {
+    position: relative;
+}
+
+.explorer-head {
+    text-align: center;
+    max-width: 660px;
+    margin: 0 auto 2.75rem;
+}
+
+.explorer-kicker {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #b8860b;
+    margin-bottom: 0.6rem;
+}
+
+.explorer-head .section-title {
+    font-size: 2.3rem;
+    margin-bottom: 0.6rem;
+}
+
+.explorer-head .section-subtitle {
+    margin-bottom: 0;
+    font-size: 1rem;
+}
+
+.explorer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.district-card {
+    background: #fff;
+    border-radius: 18px;
+    border: 1px solid rgba(13, 71, 161, 0.08);
+    box-shadow: var(--glass-shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.district-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(13, 71, 161, 0.16);
+    border-color: rgba(13, 71, 161, 0.2);
+}
+
+.district-card:focus-visible {
+    outline: 2px solid var(--mbp-blue);
+    outline-offset: 2px;
+}
+
+.district-card-media {
+    position: relative;
+    height: 150px;
+    overflow: hidden;
+    background: var(--mbp-blue-dark);
+}
+
+.district-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.district-card:hover .district-card-media img {
+    transform: scale(1.05);
+}
+
+.district-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10, 20, 40, 0.35), rgba(10, 20, 40, 0.05));
+}
+
+.district-card-badge {
+    position: absolute;
+    top: 0.85rem;
+    left: 0.85rem;
+    z-index: 2;
+    display: inline-block;
+    background: rgba(10, 37, 64, 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.32rem 0.75rem;
+    border-radius: 999px;
+}
+
+.district-card-body {
+    padding: 1.15rem 1.25rem 1rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.district-card-body h3 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--mbp-blue-dark);
+}
+
+.district-card-loc {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--mbp-green-dark);
+    font-weight: 600;
+    font-size: 0.78rem;
+    margin: 0.35rem 0 0.7rem;
+}
+
+.district-card-loc i {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.district-card-desc {
+    color: var(--text-secondary);
+    font-size: 0.84rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.district-card-facts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    background: #f7fafc;
+    border: 1px solid #eef2f7;
+    border-radius: 10px;
+    padding: 0.75rem 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.district-card-facts span {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.76rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.district-card-facts i {
+    width: 14px;
+    height: 14px;
+    color: var(--mbp-blue);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+.district-card-foot {
+    padding: 0 1.25rem 1.2rem;
+}
+
+.district-card-btn {
+    width: 100%;
+    background: #eef4fb;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    color: var(--mbp-blue-dark);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    padding: 0.75rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    transition: all 0.2s ease;
+}
+
+.district-card-btn i {
+    width: 14px;
+    height: 14px;
+}
+
+.district-card-btn:hover {
+    background: linear-gradient(135deg, #1565C0, #0b5e86);
+    color: #fff;
+}
+
+/* --- FODE Learning Portal Feature --- */
+.fode-feature {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 3rem;
+    align-items: center;
+    background: linear-gradient(135deg, #0a2540 0%, var(--mbp-blue-dark) 55%, #0d3d3d 100%);
+    border-radius: 24px;
+    padding: 3.25rem 3rem;
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+}
+
+.fode-feature::before {
+    content: '';
+    position: absolute;
+    right: -120px;
+    top: -120px;
+    width: 340px;
+    height: 340px;
+    background: radial-gradient(circle, rgba(45, 212, 191, 0.22), transparent 70%);
+    pointer-events: none;
+}
+
+.fode-feature::after {
+    content: '';
+    position: absolute;
+    left: -100px;
+    bottom: -100px;
+    width: 260px;
+    height: 260px;
+    background: radial-gradient(circle, rgba(251, 192, 45, 0.12), transparent 70%);
+    pointer-events: none;
+}
+
+.fode-blurb {
+    position: relative;
+    z-index: 1;
+}
+
+.fode-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(34, 197, 94, 0.18);
+    color: #7ee2a8;
+    border: 1px solid rgba(34, 197, 94, 0.35);
+    padding: 0.4rem 0.95rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.1rem;
+}
+
+.fode-badge i {
+    width: 14px;
+    height: 14px;
+}
+
+.fode-blurb h2 {
+    color: #fff;
+    font-size: 2.1rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 0.9rem;
+}
+
+.fode-blurb > p {
+    color: #c7d4e3;
+    font-size: 0.98rem;
+    line-height: 1.7;
+    margin-bottom: 1.6rem;
+    max-width: 520px;
+}
+
+.fode-mini-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.8rem;
+}
+
+.fode-mini {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    padding: 1rem 1.1rem;
+}
+
+.fode-mini i {
+    width: 24px;
+    height: 24px;
+    color: var(--mbp-gold);
+    margin-bottom: 0.5rem;
+}
+
+.fode-mini h4 {
+    color: #fff;
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+}
+
+.fode-mini p {
+    color: #9fb2c7;
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
+.fode-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+}
+
+.fode-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 0.9rem;
+    padding: 0.85rem 1.6rem;
+    border-radius: 999px;
+    transition: all 0.25s ease;
+}
+
+.fode-btn i {
+    width: 17px;
+    height: 17px;
+}
+
+.fode-btn.primary {
+    background: linear-gradient(135deg, var(--mbp-gold), #F57F17);
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(245, 127, 23, 0.35);
+}
+
+.fode-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(245, 127, 23, 0.5);
+    color: #fff;
+}
+
+.fode-btn.primary:hover i {
+    transform: translateX(3px);
+}
+
+.fode-btn.ghost {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.fode-btn.ghost:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+}
+
+.fode-dashboard {
+    position: relative;
+    z-index: 1;
+    background: #fff;
+    color: var(--text-primary);
+    border-radius: 18px;
+    padding: 1.6rem 1.6rem 1.2rem;
+    box-shadow: 0 24px 50px -20px rgba(0, 0, 0, 0.45);
+}
+
+.fode-dash-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1.1rem;
+    border-bottom: 1px solid #e6eef5;
+    margin-bottom: 1.1rem;
+}
+
+.fode-dash-head > div > span {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mbp-blue);
+}
+
+.fode-dash-head h3 {
+    font-size: 1.25rem;
+    color: var(--mbp-blue-dark);
+    margin-top: 0.2rem;
+}
+
+.fode-dash-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.18);
+}
+
+.fode-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    padding: 0.85rem 1rem;
+    border-radius: 14px;
+    background: #f8fafc;
+    border: 1px solid #eef2f7;
+    transition: all 0.2s ease;
+    margin-bottom: 0.7rem;
+}
+
+.fode-link:hover {
+    border-color: var(--mbp-blue);
+    background: #f2f8ff;
+}
+
+.fode-link-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.fode-link-icon i {
+    width: 20px;
+    height: 20px;
+}
+
+.fode-link-icon.blue { background: linear-gradient(135deg, #1565C0, #0b5e86); }
+.fode-link-icon.green { background: linear-gradient(135deg, #22c55e, #117855); }
+.fode-link-icon.gold { background: linear-gradient(135deg, var(--mbp-gold), #F57F17); }
+
+.fode-link-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.fode-link-title {
+    display: block;
+    font-weight: 800;
+    color: var(--mbp-blue-dark);
+    font-size: 0.95rem;
+}
+
+.fode-link-sub {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.76rem;
+    margin-top: 0.1rem;
+}
+
+.fode-link-arrow {
+    width: 14px;
+    height: 14px;
+    color: #94a3b8;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.fode-link:hover .fode-link-arrow {
+    transform: translateX(3px);
+}
+
+.fode-dash-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    padding-top: 1rem;
+    border-top: 1px solid #e6eef5;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 0.4rem;
+}
+
+.fode-dash-foot i {
+    width: 14px;
+    height: 14px;
+    color: #16a34a;
+    vertical-align: -2px;
+}
+
+.fode-dash-foot a {
+    color: var(--mbp-blue);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* --- E-Services & Citizen Hub --- */
+.services-hub {
+    position: relative;
+}
+
+.services-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.services-head .section-title {
+    text-align: left;
+    font-size: 2.3rem;
+    margin: 0.3rem 0 0;
+}
+
+.services-head-text {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    max-width: 420px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.svc-card {
+    background: #fff;
+    border: 1px solid rgba(13, 71, 161, 0.08);
+    border-radius: 18px;
+    padding: 2rem 1.8rem;
+    box-shadow: var(--glass-shadow);
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.svc-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 36px rgba(13, 71, 161, 0.14);
+    border-color: rgba(13, 71, 161, 0.22);
+}
+
+.svc-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    margin-bottom: 1.2rem;
+}
+
+.svc-icon i {
+    width: 26px;
+    height: 26px;
+}
+
+.svc-icon.blue { background: linear-gradient(135deg, #1565C0, #0b5e86); box-shadow: 0 8px 18px rgba(21, 101, 192, 0.3); }
+.svc-icon.green { background: linear-gradient(135deg, #22c55e, #117855); box-shadow: 0 8px 18px rgba(34, 197, 94, 0.3); }
+.svc-icon.gold { background: linear-gradient(135deg, var(--mbp-gold), #F57F17); box-shadow: 0 8px 18px rgba(245, 127, 23, 0.3); }
+.svc-icon.red { background: linear-gradient(135deg, #ef4444, #b91c1c); box-shadow: 0 8px 18px rgba(239, 68, 68, 0.3); }
+
+.svc-card h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--mbp-blue-dark);
+    margin-bottom: 0.5rem;
+}
+
+.svc-card p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1.4rem;
+    flex: 1;
+}
+
+.svc-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--mbp-blue);
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-decoration: none;
+}
+
+.svc-link i {
+    width: 15px;
+    height: 15px;
+    transition: transform 0.2s ease;
+}
+
+.svc-link:hover i {
+    transform: translateX(3px);
+}
+
+/* --- District Profile Modal --- */
+.district-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.62);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.district-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.district-modal-card {
+    position: relative;
+    background: #fff;
+    width: 100%;
+    max-width: 760px;
+    max-height: 90vh;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(20px) scale(0.98);
+    transition: transform 0.3s ease;
+    box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.35);
+}
+
+.district-modal.active .district-modal-card {
+    transform: none;
+}
+
+.district-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 5;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(10, 37, 64, 0.55);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.district-modal-close:hover {
+    background: rgba(10, 37, 64, 0.85);
+}
+
+.district-modal-close i {
+    width: 18px;
+    height: 18px;
+}
+
+.district-modal-hero {
+    position: relative;
+    height: 220px;
+    background: var(--mbp-blue-dark);
+}
+
+.district-modal-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.district-modal-hero-mask {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10, 20, 40, 0.85), rgba(10, 20, 40, 0.15));
+}
+
+.district-modal-hero-info {
+    position: absolute;
+    left: 2rem;
+    right: 2rem;
+    bottom: 1.25rem;
+}
+
+.district-modal-hero-info h3 {
+    color: #fff;
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-top: 0.4rem;
+}
+
+.district-modal-body {
+    padding: 2rem 2.25rem;
+    overflow-y: auto;
+}
+
+.dm-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.dm-meta > div {
+    background: #f6f9fc;
+    border: 1px solid #e6eef5;
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+}
+
+.dm-meta span {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.dm-meta strong {
+    color: var(--mbp-blue-dark);
+    font-weight: 800;
+    font-size: 0.95rem;
+}
+
+.dm-facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.dm-fact {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    background: #fff;
+    border: 1px solid #e6eef5;
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+}
+
+.dm-fact i {
+    width: 22px;
+    height: 22px;
+    color: var(--mbp-blue);
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+}
+
+.dm-fact span {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.dm-fact p {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    margin-top: 0.2rem;
+}
+
+.district-modal-body h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--mbp-green-dark);
+    margin: 1.4rem 0 0.6rem;
+}
+
+.dm-desc {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 0.97rem;
+}
+
+.dm-highlights {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 0;
+    margin: 0;
+}
+
+.dm-highlights li {
+    position: relative;
+    padding-left: 1.5rem;
+    color: var(--text-primary);
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.dm-highlights li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--mbp-gold), #F57F17);
+}
+
+.district-modal-foot {
+    padding: 1.1rem 2.25rem 1.5rem;
+    border-top: 1px solid #e6eef5;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* --- Responsive rules for the redesigned body sections --- */
+@media (max-width: 1100px) {
+    .explorer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .district-card-media {
+        height: 170px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .stats-band {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .fode-feature {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .services-head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .fode-feature {
+        padding: 2.5rem 1.6rem;
+    }
+    .fode-mini-grid {
+        grid-template-columns: 1fr;
+    }
+    .district-modal-body {
+        padding: 1.5rem;
+    }
+    .district-modal-foot {
+        padding: 1rem 1.5rem 1.25rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-band {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 1.5rem 1rem;
+        margin-top: -1.75rem;
+    }
+    .stats-band .stat-number {
+        font-size: 2rem;
+    }
+    .explorer-grid,
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+    .dm-meta,
+    .dm-facts {
+        grid-template-columns: 1fr;
+    }
+    .district-modal-hero {
+        height: 180px;
+    }
+    .fode-dash-foot {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .fode-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
