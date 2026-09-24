@@ -107,6 +107,7 @@
                 <a href="/about" data-link class="suggestion-tag">PEB Members</a>
                 <a href="/contact" data-link class="suggestion-tag">Contact Info</a>
             </div>
+            <div id="search-results" class="search-results"></div>
         </div>
     </div>
 
@@ -165,6 +166,7 @@
     </div>
 
     <!-- Router Logic -->
+    <script src="/search.js"></script>
     <script src="/router.js"></script>
     <script>
         // Mobile Menu Toggle Logic
@@ -207,30 +209,82 @@
             const searchOverlay = document.getElementById('search-overlay');
             const closeSearch = document.getElementById('close-search');
             const searchInput = document.getElementById('site-search-input');
+            const resultsBox = document.getElementById('search-results');
+            const suggestions = document.querySelector('.search-suggestions');
+
+            if (!searchLink || !searchOverlay || !searchInput) return;
+
+            const closeOverlay = () => searchOverlay.classList.add('hidden');
+
+            const renderResults = (query) => {
+                const q = query.trim();
+                if (!q) {
+                    resultsBox.innerHTML = '';
+                    if (suggestions) suggestions.style.display = '';
+                    return;
+                }
+                if (suggestions) suggestions.style.display = 'none';
+                const results = window.SiteSearch.search(q);
+                if (results.length === 0) {
+                    resultsBox.innerHTML = '<div class="search-no-results">No results found for &ldquo;' +
+                        escapeHtml(q) + '&rdquo;. Try different keywords.</div>';
+                    return;
+                }
+                resultsBox.innerHTML = '<div class="search-results-label">' + results.length +
+                    ' result' + (results.length === 1 ? '' : 's') + '</div>' +
+                    results.map(r =>
+                        '<a class="search-result-item" href="' + r.path + '" data-link>' +
+                        '<span class="search-result-tag">' + r.tag + '</span>' +
+                        '<span class="search-result-title">' + escapeHtml(r.title) + '</span>' +
+                        '</a>'
+                    ).join('');
+            };
+
+            const escapeHtml = (s) =>
+                String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({
+                    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+                }[c]));
+
+            let debounceTimer;
 
             searchLink.addEventListener('click', (e) => {
                 e.preventDefault();
+                window.SiteSearch.load();
                 searchOverlay.classList.remove('hidden');
                 setTimeout(() => searchInput.focus(), 100);
             });
 
-            closeSearch.addEventListener('click', () => {
-                searchOverlay.classList.add('hidden');
+            searchInput.addEventListener('input', () => {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => renderResults(searchInput.value), 150);
             });
+
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    clearTimeout(debounceTimer);
+                    renderResults(searchInput.value);
+                }
+                if (e.key === 'Escape') {
+                    closeOverlay();
+                }
+            });
+
+            closeSearch.addEventListener('click', closeOverlay);
 
             // Close on escape key
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && !searchOverlay.classList.contains('hidden')) {
-                    searchOverlay.classList.add('hidden');
+                    closeOverlay();
                 }
             });
 
-            // Close when clicking outside content and handle link clicks
+            // Close when clicking outside content, suggestions, or search results
             searchOverlay.addEventListener('click', (e) => {
                 if (e.target === searchOverlay) {
-                    searchOverlay.classList.add('hidden');
-                } else if (e.target.closest('.suggestion-tag')) {
-                    searchOverlay.classList.add('hidden'); // Close if clicking a suggestion
+                    closeOverlay();
+                } else if (e.target.closest('.suggestion-tag') || e.target.closest('.search-result-item')) {
+                    closeOverlay();
                 }
             });
         });
