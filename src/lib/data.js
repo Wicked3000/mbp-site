@@ -78,6 +78,25 @@ const mockVetStudents = [
   { id: 19, candidate_name: 'Momen Miriam', primary_school: 'Rabaraba', destination_school: 'Kwato VET Centre', status: 'Selected', gender: 'F' },
 ];
 
+const mockFodeStudents = [
+  { id: 1, candidate_name: 'Boine Ensail', primary_school: 'Lelohoa', destination_school: 'FODE Intake 2026', status: 'Selected', gender: 'F' },
+  { id: 2, candidate_name: 'John Nationty', primary_school: 'Lelohoa', destination_school: 'FODE Intake 2026', status: 'Selected', gender: 'F' },
+  { id: 3, candidate_name: 'Kagubuy Vivian Brig', primary_school: 'Lelohoa', destination_school: 'FODE Intake 2026', status: 'Selected', gender: 'F' },
+  { id: 4, candidate_name: 'Oben Roseanne', primary_school: 'Lelohoa', destination_school: 'FODE Intake 2026', status: 'Selected', gender: 'F' },
+  { id: 5, candidate_name: 'Richard Tomali Pithal', primary_school: 'Lelohoa', destination_school: 'FODE Intake 2026', status: 'Selected', gender: 'F' },
+  { id: 6, candidate_name: 'Tommy George', primary_school: 'Lelohoa', destination_school: 'FODE Intake 2026', status: 'Selected', gender: 'M' },
+  { id: 7, candidate_name: 'Benjamin Isabellina', primary_school: 'Pabe', destination_school: 'FODE Intake 2026', status: 'Selected', gender: 'F' },
+  { id: 8, candidate_name: 'Didia Lane Jacinta', primary_school: 'Pabe', destination_school: 'FODE Intake 2026', status: 'Selected', gender: 'F' },
+  { id: 9, candidate_name: 'Gini Andrew', primary_school: 'Pabe', destination_school: 'FODE Intake 2026', status: 'Selected', gender: 'M' },
+  { id: 10, candidate_name: 'Harold Melilyn', primary_school: 'Pabe', destination_school: 'FODE Intake 2026', status: 'Selected', gender: 'F' },
+  { id: 11, candidate_name: 'Leod Brian', primary_school: 'Pabe', destination_school: 'FODE Intake 2026', status: 'Selected', gender: 'M' },
+  { id: 12, candidate_name: 'Petra Jenine', primary_school: 'Pabe', destination_school: 'FODE Intake 2026', status: 'Selected', gender: 'F' },
+  { id: 13, candidate_name: 'Peniamin Garry', primary_school: 'Pabe', destination_school: 'FODE Intake 2026', status: 'Selected', gender: 'M' },
+  { id: 14, candidate_name: 'Stanley Melanie', primary_school: 'Pabe', destination_school: 'FODE Intake 2026', status: 'Selected', gender: 'M' },
+  { id: 15, candidate_name: 'Tuiwala Daniel', primary_school: 'Pabe', destination_school: 'FODE Intake 2026', status: 'Selected', gender: 'M' },
+  { id: 16, candidate_name: 'Tioni Traceyl', primary_school: 'Pabe', destination_school: 'FODE Intake 2026', status: 'Selected', gender: 'F' },
+];
+
 const mockContacts = [
   { id: 1, name: 'David Kila', email: 'david.kila@gmail.com', message: 'Inquiring about Grade 9 selection list verification dates for Cameron Secondary.', created_at: new Date('2026-09-15T10:30:00Z').toISOString() },
   { id: 2, name: 'Mary Anne', email: 'm.anne@education.gov.pg', message: 'Requesting updated teacher posting circular for Woodlark Junior High.', created_at: new Date('2026-09-16T14:15:00Z').toISOString() },
@@ -385,6 +404,59 @@ export async function deleteVetStudent(id) {
     }
   }
   throw new Error('Database not available - cannot delete VET student');
+}
+
+export async function fetchFodeStudents(school = '') {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      let query = 'SELECT * FROM fode_students WHERE 1=1';
+      const params = [];
+      if (school) {
+        query += ' AND destination_school = ?';
+        params.push(school);
+      }
+      const [rows] = await pool.execute(query + ' ORDER BY id ASC', params);
+      if (rows.length > 0) return rows;
+    } catch (error) {
+      console.error('Database fetch fode students failed, falling back to mock data:', error.message);
+    }
+  }
+  return mockFodeStudents.filter(s => !school || s.destination_school.toLowerCase().includes(school.toLowerCase()));
+}
+
+export async function addFodeStudent(student) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      const [result] = await pool.execute(
+        'INSERT INTO fode_students (candidate_name, primary_school, destination_school, status, gender) VALUES (?, ?, ?, ?, ?)',
+        [student.candidate_name, student.primary_school, student.destination_school, student.status || 'Selected', student.gender || 'M']
+      );
+      return { ...student, id: result.insertId };
+    } catch (error) {
+      console.error('Database insert fode student failed:', error);
+      throw new Error(`Database insert fode student failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot persist FODE student');
+}
+
+export async function deleteFodeStudent(id) {
+  const useDb = await checkDb();
+  if (useDb) {
+    try {
+      const pool = getPool();
+      await pool.execute('DELETE FROM fode_students WHERE id = ?', [id]);
+      return true;
+    } catch (error) {
+      console.error('Database delete fode student failed:', error);
+      throw new Error(`Database delete fode student failed: ${error.message}`);
+    }
+  }
+  throw new Error('Database not available - cannot delete FODE student');
 }
 
 export async function fetchContacts() {
@@ -884,6 +956,18 @@ export async function seedDatabase() {
     `);
 
     await pool.execute(`
+      CREATE TABLE IF NOT EXISTS fode_students (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        candidate_name VARCHAR(255) NOT NULL,
+        primary_school VARCHAR(255) NOT NULL,
+        destination_school VARCHAR(255) NOT NULL,
+        status VARCHAR(50) DEFAULT 'Selected',
+        gender VARCHAR(10) DEFAULT 'M',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    await pool.execute(`
       CREATE TABLE IF NOT EXISTS admins (
         id INT AUTO_INCREMENT PRIMARY KEY,
         username VARCHAR(100) NOT NULL UNIQUE,
@@ -1005,6 +1089,17 @@ export async function seedDatabase() {
       for (const student of mockVetStudents) {
         await pool.execute(
           'INSERT INTO vet_students (candidate_name, primary_school, destination_school, status, gender) VALUES (?, ?, ?, ?, ?)',
+          [student.candidate_name, student.primary_school, student.destination_school, student.status, student.gender]
+        );
+      }
+    }
+
+    // Check if fode_students table is empty
+    const [fodeStudentRows] = await pool.execute('SELECT COUNT(*) as count FROM fode_students');
+    if (fodeStudentRows[0].count === 0) {
+      for (const student of mockFodeStudents) {
+        await pool.execute(
+          'INSERT INTO fode_students (candidate_name, primary_school, destination_school, status, gender) VALUES (?, ?, ?, ?, ?)',
           [student.candidate_name, student.primary_school, student.destination_school, student.status, student.gender]
         );
       }

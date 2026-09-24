@@ -29,6 +29,16 @@ CREATE TABLE IF NOT EXISTS vet_students (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS fode_students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    candidate_name VARCHAR(255) NOT NULL,
+    primary_school VARCHAR(255) NOT NULL,
+    destination_school VARCHAR(255) NOT NULL,
+    status VARCHAR(50) DEFAULT 'Selected',
+    gender VARCHAR(10) DEFAULT 'M',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Clear existing data if any
 TRUNCATE TABLE students;
 
@@ -86,3 +96,25 @@ INSERT INTO vet_students (candidate_name, primary_school, destination_school, st
 ('Tauris Michael', 'Rabaraba', 'Kwato VET Centre', 'Selected', 'M'),
 ('Nikel Willie', 'Rabaraba', 'Kwato VET Centre', 'Selected', 'M'),
 ('Momen Miriam', 'Rabaraba', 'Kwato VET Centre', 'Selected', 'F');
+
+-- Clear existing data if any
+TRUNCATE TABLE fode_students;
+
+-- FODE Intake List for 2026
+INSERT INTO fode_students (candidate_name, primary_school, destination_school, status, gender) VALUES
+('Boine Ensail', 'Lelohoa', 'FODE Intake 2026', 'Selected', 'F'),
+('John Nationty', 'Lelohoa', 'FODE Intake 2026', 'Selected', 'F'),
+('Kagubuy Vivian Brig', 'Lelohoa', 'FODE Intake 2026', 'Selected', 'F'),
+('Oben Roseanne', 'Lelohoa', 'FODE Intake 2026', 'Selected', 'F'),
+('Richard Tomali Pithal', 'Lelohoa', 'FODE Intake 2026', 'Selected', 'F'),
+('Tommy George', 'Lelohoa', 'FODE Intake 2026', 'Selected', 'M'),
+('Benjamin Isabellina', 'Pabe', 'FODE Intake 2026', 'Selected', 'F'),
+('Didia Lane Jacinta', 'Pabe', 'FODE Intake 2026', 'Selected', 'F'),
+('Gini Andrew', 'Pabe', 'FODE Intake 2026', 'Selected', 'M'),
+('Harold Melilyn', 'Pabe', 'FODE Intake 2026', 'Selected', 'F'),
+('Leod Brian', 'Pabe', 'FODE Intake 2026', 'Selected', 'M'),
+('Petra Jenine', 'Pabe', 'FODE Intake 2026', 'Selected', 'F'),
+('Peniamin Garry', 'Pabe', 'FODE Intake 2026', 'Selected', 'M'),
+('Stanley Melanie', 'Pabe', 'FODE Intake 2026', 'Selected', 'M'),
+('Tuiwala Daniel', 'Pabe', 'FODE Intake 2026', 'Selected', 'M'),
+('Tioni Traceyl', 'Pabe', 'FODE Intake 2026', 'Selected', 'F');

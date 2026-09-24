@@ -138,7 +138,7 @@ window.MyComponent = {
 - **Basic** (`basic.js`) — Elementary/Primary education info and enrolment tables.
 - **Post Primary** (`post.js`) — Secondary pathways with Grade 9/11 selection lists (view/download, preview modal).
 - **VET** (`vet.js`) — Technical & vocational education content and the dynamic 2024 VET centre selection list (managed in admin).
-- **FODE** (`fode.js`) — Flexible Open & Distance Education content and selection list.
+- **FODE** (`fode.js`) — Flexible Open & Distance Education content and the dynamic 2024 FODE selection list (managed in admin).
 - **News** (`news.js`) — News slider, breaking ticker, latest articles, and full article views (`/news/:id`).
 - **Contact** (`contact.js`) — Contact details and a working contact form (posts to `/api/contacts`).
 - **Policy** (`policy.js`) — Categorised policy documents from the database.
@@ -175,13 +175,14 @@ Public GET endpoints (no auth): `students`, `notices`, `news`, `latest-news`, `b
 | `/api/banners` | Configurable news page banner management |
 | `/api/students` | Selection-list students (view/download) |
 | `/api/vet-students` | VET centre selection-list candidates (view/download) |
+| `/api/fode-students` | FODE intake selection-list candidates (view/download) |
 | `/api/contacts` | Contact submissions |
 | `/api/submit-contact` | Public contact form submission |
 | `/api/upload` | Admin file uploads (e.g. policy PDFs) |
 
 ### Admin Pages
 
-`/admin` is a React dashboard with pages for **dashboard, students, vet-students, news, latest-news, notices, policies, banners, and contacts**. Bulk CSV upload and student export are supported.
+`/admin` is a React dashboard with pages for **dashboard, students, vet-students, fode-students, news, latest-news, notices, policies, banners, and contacts**. Bulk CSV upload and student export are supported.
 
 ### Authentication
 
